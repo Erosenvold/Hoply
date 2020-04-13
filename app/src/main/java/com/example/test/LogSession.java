@@ -12,13 +12,15 @@ public class LogSession {
     public static void setSession(int userID){
         sessionID = userID;
     }
-    public static boolean getSession(){
+    public static boolean isLoggedIn(){
         if(sessionID != 0){
             return true;
         }else {
             return false;
         }
-
+    }
+    public static int getSessionID(){
+        return sessionID;
     }
 
 

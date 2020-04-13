@@ -20,9 +20,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-     /*   AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
-                .allowMainThreadQueries()
-                .build();*/
+
        this.database = MainActivity.getDB();
 
 
@@ -33,9 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         newUserMsg.setVisibility(View.VISIBLE);
         newUserMsg.setText(newUserMessage);
     }
-    public static AppDatabase getDB(){
-        return database;
-    }
+
     public void login(View view){
         EditText userName = findViewById(R.id.usernameInput);
         String strUsername = userName.getText().toString();

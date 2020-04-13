@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public void loginPage(View view){
 
         Intent intent = new Intent(this,LoginActivity.class);
-        System.out.println(LogSession.getSession());
+        System.out.println(LogSession.isLoggedIn());
         startActivity(intent);
 
     }

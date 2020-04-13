@@ -26,6 +26,8 @@
 
         </activity>
         <activity android:name=".ProfileEditActivity"></activity>
+        <activity android:name=".CreatePostActivity"></activity>
     </application>
+
 
 </manifest>
