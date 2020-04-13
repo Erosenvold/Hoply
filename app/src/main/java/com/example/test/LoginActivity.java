@@ -14,16 +14,16 @@ import com.example.test.dao.UsersDao;
 
 public class LoginActivity extends AppCompatActivity {
     public TextView newUserMsg;
-    public AppDatabase database;
+    public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
+     /*   AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
-                .build();
-        this.database = database;
+                .build();*/
+       this.database = MainActivity.getDB();
 
 
         Intent newUserIntent = getIntent();
@@ -32,6 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         this.newUserMsg = newUserMsg;
         newUserMsg.setVisibility(View.VISIBLE);
         newUserMsg.setText(newUserMessage);
+    }
+    public static AppDatabase getDB(){
+        return database;
     }
     public void login(View view){
         EditText userName = findViewById(R.id.usernameInput);
@@ -44,8 +47,12 @@ public class LoginActivity extends AppCompatActivity {
         UsersDao usersDao = database.getAllUsers();
 
         if(strUsername.equals(usersDao.getUsernameLogin(strUsername, strPassword))){
-            newUserMsg.setText("You logged in");
+          newUserMsg.setText("You logged in");
+          LogSession.setSession(usersDao.getUserID(strUsername));
+
+
             newUserMsg.setTextColor(Color.GREEN);
+
 
         }
         else{

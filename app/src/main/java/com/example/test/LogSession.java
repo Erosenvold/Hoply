@@ -1,0 +1,25 @@
+package com.example.test;
+
+import android.content.Context;
+
+import androidx.room.Room;
+
+public class LogSession {
+
+    AppDatabase database = MainActivity.getDB();
+    static int sessionID;
+
+    public static void setSession(int userID){
+        sessionID = userID;
+    }
+    public static boolean getSession(){
+        if(sessionID != 0){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+
+}

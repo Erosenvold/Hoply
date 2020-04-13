@@ -20,6 +20,9 @@ public interface UsersDao {
     @Query("SELECT username FROM hoply_users WHERE username = :username AND password =:password")
     public String getUsernameLogin(String username,String password);
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Query("SELECT user_id FROM hoply_users WHERE username = :username")
+    public int getUserID(String username);
+
+    @Insert(onConflict = OnConflictStrategy.FAIL)
     public void createNewUser(Users user);
 }
