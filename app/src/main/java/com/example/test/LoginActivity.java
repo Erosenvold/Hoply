@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.test.dao.UsersDao;
-//blah
+
 public class LoginActivity extends AppCompatActivity {
     public TextView newUserMsg;
     public AppDatabase database;
