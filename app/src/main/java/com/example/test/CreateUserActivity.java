@@ -1,0 +1,80 @@
+package com.example.test;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
+
+import com.example.test.dao.UsersDao;
+import com.example.test.tables.Users;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
+
+
+
+public class CreateUserActivity extends AppCompatActivity {
+    public AppDatabase database;
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create);
+        AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
+                .allowMainThreadQueries()
+                .build();
+        this.database = database;
+    }
+    public void createUser(View view){
+        TextView errorMsg = findViewById(R.id.createUserError);
+
+        UsersDao userDao = database.getAllUsers();
+
+
+        EditText username = findViewById(R.id.createUsername);
+        String strUsername = username.getText().toString();
+        EditText password = findViewById(R.id.createPassword);
+        String strPassword = password.getText().toString();
+
+
+               if(userDao.getUsername(strUsername) == null){
+                   if( !strUsername.trim().isEmpty() && !strPassword.trim().isEmpty()) {
+
+                       Users newUser = new Users();
+                       newUser.username = strUsername;
+                       newUser.password = strPassword;
+                       newUser.timeCreated = System.currentTimeMillis();
+
+                       Intent intent = new Intent(this, LoginActivity.class);
+                       intent.putExtra("NEWUSERMSG","Congrats on joining Hoply");
+
+                       startActivity(intent);
+
+                   }else{
+                       errorMsg.setVisibility(View.VISIBLE);
+                       errorMsg.setText("Please enter a username and a password");
+                   }
+
+             }else{
+
+                   errorMsg.setVisibility(View.VISIBLE);
+                   errorMsg.setText("Use a unique name");
+
+               }
+
+/*
+        Users newUser = new Users();
+        newUser.username = "Erik";
+        newUser.password = "password";
+        newUser.timeCreated = System.currentTimeMillis();
+        userDao.createNewUser(newUser);
+*/
+
+    }
+
+
+}
