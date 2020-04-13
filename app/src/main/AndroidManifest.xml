@@ -25,7 +25,7 @@
         <activity android:name=".ProfileActivity">
 
         </activity>
-        <activity android:name=".ProfileEdit"></activity>
+        <activity android:name=".ProfileEditActivity"></activity>
     </application>
 
 </manifest>
