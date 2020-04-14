@@ -24,10 +24,8 @@ public class CreateUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
-        AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
-                .allowMainThreadQueries()
-                .build();
-        this.database = database;
+
+        this.database = MainActivity.getDB();
     }
     public void createUser(View view){
         TextView errorMsg = findViewById(R.id.createUserError);
