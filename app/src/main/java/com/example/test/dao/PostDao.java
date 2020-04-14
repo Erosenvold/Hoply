@@ -15,6 +15,7 @@ public interface PostDao {
     public List<Posts> getAllPosts();
     @Query("SELECT post_id FROM hoply_post WHERE post_id = :postID")
     public int getPostID(int postID);
+
     @Insert(onConflict = OnConflictStrategy.FAIL)
     public long createNewPost(Posts posts);
 }
