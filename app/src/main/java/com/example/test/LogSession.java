@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.room.Room;
 
-public class LogSession {
+public final class LogSession {
 
     AppDatabase database = MainActivity.getDB();
     static int sessionID;
