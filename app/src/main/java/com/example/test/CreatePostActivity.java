@@ -8,16 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
-import com.example.test.AppDatabase;
-import com.example.test.LogSession;
-
-import com.example.test.MainActivity;
-import com.example.test.R;
 import com.example.test.dao.PostDao;
 import com.example.test.dao.UserPostDao;
-import com.example.test.dao.UsersDao;
 import com.example.test.tables.Posts;
 import com.example.test.tables.UserPost;
 
@@ -36,7 +29,7 @@ public class CreatePostActivity extends AppCompatActivity {
         }
     }
 
-    public void createPost(View view){
+    public void createPostBtn(View view){
         TextView errMsg = findViewById(R.id.createPostError);
         PostDao postDao = database.getAllPosts();
         UserPostDao userPostDao = database.getAllUserPost();

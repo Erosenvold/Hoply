@@ -43,11 +43,11 @@ public class LoginActivity extends AppCompatActivity {
         UsersDao usersDao = database.getAllUsers();
 
         if(strUsername.equals(usersDao.getUsernameLogin(strUsername, strPassword))){
-          newUserMsg.setText("You logged in");
+
           LogSession.setSession(usersDao.getUserID(strUsername));
+          Intent intent = new Intent(this,ProfileActivity.class);
+          startActivity(intent);
 
-
-            newUserMsg.setTextColor(Color.GREEN);
 
 
         }
