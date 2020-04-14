@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ProfileEdit">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/HeaderTxt"
         android:layout_width="121dp"
         android:layout_height="41dp"
         android:layout_marginTop="44dp"
@@ -19,90 +19,99 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:id="@+id/ProfilePic"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="50dp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.19"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintTop_toBottomOf="@+id/HeaderTxt"
+        tools:srcCompat="@tools:sample/avatars[0]"
+        tools:visibility="visible" />
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/UploadNewButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:text="Upload New"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="@+id/ProfilePic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/ProfilePic"
+        app:layout_constraintTop_toTopOf="@+id/ProfilePic"
         app:layout_constraintVertical_bias="0.487" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/ProfileTextHeader"
         android:layout_width="271dp"
         android:layout_height="37dp"
-        android:layout_marginTop="188dp"
+        android:layout_marginTop="156dp"
         android:text="Profile Text:"
         android:textSize="26dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.385"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/ProfilePicHeader" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/ProfilePicHeader"
         android:layout_width="271dp"
         android:layout_height="37dp"
+        android:layout_marginTop="16dp"
         android:text="Profile Photo:"
         android:textSize="26dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/ProfilePic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.385"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/HeaderTxt"
         app:layout_constraintVertical_bias="0.65" />
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="279dp"
         android:layout_height="126dp"
-        android:layout_marginTop="28dp"
         android:ems="10"
+        android:hint="Type your profile text here..."
         android:inputType="textPersonName"
-        android:text="Type your profile text here..."
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.435"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/ProfileTextHeader" />
 
     <Button
-        android:id="@+id/button9"
+        android:id="@+id/SaveButton"
         android:layout_width="110dp"
         android:layout_height="40dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="26dp"
         android:text="Save"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.445"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintVertical_bias="0.344" />
 
     <Button
-        android:id="@+id/button10"
-        android:layout_width="110dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="36dp"
+        android:id="@+id/DoneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="32dp"
+        android:onClick="DoneButton"
         android:text="Done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.446"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button9"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/SaveButton"
+        app:layout_constraintVertical_bias="0.431" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
