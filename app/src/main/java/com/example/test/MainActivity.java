@@ -22,10 +22,10 @@ public class MainActivity extends AppCompatActivity {
 
         AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
-                .fallbackToDestructiveMigration() //slet mig efter første kørsel
+                .fallbackToDestructiveMigration()
                 .build();
         this.database = database;
-        UsersDao usersDao = database.getAllUsers(); //slet mig efter første kørsel
+        UsersDao usersDao = database.getAllUsers();
 
     }
     public static AppDatabase getDB(){
