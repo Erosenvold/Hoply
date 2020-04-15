@@ -53,7 +53,7 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:text="Sample Namington er en ny profil og en kommentar kan indsættes her"
+        android:text="This is a sample profile text. Please edit profile to customize it."
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/UserName" />

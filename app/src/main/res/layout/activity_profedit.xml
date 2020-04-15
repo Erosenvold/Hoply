@@ -11,9 +11,11 @@
         android:layout_width="121dp"
         android:layout_height="41dp"
         android:layout_marginTop="44dp"
+        android:layout_marginBottom="19dp"
         android:text="Settings"
         android:textSize="32dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/ProfilePicHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,12 +24,15 @@
         android:id="@+id/ProfilePic"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="23dp"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/ProfileTextHeader"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.19"
+        app:layout_constraintHorizontal_bias="0.222"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/HeaderTxt"
+        app:layout_constraintVertical_bias="1.0"
         tools:srcCompat="@tools:sample/avatars[0]"
         tools:visibility="visible" />
 
@@ -42,20 +47,20 @@
         android:text="Upload New"
         app:layout_constraintBottom_toBottomOf="@+id/ProfilePic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/ProfilePic"
-        app:layout_constraintTop_toTopOf="@+id/ProfilePic"
-        app:layout_constraintVertical_bias="0.487" />
+        app:layout_constraintTop_toTopOf="@+id/ProfilePic" />
 
     <TextView
         android:id="@+id/ProfileTextHeader"
-        android:layout_width="271dp"
-        android:layout_height="37dp"
+        android:layout_width="280dp"
+        android:layout_height="39dp"
         android:layout_marginTop="156dp"
         android:text="Profile Text:"
         android:textSize="26dp"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.385"
+        app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ProfilePicHeader" />
 
@@ -68,21 +73,23 @@
         android:textSize="26dp"
         app:layout_constraintBottom_toTopOf="@+id/ProfilePic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.385"
+        app:layout_constraintHorizontal_bias="0.414"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/HeaderTxt"
-        app:layout_constraintVertical_bias="0.65" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="279dp"
+        android:layout_width="280dp"
         android:layout_height="126dp"
+        android:layout_marginBottom="80dp"
         android:ems="10"
         android:hint="Type your profile text here..."
         android:inputType="textPersonName"
         android:textStyle="italic"
+        app:layout_constraintBottom_toTopOf="@+id/SaveButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.435"
+        app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ProfileTextHeader" />
 
@@ -90,19 +97,18 @@
         android:id="@+id/SaveButton"
         android:layout_width="110dp"
         android:layout_height="40dp"
-        android:layout_marginTop="26dp"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintVertical_bias="0.344" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.821" />
 
     <Button
         android:id="@+id/DoneButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="111dp"
+        android:layout_height="38dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="32dp"
         android:onClick="DoneButton"
@@ -111,7 +117,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SaveButton"
-        app:layout_constraintVertical_bias="0.431" />
+        app:layout_constraintTop_toBottomOf="@+id/SaveButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
