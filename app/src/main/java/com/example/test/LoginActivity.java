@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UsersDao usersDao = database.getAllUsers();
 
-        if(strUsername.equals(usersDao.getUsernameLogin(strUsername, strPassword))){
+        if(strUsername.equals(usersDao.getUserIDLogin(strUsername, strPassword))){
 
           LogSession.setSession(usersDao.getUserID(strUsername));
           Intent intent = new Intent(this,ProfileActivity.class);

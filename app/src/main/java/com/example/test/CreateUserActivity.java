@@ -39,14 +39,14 @@ public class CreateUserActivity extends AppCompatActivity {
         String strPassword = password.getText().toString();
 
 
-               if(userDao.getUsername(strUsername) == null){
+               if(userDao.getUserID(strUsername) == null){
                    if( !strUsername.trim().isEmpty() && !strPassword.trim().isEmpty()) {
 
                        Users newUser = new Users();
                        newUser.username = strUsername;
                        newUser.password = strPassword;
                        newUser.timeCreated = System.currentTimeMillis();
-                        userDao.createNewUser(newUser);
+                       userDao.createNewUser(newUser);
                        Intent intent = new Intent(this, LoginActivity.class);
                        intent.putExtra("NEWUSERMSG","Congrats on joining Hoply");
 

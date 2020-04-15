@@ -3,20 +3,29 @@ package com.example.test.tables;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "hoply_comment", indices = {@Index(value = "comment_id",unique = true)})
+@Entity(tableName = "hoply_comment", indices = {@Index(value = {"user_id","post_id","timestamp"},unique = true)},foreignKeys = {
+        @ForeignKey(entity = Users.class, parentColumns = "id",childColumns = "user_id"),
+        @ForeignKey(entity = Posts.class, parentColumns = "id",childColumns = "post_id")
+})
 public class Comments {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name="comment_id")
-    @NonNull public int commentId;
+    @PrimaryKey
+    @ColumnInfo(name="user_id")
+    @NonNull public String userID;
+
+    @PrimaryKey
+    @ColumnInfo(name= "post_id")
+    @NonNull public int postID;
+
+    @PrimaryKey
+    @ColumnInfo(name = "time_created")
+    @NonNull public long timeCreated;
 
     @ColumnInfo(name = "comment_content")
     public String commentContent;
-
-    @ColumnInfo(name = "time_created")
-    public long timeCreated;
 
     @Override
     public String toString(){return commentContent;}
