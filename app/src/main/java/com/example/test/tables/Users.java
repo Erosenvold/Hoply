@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 public class Users {
     @PrimaryKey
     @ColumnInfo(name = "id")
-    @NonNull public int id;
+    @NonNull public String id;
 
     @ColumnInfo(name = "name")
     public String username;

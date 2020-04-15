@@ -43,6 +43,7 @@ public class CreateUserActivity extends AppCompatActivity {
                    if( !strUsername.trim().isEmpty() && !strPassword.trim().isEmpty()) {
 
                        Users newUser = new Users();
+
                        newUser.username = strUsername;
                        newUser.password = strPassword;
                        newUser.timeCreated = System.currentTimeMillis();

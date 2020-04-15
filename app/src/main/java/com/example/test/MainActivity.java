@@ -8,6 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.test.dao.UsersDao;
+
+
+
 
 public class MainActivity extends AppCompatActivity {
     public static AppDatabase database;
@@ -18,8 +22,11 @@ public class MainActivity extends AppCompatActivity {
 
         AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
                 .build();
         this.database = database;
+
+
     }
     public static AppDatabase getDB(){
         return database;
