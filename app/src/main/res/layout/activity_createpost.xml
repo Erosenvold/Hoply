@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#8cff7a"
+    android:background="#d3ff52"
     android:layout_height="match_parent">
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_width="322dp"
         android:layout_height="85dp"
         android:layout_marginTop="140dp"
-        android:background="#ffffff"
+        android:background="#b0d14d"
         android:ems="10"
         android:hint="Write a Post!"
         android:inputType="textPersonName"
@@ -42,7 +42,7 @@
         android:layout_width="322dp"
         android:layout_height="37dp"
         android:layout_marginTop="140dp"
-        android:background="#ffffff"
+        android:background="#b0d14d"
         android:ems="10"
         android:hint="The best posts have a headline..."
         android:inputType="textPersonName"
@@ -146,6 +146,6 @@
         app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createPost"
-        android:background="#ffffff"
+        android:background="#b0d14d"
         app:layout_constraintVertical_bias="0.232" />
 </androidx.constraintlayout.widget.ConstraintLayout>
