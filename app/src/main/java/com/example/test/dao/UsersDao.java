@@ -23,6 +23,9 @@ public interface UsersDao {
     @Query("SELECT user_id FROM hoply_users WHERE username = :username")
     public int getUserID(String username);
 
+    @Query("SELECT username FROM hoply_users WHERE user_id = :userID")
+    public String getUsernameFromID(int userID);
+
     @Insert(onConflict = OnConflictStrategy.FAIL)
     public void createNewUser(Users user);
 }
