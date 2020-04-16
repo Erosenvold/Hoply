@@ -23,8 +23,8 @@ public class FeedActivity extends AppCompatActivity {
                     R.drawable.opkast,
                     R.drawable.l,
                     R.drawable.ff,
-                    R.drawable.a16
-    };
+                    R.drawable.a16};
+
     public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +41,7 @@ public class FeedActivity extends AppCompatActivity {
             headlines = getResources().getStringArray(R.array.post_headlines);
             usernames = getResources().getStringArray(R.array.post_username);
 
+            //Instantiates the adapter that contains the feeds
             FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images);
             rv.setAdapter((feedAdapter));
             rv.setLayoutManager(new LinearLayoutManager(this));

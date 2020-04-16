@@ -26,6 +26,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     }
 
+    //Creates a new FeedViewHolder and instantiates feeds.
     @NonNull
     @Override
     public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -33,23 +34,27 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         View view = layoutInflater.inflate(R.layout.feed, parent, false);
         return new FeedViewHolder((view));
     }
-
+    //Creates a positioning in the FeedViewHolder, populates the feeds with headlines, usernames and images.
     @Override
     public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
         holder.postHeadlineText.setText(headlines[position]);
-        holder.postHeadlineText.setText(usernames[position]);
+        holder.postUsernameText.setText(usernames[position]);
         holder.postImageView.setImageResource(images[position]);
     }
 
+    //returns the number of feeds.
     @Override
     public int getItemCount() {
         return headlines.length;
     }
 
+
+    //nested class
     public class FeedViewHolder extends RecyclerView.ViewHolder {
         TextView postHeadlineText, postUsernameText;
         ImageView postImageView;
 
+        // constructor
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
             postHeadlineText = itemView.findViewById(R.id.postHeadlineText);
