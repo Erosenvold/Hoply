@@ -47,6 +47,10 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent = new Intent(this,CreatePostActivity.class);
         startActivity(intent);
     }
+    public void sendToFeed(View view){
+        Intent intent = new Intent(this,FeedActivity.class);
+        startActivity(intent);
+    }
 
 
 

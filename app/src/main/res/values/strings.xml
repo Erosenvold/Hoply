@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Hoply</string>
+
+    <string-array name="post_headlines">
+        <item>Tuborg Pilsner</item>
+        <item>Royal Classic</item>
+        <item>Royal Export</item>
+        <item>Tuborg Classic</item>
+        <item>Heineken</item>
+        <item>Leffe</item>
+        <item>Fynsk Forår</item>
+        <item>Ale no. 16</item>
+
+    </string-array>
+    <string-array name="post_username">
+        <item>fml1337</item>
+        <item>stayathomealcoholic</item>
+        <item>drankeren</item>
+        <item>randersmanden</item>
+        <item>falsk profet</item>
+        <item>gourmet</item>
+        <item>fynboen</item>
+        <item>connoiseuren</item>
+
+    </string-array>
+
 </resources>
