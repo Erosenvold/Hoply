@@ -39,7 +39,7 @@ public class CreatePostActivity extends AppCompatActivity {
             post.postContent = strPostTxt;
             post.timeCreated = System.currentTimeMillis();
             post.postRating = 0;
-
+            //Needs to insert post
 
 
         }else{
