@@ -50,6 +50,7 @@ public class CreateUserActivity extends AppCompatActivity {
                        newUser.password = strPassword;
                        newUser.timeCreated = System.currentTimeMillis();
                        userDao.createNewUser(newUser);
+
                        Intent intent = new Intent(this, LoginActivity.class);
                        intent.putExtra("NEWUSERMSG","Congrats on joining Hoply");
 

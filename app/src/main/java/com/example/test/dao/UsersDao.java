@@ -26,8 +26,14 @@ public interface UsersDao {
     @Query("SELECT profile_text FROM hoply_users WHERE id = :userID")
     public String getProfileTxtFromID(String userID);
 
+    @Query("SELECT profile_image FROM hoply_users WHERE id = :userID")
+    public String getProfileImageFromID(String userID);
+
     @Query("UPDATE hoply_users SET profile_text = :profileTxt WHERE id = :sessionId")
     public void createNewProfileTxt(String profileTxt, String sessionId);
+
+    @Query("UPDATE hoply_users SET profile_image = :profileImage WHERE id = :sessionId")
+    public void createNewProfileImage(String profileImage, String sessionId);
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     public void createNewUser(Users user);
