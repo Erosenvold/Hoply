@@ -3,11 +3,8 @@ package com.example.test;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test.dao.UsersDao;
 
-import java.net.URI;
 
 
 public class ProfileActivity extends AppCompatActivity {
@@ -25,7 +21,11 @@ public class ProfileActivity extends AppCompatActivity {
     public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //if logged in.
         if (LogSession.isLoggedIn()) {
+
+            //sets contentview to activity_profile and gets database
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_profile);
             this.database = MainActivity.getDB();
@@ -55,8 +55,10 @@ public class ProfileActivity extends AppCompatActivity {
                 System.out.println("It's null dummy!");
             }
 
-            
-        } else {
+
+        }
+        //if not logged in, go to Frontpage (mainacivity)
+        else {
             Intent intent = new Intent(this, MainActivity.class);
 
 
@@ -65,16 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-
-
-
-
+    //Starts ProfileEdit Activity
     public void ProfileEditButton(View view){
 
         Intent intent = new Intent(this,ProfileEdit.class);
@@ -83,10 +76,14 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
+
+    //Starts CreatePost Activity
     public void createPostSendBtn(View view){
         Intent intent = new Intent(this,CreatePostActivity.class);
         startActivity(intent);
     }
+
+    //Starts Feed Activity
     public void sendToFeed(View view){
         Intent intent = new Intent(this,FeedActivity.class);
         startActivity(intent);

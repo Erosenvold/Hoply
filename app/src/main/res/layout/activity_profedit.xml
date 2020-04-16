@@ -88,43 +88,26 @@
         android:id="@+id/editText"
         android:layout_width="280dp"
         android:layout_height="126dp"
-        android:layout_marginBottom="80dp"
+        android:background="#b0d14d"
         android:ems="10"
         android:hint="Type your profile text here..."
         android:inputType="textPersonName"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/SaveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="#b0d14d"
         app:layout_constraintTop_toBottomOf="@+id/ProfileTextHeader" />
 
     <Button
-        android:id="@+id/SaveButton"
-        android:layout_width="110dp"
-        android:layout_height="40dp"
-        android:onClick="SaveChanges"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.821" />
-
-    <Button
         android:id="@+id/DoneButton"
-        android:layout_width="111dp"
-        android:layout_height="38dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="170dp"
+        android:layout_height="44dp"
+        android:layout_marginBottom="112dp"
         android:onClick="DoneButton"
-        android:text="Done"
+        android:text="Save and Exit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SaveButton" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

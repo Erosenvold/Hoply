@@ -1,6 +1,5 @@
 package com.example.test;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,15 +9,11 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.test.dao.UsersDao;
-import com.example.test.tables.Users;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URI;
+
 
 
 public class ProfileEdit extends AppCompatActivity {
@@ -34,11 +29,6 @@ public class ProfileEdit extends AppCompatActivity {
         this.database = MainActivity.getDB();
 
 
-
-
-
-
-
     }
     public void UploadNewImageButton(View view){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
@@ -48,8 +38,10 @@ public class ProfileEdit extends AppCompatActivity {
 
     }
 
-    public void SaveChanges(View view){
 
+
+    //saves new profileImage and ProfileText, starts profile acitivity
+    public void DoneButton(View view) {
         UsersDao userDao = database.getAllUsers();
 
 
@@ -71,11 +63,7 @@ public class ProfileEdit extends AppCompatActivity {
             userDao.createNewProfileImage(result, LogSession.getSessionID());
         }
 
-    }
 
-
-
-    public void DoneButton(View view) {
         Intent intent = new Intent(this, ProfileActivity.class);
 
         startActivity(intent);
