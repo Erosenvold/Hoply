@@ -22,10 +22,17 @@ public class ProfileActivity extends AppCompatActivity {
             setContentView(R.layout.activity_profile);
             this.database = MainActivity.getDB();
             UsersDao usersDao = database.getAllUsers();
-            TextView Username =  findViewById(R.id.UserName);
-            TextView postContent = findViewById(R.id.ProfileText);
-            Username.setText(usersDao.getUsernameFromID(LogSession.getSessionID()));
-            postContent.setText(usersDao.getProfileText(LogSession.getSessionID()));
+
+            //Textview: Profile ProfileText. Queries Database from SessionId to find Username.
+            TextView UserText = (TextView) findViewById(R.id.UserName);
+            UserText.setText(usersDao.getUsernameFromID(LogSession.getSessionID()));
+
+
+            //Textview: Profile text. Queries Database from SessionId to find Profile Txt.
+            TextView ProfileTxt = (TextView) findViewById(R.id.ProfileText);
+            ProfileTxt.setText(usersDao.getProfileTxtFromID(LogSession.getSessionID()));
+
+
         }else{
             Intent intent = new Intent(this,MainActivity.class);
 
