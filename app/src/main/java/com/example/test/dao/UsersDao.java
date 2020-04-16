@@ -20,9 +20,14 @@ public interface UsersDao {
     @Query("SELECT id FROM hoply_users WHERE id = :userID AND password =:password")
     public String getUserIDLogin(String userID,String password);
 
-
     @Query("SELECT name FROM hoply_users WHERE id = :userID")
     public String getUsernameFromID(String userID);
+
+    @Query("SELECT profile_text FROM hoply_users WHERE id = :userID")
+    public String getProfileTxtFromID(String userID);
+
+    @Query("UPDATE hoply_users SET profile_text = :profileTxt WHERE id = :sessionId")
+    public void createNewProfileTxt(String profileTxt, String sessionId);
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     public void createNewUser(Users user);
