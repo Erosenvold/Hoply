@@ -35,9 +35,10 @@ public class CreatePostActivity extends AppCompatActivity {
         String strPostTxt = postTxt.getText().toString();
         if(!strPostTxt.trim().isEmpty()){
             Posts post = new Posts();
+            post.userID = LogSession.getSessionID();
             post.postContent = strPostTxt;
             post.timeCreated = System.currentTimeMillis();
-
+            post.postRating = 0;
 
 
 
