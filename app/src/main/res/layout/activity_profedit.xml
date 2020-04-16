@@ -25,24 +25,28 @@
         android:id="@+id/ProfilePic"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="56dp"
-        android:layout_marginBottom="23dp"
+        android:layout_marginBottom="8dp"
+        android:adjustViewBounds="true"
+
+
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/ProfileTextHeader"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.268"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/HeaderTxt"
+        app:layout_constraintTop_toBottomOf="@+id/ProfilePicHeader"
         app:layout_constraintVertical_bias="0.0"
         tools:srcCompat="@tools:sample/avatars[0]"
         tools:visibility="visible" />
 
+
     <Button
-        android:id="@+id/UploadNewButton"
+        android:id="@+id/UploadNewImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:onClick="UploadNewImageButton"
         android:text="Upload New"
         app:layout_constraintBottom_toBottomOf="@+id/ProfilePic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,15 +59,15 @@
         android:id="@+id/ProfileTextHeader"
         android:layout_width="280dp"
         android:layout_height="39dp"
-        android:layout_marginTop="156dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center"
         android:text="Profile Text:"
         android:textSize="26dp"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.465"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ProfilePicHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/ProfilePic" />
 
     <TextView
         android:id="@+id/ProfilePicHeader"
@@ -72,11 +76,13 @@
         android:gravity="center"
         android:text="Profile Photo:"
         android:textSize="26dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/ProfilePic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/HeaderTxt"
         app:layout_constraintVertical_bias="1.0" />
+
 
     <EditText
         android:id="@+id/editText"
@@ -98,6 +104,7 @@
         android:id="@+id/SaveButton"
         android:layout_width="110dp"
         android:layout_height="40dp"
+        android:onClick="SaveChanges"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

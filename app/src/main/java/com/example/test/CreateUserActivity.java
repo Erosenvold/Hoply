@@ -37,16 +37,19 @@ public class CreateUserActivity extends AppCompatActivity {
         String strUsername = username.getText().toString();
         EditText password = findViewById(R.id.createPassword);
         String strPassword = password.getText().toString();
+        EditText userID = findViewById(R.id.createUserID);
+        String strUserID = userID.getText().toString();
 
 
-               if(userDao.getUsername(strUsername) == null){
-                   if( !strUsername.trim().isEmpty() && !strPassword.trim().isEmpty()) {
+               if(userDao.getUserID(strUserID) == null){
+                   if(!strUserID.trim().isEmpty() && !strUsername.trim().isEmpty() && !strPassword.trim().isEmpty()) {
 
                        Users newUser = new Users();
+                       newUser.id = strUserID;
                        newUser.username = strUsername;
                        newUser.password = strPassword;
                        newUser.timeCreated = System.currentTimeMillis();
-                        userDao.createNewUser(newUser);
+                       userDao.createNewUser(newUser);
                        Intent intent = new Intent(this, LoginActivity.class);
                        intent.putExtra("NEWUSERMSG","Congrats on joining Hoply");
 
@@ -60,17 +63,10 @@ public class CreateUserActivity extends AppCompatActivity {
              }else{
 
                    errorMsg.setVisibility(View.VISIBLE);
-                   errorMsg.setText("Use a unique name");
+                   errorMsg.setText("An account with this email already exists");
 
                }
 
-/*
-        Users newUser = new Users();
-        newUser.username = "Erik";
-        newUser.password = "password";
-        newUser.timeCreated = System.currentTimeMillis();
-        userDao.createNewUser(newUser);
-*/
 
     }
 

@@ -8,6 +8,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.test.dao.UsersDao;
+
+
+
 
 public class MainActivity extends AppCompatActivity {
     public static AppDatabase database;
@@ -20,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build();
         this.database = database;
+
+
     }
     public static AppDatabase getDB(){
         return database;

@@ -10,9 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test.dao.PostDao;
-import com.example.test.dao.UserPostDao;
 import com.example.test.tables.Posts;
-import com.example.test.tables.UserPost;
 
 public class CreatePostActivity extends AppCompatActivity {
     public static AppDatabase database;
@@ -32,18 +30,16 @@ public class CreatePostActivity extends AppCompatActivity {
     public void createPostBtn(View view){
         TextView errMsg = findViewById(R.id.createPostError);
         PostDao postDao = database.getAllPosts();
-        UserPostDao userPostDao = database.getAllUserPost();
+
         EditText postTxt = findViewById(R.id.createPost);
         String strPostTxt = postTxt.getText().toString();
         if(!strPostTxt.trim().isEmpty()){
             Posts post = new Posts();
+            post.userID = LogSession.getSessionID();
             post.postContent = strPostTxt;
             post.timeCreated = System.currentTimeMillis();
-
-            UserPost userPost = new UserPost();
-            userPost.postId = (int)postDao.createNewPost(post);
-            userPost.userId = LogSession.getSessionID();
-
+            post.postRating = 0;
+            //Needs to insert post
 
 
         }else{

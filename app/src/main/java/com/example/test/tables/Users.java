@@ -6,13 +6,13 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "hoply_users",indices = {@Index(value={"user_id","username"},unique = true)})
+@Entity(tableName = "hoply_users",indices = {@Index(value={"id","name"},unique = true)})
 public class Users {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "user_id")
-    @NonNull public int userId;
+    @PrimaryKey
+    @ColumnInfo(name = "id")
+    @NonNull public String id;
 
-    @ColumnInfo(name = "username")
+    @ColumnInfo(name = "name")
     public String username;
 
     @ColumnInfo(name = "password")
@@ -20,6 +20,12 @@ public class Users {
 
     @ColumnInfo(name = "time_created")
     public long timeCreated;
+
+    @ColumnInfo(name = "profile_text")
+    public String profileText;
+
+    @ColumnInfo(name = "profile_image")
+    public String profileImage;
 
     @Override
     public String toString(){

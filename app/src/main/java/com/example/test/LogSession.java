@@ -7,19 +7,19 @@ import androidx.room.Room;
 public final class LogSession {
 
     AppDatabase database = MainActivity.getDB();
-    static int sessionID;
+    static String sessionID;
 
-    public static void setSession(int userID){
+    public static void setSession(String userID){
         sessionID = userID;
     }
     public static boolean isLoggedIn(){
-        if(sessionID != 0){
+        if(sessionID != null){
             return true;
         }else {
             return false;
         }
     }
-    public static int getSessionID(){
+    public static String getSessionID(){
         return sessionID;
     }
 
