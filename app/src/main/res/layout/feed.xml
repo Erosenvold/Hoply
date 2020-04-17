@@ -41,9 +41,10 @@
 
             <TextView
                 android:id="@+id/postHeadlineText"
-                android:layout_width="292dp"
-                android:layout_height="80dp"
+                android:layout_width="238dp"
+                android:layout_height="75dp"
                 android:layout_marginTop="4dp"
+                android:inputType="textMultiLine"
                 android:text="contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
                 android:textSize="16sp"
                 android:textStyle="italic"
