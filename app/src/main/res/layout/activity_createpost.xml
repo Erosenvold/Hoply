@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#d3ff52"
+    android:background="#bdd37a"
     android:layout_height="match_parent">
 
     <TextView
@@ -70,6 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createPost"
+        android:background="#d8ffcd"
         app:layout_constraintVertical_bias="0.831" />
 
     <ImageView
@@ -99,6 +100,7 @@
         app:layout_constraintHorizontal_bias="0.933"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toBottomOf="@+id/createPost"
+        android:background="#d8ffcd"
         app:layout_constraintVertical_bias="0.034" />
 
     <TextView

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#d3ff52"
+    android:background="#bdd37a" flot baggrund
     android:layout_height="match_parent">
 
     <EditText
@@ -60,6 +60,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="#d8ffcd"
         app:layout_constraintVertical_bias="0.805" />
 
     <TextView
