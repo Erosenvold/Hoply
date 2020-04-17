@@ -45,7 +45,14 @@ public class FeedActivity extends AppCompatActivity {
             headlines = new String[postDao.getAllIDDESC().length];
             for(int i = 0; i< postDao.getAllIDDESC().length;i++){
 
-                headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]);
+                int x = postDao.getAllContent(postDao.getAllIDDESC()[i]).length();
+                if(x>300){
+                    x = 300;
+                    headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]).substring(0,x) + "...";
+                }else{
+                    headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]).substring(0,x);
+                }
+
                 System.out.println(postDao.getAllIDDESC()[i]);
                 System.out.println(headlines[0] + " hello");
             }
