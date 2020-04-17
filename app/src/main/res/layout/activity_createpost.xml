@@ -74,7 +74,7 @@
         app:layout_constraintVertical_bias="0.831" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/PostImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
@@ -87,18 +87,19 @@
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/UploadImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="121dp"
         android:layout_marginEnd="62dp"
         android:layout_marginRight="62dp"
         android:layout_marginBottom="213dp"
+        android:onClick="UploadNewPostImageButton"
         android:text="Upload image"
         app:layout_constraintBottom_toTopOf="@+id/createPostBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.933"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/PostImage"
         app:layout_constraintTop_toBottomOf="@+id/createPost"
         android:background="#d8ffcd"
         app:layout_constraintVertical_bias="0.034" />
@@ -130,7 +131,7 @@
         android:layout_marginBottom="19dp"
         android:text="Add Location to post"
         android:textStyle="italic"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/PostImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.178"
         app:layout_constraintStart_toStartOf="parent"
