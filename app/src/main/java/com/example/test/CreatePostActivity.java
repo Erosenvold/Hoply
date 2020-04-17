@@ -81,7 +81,7 @@ public class CreatePostActivity extends AppCompatActivity {
             String provider = locationManager.getBestProvider(criteria,false);
 
             try {
-               Location location = locationManager.getLastKnownLocation(provider);
+                Location location = locationManager.getLastKnownLocation(provider);
 
                 MyLocationListener myListener = new MyLocationListener();
                 if(location != null){
@@ -95,7 +95,7 @@ public class CreatePostActivity extends AppCompatActivity {
             }catch(SecurityException e){
                 System.out.println("SecurityException: " + e);
             }
-       //     System.out.println(latitude + longitude);
+            //     System.out.println(latitude + longitude);
         }else{
             currLocation = "";
         }
@@ -108,7 +108,7 @@ public class CreatePostActivity extends AppCompatActivity {
             String longitude = String.valueOf(location.getLongitude());
             currLocation  = latitude + "/" + longitude;
         }
-//Implementing an interface requires these methods to work
+        //Implementing an interface requires these methods to work
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
 
