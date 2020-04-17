@@ -12,37 +12,34 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="129dp"
         android:layout_height="37dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="24dp"
         android:onClick="ProfileEditButton"
         android:text="Edit Profile"
-        app:layout_constraintBottom_toTopOf="@+id/RecentPosts"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.124"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintEnd_toEndOf="@+id/ProfileImage"
+        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintStart_toStartOf="@+id/ProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/ProfileImage" />
 
     <TextView
         android:id="@+id/UserName"
         android:layout_width="187dp"
         android:layout_height="30dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="Namington"
         android:textSize="21sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/ProfileImage"
+        app:layout_constraintTop_toTopOf="@+id/ProfileImage" />
 
     <ImageView
         android:id="@+id/ProfileImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="76dp"
         android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.127"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -51,25 +48,24 @@
         android:id="@+id/ProfileText"
         android:layout_width="188dp"
         android:layout_height="113dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="36dp"
         android:text="This is a sample profile text. Please edit profile to customize it."
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ProfileImage"
         app:layout_constraintTop_toBottomOf="@+id/UserName" />
 
     <TextView
         android:id="@+id/RecentPosts"
         android:layout_width="331dp"
         android:layout_height="275dp"
-        android:layout_marginTop="32dp"
         android:text="My posts sorted by recent....."
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ProfileText"
-        app:layout_constraintVertical_bias="0.08" />
+        app:layout_constraintEnd_toEndOf="@+id/ProfileText"
+        app:layout_constraintStart_toStartOf="@+id/ProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/profEditButton"
+        app:layout_constraintVertical_bias="0.144" />
 
     <Button
         android:id="@+id/HomeButton"
