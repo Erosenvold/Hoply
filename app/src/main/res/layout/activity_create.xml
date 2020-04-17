@@ -18,14 +18,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#b0d14d"
+        android:background="#ebffbd"
         app:layout_constraintVertical_bias="0.758" />
 
     <EditText
         android:id="@+id/createUserID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#b0d14d"
+        android:background="#ebffbd"
         android:ems="10"
         android:hint="Enter an email address!"
         android:inputType="textPersonName"
@@ -46,7 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#b0d14d"
+        android:background="#ebffbd"
         app:layout_constraintVertical_bias="0.858" />
 
     <Button

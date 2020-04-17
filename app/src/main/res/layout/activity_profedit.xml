@@ -88,7 +88,7 @@
         android:id="@+id/editText"
         android:layout_width="280dp"
         android:layout_height="126dp"
-        android:background="#b0d14d"
+        android:background="#ebffbd"
         android:ems="10"
         android:hint="Type your profile text here..."
         android:inputType="textPersonName"
