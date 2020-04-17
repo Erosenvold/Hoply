@@ -128,6 +128,7 @@
         android:layout_marginBottom="19dp"
         android:text="Add Location to post"
         android:textStyle="italic"
+        android:onClick="getLocation"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.178"

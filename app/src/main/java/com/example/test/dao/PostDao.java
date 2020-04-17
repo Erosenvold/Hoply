@@ -17,5 +17,5 @@ public interface PostDao {
     public int getPostID(int postID);
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    public long createNewPost(Posts posts);
+    public void createNewPost(Posts posts);
 }
