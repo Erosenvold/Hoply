@@ -51,7 +51,7 @@
                 android:text="contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
                 android:textSize="16sp"
                 android:textStyle="italic"
-                android:inputType="textMultiLine"
+
                 app:layout_constraintStart_toEndOf="@+id/postImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 

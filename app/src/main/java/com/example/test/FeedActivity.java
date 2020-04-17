@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,6 +48,7 @@ public class FeedActivity extends AppCompatActivity {
             headlines = new String[postDao.getAllIDDESC().length];
             usernames = new String[headlines.length];
             images = new Bitmap[headlines.length];
+            postIds = new int[headlines.length];
             for(int i = 0; i< postDao.getAllIDDESC().length;i++){
 
                 int x = postDao.getAllContent(postDao.getAllIDDESC()[i]).length();
@@ -56,8 +59,7 @@ public class FeedActivity extends AppCompatActivity {
                     headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]).substring(0,x);
                 }
                 usernames[i] = usersDao.getUsernameFromID(postDao.getUserID(postDao.getAllIDDESC()[i]));
-                System.out.println(postDao.getAllIDDESC()[i]);
-                System.out.println(headlines[0] + " hello");
+                postIds[i] = postDao.getAllIDDESC()[i];
 
 
                 //Imageview: shows profile image if it exists
@@ -90,7 +92,9 @@ public class FeedActivity extends AppCompatActivity {
 
     }
     public void sendToUserPost(View view){
-        System.out.println("Hej");
+        TextView postId = findViewById(R.id.postIdText);
+        String strPostId = postId.getText().toString();
+        System.out.println(strPostId);
     }
 
 }

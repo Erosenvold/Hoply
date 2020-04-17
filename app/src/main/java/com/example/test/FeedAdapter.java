@@ -43,7 +43,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
         holder.postHeadlineText.setText(headlines[position]);
         holder.postUsernameText.setText(usernames[position]);
-
+        holder.postIdText.setText(String.valueOf(postIds[position]));
         holder.postImageView.setImageBitmap(images[position]);
     }
 
@@ -67,6 +67,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             postUsernameText = itemView.findViewById(R.id.postUsernameText);
             postImageView = itemView.findViewById(R.id.postImageView);
             postIdText = itemView.findViewById(R.id.postIdText);
+
         }
 
     }
