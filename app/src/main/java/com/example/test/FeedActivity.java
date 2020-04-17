@@ -42,9 +42,12 @@ public class FeedActivity extends AppCompatActivity {
             //populates arrays from the values -> strings.xml
             //to do: populate from database instead of values
             PostDao postDao = database.getAllPosts();
-            for(int i = 0; i< postDao.getAllIDASC().length;i++){
-                headlines = postDao.getAllContent(postDao.getAllIDASC()[i]);
+            headlines = new String[postDao.getAllIDDESC().length];
+            for(int i = 0; i< postDao.getAllIDDESC().length;i++){
 
+                headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]);
+                System.out.println(postDao.getAllIDDESC()[i]);
+                System.out.println(headlines[0] + " hello");
             }
 
             usernames = getResources().getStringArray(R.array.post_username);
