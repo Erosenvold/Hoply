@@ -37,41 +37,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.132" />
 
-    <EditText
-        android:id="@+id/createHeader"
-        android:layout_width="322dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="140dp"
-        android:background="#ebffbd"
-        android:ems="10"
-        android:hint="The best posts have a headline..."
-        android:inputType="textPersonName"
-        android:textSize="15sp"
-        android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.003" />
-
     <Button
         android:id="@+id/createPostBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="141dp"
-        android:layout_marginLeft="141dp"
-        android:layout_marginTop="383dp"
-        android:layout_marginEnd="141dp"
-        android:layout_marginRight="141dp"
-        android:layout_marginBottom="115dp"
+        android:layout_width="105dp"
+        android:layout_height="46dp"
+        android:background="#d8ffcd"
         android:onClick="createPostBtn"
         android:text="Create Post"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createPost"
-        android:background="#d8ffcd"
-        app:layout_constraintVertical_bias="0.831" />
+        app:layout_constraintEnd_toEndOf="@+id/createPost"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="@+id/createPost"
+        app:layout_constraintTop_toBottomOf="@+id/PostImage"
+        app:layout_constraintVertical_bias="0.706" />
 
     <ImageView
         android:id="@+id/PostImage"
@@ -88,12 +66,13 @@
 
     <Button
         android:id="@+id/UploadImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="112dp"
+        android:layout_height="46dp"
         android:layout_marginTop="121dp"
         android:layout_marginEnd="62dp"
         android:layout_marginRight="62dp"
         android:layout_marginBottom="213dp"
+        android:background="#d8ffcd"
         android:onClick="UploadNewPostImageButton"
         android:text="Upload image"
         app:layout_constraintBottom_toTopOf="@+id/createPostBtn"
@@ -101,7 +80,6 @@
         app:layout_constraintHorizontal_bias="0.933"
         app:layout_constraintStart_toEndOf="@+id/PostImage"
         app:layout_constraintTop_toBottomOf="@+id/createPost"
-        android:background="#d8ffcd"
         app:layout_constraintVertical_bias="0.034" />
 
     <TextView
@@ -110,18 +88,15 @@
         android:layout_height="64dp"
         android:layout_marginStart="70dp"
         android:layout_marginLeft="70dp"
-        android:layout_marginTop="125dp"
-        android:layout_marginEnd="69dp"
-        android:layout_marginRight="69dp"
-        android:layout_marginBottom="94dp"
+        android:layout_marginBottom="56dp"
         android:gravity="center"
         android:text="What do you want to share with the world? "
         android:textSize="25sp"
         android:textStyle="bold|italic"
-        app:layout_constraintBottom_toTopOf="@+id/createHeader"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/createPost"
+        app:layout_constraintEnd_toEndOf="@+id/createPost"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/createPost" />
 
     <CheckBox
         android:id="@+id/checkBox"
