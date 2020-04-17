@@ -39,6 +39,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
         holder.postHeadlineText.setText(headlines[position]);
         holder.postUsernameText.setText(usernames[position]);
+        //ændre til bitmap
         holder.postImageView.setImageResource(images[position]);
     }
 

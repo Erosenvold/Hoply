@@ -21,8 +21,9 @@ public interface PostDao {
     public int getPostID(String userID, long timeCreated);
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
-    public long createNewPost(Posts posts);
+    public void createNewPost(Posts posts);
 
     @Query("UPDATE hoply_post SET post_image = :postImage WHERE id = :postID")
     public void createNewPostImage(String postImage, int postID);
+
 }
