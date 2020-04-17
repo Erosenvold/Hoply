@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test.dao.PostDao;
+import com.example.test.dao.UsersDao;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -42,7 +43,9 @@ public class FeedActivity extends AppCompatActivity {
             //populates arrays from the values -> strings.xml
             //to do: populate from database instead of values
             PostDao postDao = database.getAllPosts();
+            UsersDao usersDao = database.getAllUsers();
             headlines = new String[postDao.getAllIDDESC().length];
+            usernames = new String[headlines.length];
             for(int i = 0; i< postDao.getAllIDDESC().length;i++){
 
                 int x = postDao.getAllContent(postDao.getAllIDDESC()[i]).length();
@@ -52,12 +55,11 @@ public class FeedActivity extends AppCompatActivity {
                 }else{
                     headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]).substring(0,x);
                 }
-
+                usernames[i] = usersDao.getUsernameFromID(postDao.getUserID(postDao.getAllIDDESC()[i]));
                 System.out.println(postDao.getAllIDDESC()[i]);
                 System.out.println(headlines[0] + " hello");
             }
 
-            usernames = getResources().getStringArray(R.array.post_username);
 
             //Instantiates the adapter that contains the feeds
             FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images);
@@ -72,6 +74,9 @@ public class FeedActivity extends AppCompatActivity {
     }
     public void refreshBtn(View view){
 
+    }
+    public void sendToUserPost(View view){
+        System.out.println("Hej");
     }
 
 }

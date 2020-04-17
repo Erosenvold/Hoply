@@ -20,6 +20,9 @@ public interface PostDao {
     @Query("SELECT content FROM hoply_post WHERE id=:postID")
     public String getAllContent(int postID);
 
+    @Query("SELECT user_id FROM hoply_post WHERE id=:postID")
+    public String getUserID(int postID);
+
     @Query("SELECT id FROM hoply_post WHERE id = :postID")
     public int getPostID(int postID);
 

@@ -37,4 +37,5 @@ public interface UsersDao {
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     public void createNewUser(Users user);
+
 }

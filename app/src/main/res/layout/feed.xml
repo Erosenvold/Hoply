@@ -13,7 +13,10 @@
 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="#ebffbd">
+            android:background="#ebffbd"
+            android:onClick="sendToUserPost"
+            >
+
 
             <TextView
                 android:id="@+id/postUsernameText"
