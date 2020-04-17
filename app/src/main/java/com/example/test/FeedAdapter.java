@@ -16,14 +16,17 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     String headlines[], usernames[];
     Bitmap images[];
+
+    int postIds[];
     Context context;
 
     //constructor for FeedAdapter, images are an int array because it can be tracked by enumeration.
-    public FeedAdapter(Context context, String headlines[], String usernames[], Bitmap images[]){
+    public FeedAdapter(Context context, String headlines[], String usernames[], Bitmap images[],int postIds[]){
         this.context = context;
         this.headlines = headlines;
         this.usernames = usernames;
         this.images = images;
+        this.postIds = postIds;
 
     }
 
@@ -40,7 +43,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
         holder.postHeadlineText.setText(headlines[position]);
         holder.postUsernameText.setText(usernames[position]);
-        //ændre til bitmap
+
         holder.postImageView.setImageBitmap(images[position]);
     }
 
@@ -53,7 +56,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     //nested class
     public class FeedViewHolder extends RecyclerView.ViewHolder {
-        TextView postHeadlineText, postUsernameText;
+        TextView postHeadlineText, postUsernameText, postIdText;
+
         ImageView postImageView;
 
         // constructor
@@ -62,6 +66,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             postHeadlineText = itemView.findViewById(R.id.postHeadlineText);
             postUsernameText = itemView.findViewById(R.id.postUsernameText);
             postImageView = itemView.findViewById(R.id.postImageView);
+            postIdText = itemView.findViewById(R.id.postIdText);
         }
 
     }
