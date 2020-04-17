@@ -1,8 +1,12 @@
 package com.example.test;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,14 +24,7 @@ public class FeedActivity extends AppCompatActivity {
 
     //array of paths to images in the drawables folder.
     //to do: populate from database instead of drawable
-    int images[] = {R.drawable.tp,
-                    R.drawable.rc,
-                    R.drawable.re,
-                    R.drawable.tc,
-                    R.drawable.opkast,
-                    R.drawable.l,
-                    R.drawable.ff,
-                    R.drawable.a16};
+    Bitmap images[];
 
     public static AppDatabase database;
     @Override
@@ -46,6 +43,7 @@ public class FeedActivity extends AppCompatActivity {
             UsersDao usersDao = database.getAllUsers();
             headlines = new String[postDao.getAllIDDESC().length];
             usernames = new String[headlines.length];
+            images = new Bitmap[headlines.length];
             for(int i = 0; i< postDao.getAllIDDESC().length;i++){
 
                 int x = postDao.getAllContent(postDao.getAllIDDESC()[i]).length();
@@ -58,6 +56,20 @@ public class FeedActivity extends AppCompatActivity {
                 usernames[i] = usersDao.getUsernameFromID(postDao.getUserID(postDao.getAllIDDESC()[i]));
                 System.out.println(postDao.getAllIDDESC()[i]);
                 System.out.println(headlines[0] + " hello");
+
+
+                //Imageview: shows profile image if it exists
+                if (postDao.getPostImages(postDao.getAllIDDESC()[i]) != null) {
+
+                    String ImageStr = postDao.getPostImages(postDao.getAllIDDESC()[i]);
+                    byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
+                    Bitmap bitmapProfileImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
+                    images[i] = bitmapProfileImage;
+
+                } else {
+
+                    images[i] = BitmapFactory.decodeResource(getResources(),R.drawable.ff);
+                }
             }
 
 

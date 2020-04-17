@@ -35,5 +35,7 @@ public interface PostDao {
     @Query("UPDATE hoply_post SET post_image = :postImage WHERE id = :postID")
     public void createNewPostImage(String postImage, int postID);
 
+    @Query("SELECT post_image FROM hoply_post WHERE id = :postID")
+    public String getPostImages(int postID);
 
 }
