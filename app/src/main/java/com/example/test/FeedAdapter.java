@@ -15,14 +15,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     String headlines[], usernames[];
     int images[];
+    int postIds[];
     Context context;
 
     //constructor for FeedAdapter, images are an int array because it can be tracked by enumeration.
-    public FeedAdapter(Context context, String headlines[], String usernames[], int images[]){
+    public FeedAdapter(Context context, String headlines[], String usernames[], int images[], int postIds[]){
         this.context = context;
         this.headlines = headlines;
         this.usernames = usernames;
         this.images = images;
+        this.postIds = postIds;
 
     }
 
@@ -36,11 +38,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     }
     //Creates a positioning in the FeedViewHolder, populates the feeds with headlines, usernames and images.
     @Override
-    public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
-        holder.postHeadlineText.setText(headlines[position]);
-        holder.postUsernameText.setText(usernames[position]);
-        //ændre til bitmap
-        holder.postImageView.setImageResource(images[position]);
+    public void onBindViewHolder(@NonNull FeedViewHolder holder, int index) {
+        holder.postHeadlineText.setText(headlines[index]);
+        holder.postUsernameText.setText(usernames[index]);
+        holder.postIdText.setText(String.valueOf(postIds[index]));
+        holder.postImageView.setImageResource(images[index]);
     }
 
     //returns the number of feeds.
@@ -52,7 +54,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     //nested class
     public class FeedViewHolder extends RecyclerView.ViewHolder {
-        TextView postHeadlineText, postUsernameText;
+        TextView postHeadlineText, postUsernameText, postIdText;
+
         ImageView postImageView;
 
         // constructor
@@ -61,6 +64,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             postHeadlineText = itemView.findViewById(R.id.postHeadlineText);
             postUsernameText = itemView.findViewById(R.id.postUsernameText);
             postImageView = itemView.findViewById(R.id.postImageView);
+            postIdText = itemView.findViewById(R.id.postIdText);
         }
 
     }

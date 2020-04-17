@@ -13,6 +13,8 @@ public class FeedActivity extends AppCompatActivity {
 
     //string arrays containing headlines and contents for posts
     String headlines[],  usernames[];
+    int postIds[];
+
 
     //array of paths to images in the drawables folder.
     //to do: populate from database instead of drawable
@@ -42,7 +44,7 @@ public class FeedActivity extends AppCompatActivity {
             usernames = getResources().getStringArray(R.array.post_username);
 
             //Instantiates the adapter that contains the feeds
-            FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images);
+            FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images, postIds);
             rv.setAdapter((feedAdapter));
             rv.setLayoutManager(new LinearLayoutManager(this));
 
