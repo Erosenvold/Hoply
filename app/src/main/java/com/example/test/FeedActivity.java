@@ -2,10 +2,13 @@ package com.example.test;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.test.dao.PostDao;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -38,7 +41,12 @@ public class FeedActivity extends AppCompatActivity {
 
             //populates arrays from the values -> strings.xml
             //to do: populate from database instead of values
-            headlines = getResources().getStringArray(R.array.post_headlines);
+            PostDao postDao = database.getAllPosts();
+            for(int i = 0; i< postDao.getAllIDASC().length;i++){
+                headlines = postDao.getAllContent(postDao.getAllIDASC()[i]);
+
+            }
+
             usernames = getResources().getStringArray(R.array.post_username);
 
             //Instantiates the adapter that contains the feeds
@@ -51,6 +59,9 @@ public class FeedActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
+    }
+    public void refreshBtn(View view){
+
     }
 
 }

@@ -14,6 +14,12 @@ public interface PostDao {
     @Query("SELECT * FROM hoply_post")
     public List<Posts> getAllPosts();
 
+    @Query("SELECT id FROM hoply_post ORDER BY timestamp ASC")
+    public int[] getAllIDASC();
+
+    @Query("SELECT content FROM hoply_post WHERE id=:postID")
+    public String[] getAllContent(int postID);
+
     @Query("SELECT id FROM hoply_post WHERE id = :postID")
     public int getPostID(int postID);
 
