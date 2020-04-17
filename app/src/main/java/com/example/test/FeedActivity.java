@@ -68,7 +68,7 @@ public class FeedActivity extends AppCompatActivity {
 
                 } else {
 
-                    images[i] = BitmapFactory.decodeResource(getResources(),R.drawable.ff);
+                    images[i] = BitmapFactory.decodeResource(getResources(),R.drawable.defaultpic);
                 }
             }
 
