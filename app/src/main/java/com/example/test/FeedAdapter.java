@@ -25,7 +25,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         this.usernames = usernames;
         this.images = images;
         this.postIds = postIds;
-
     }
 
     //Creates a new FeedViewHolder and instantiates feeds.
