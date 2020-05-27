@@ -13,7 +13,10 @@
 
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="#ebffbd">
+            android:background="#ebffbd"
+            android:onClick="sendToUserPost"
+            >
+
 
             <TextView
                 android:id="@+id/postUsernameText"
@@ -48,6 +51,7 @@
                 android:text="contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
                 android:textSize="16sp"
                 android:textStyle="italic"
+
                 app:layout_constraintStart_toEndOf="@+id/postImageView"
                 app:layout_constraintTop_toTopOf="parent" />
 

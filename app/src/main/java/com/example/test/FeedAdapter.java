@@ -1,6 +1,7 @@
 package com.example.test;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder> {
 
     String headlines[], usernames[];
-    int images[];
+    Bitmap images[];
+
     int postIds[];
     Context context;
 
     //constructor for FeedAdapter, images are an int array because it can be tracked by enumeration.
-    public FeedAdapter(Context context, String headlines[], String usernames[], int images[], int postIds[]){
+    public FeedAdapter(Context context, String headlines[], String usernames[], Bitmap images[],int postIds[]){
         this.context = context;
         this.headlines = headlines;
         this.usernames = usernames;
@@ -37,11 +39,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     }
     //Creates a positioning in the FeedViewHolder, populates the feeds with headlines, usernames and images.
     @Override
-    public void onBindViewHolder(@NonNull FeedViewHolder holder, int index) {
-        holder.postHeadlineText.setText(headlines[index]);
-        holder.postUsernameText.setText(usernames[index]);
-        holder.postIdText.setText(String.valueOf(postIds[index]));
-        holder.postImageView.setImageResource(images[index]);
+    public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
+        holder.postHeadlineText.setText(headlines[position]);
+        holder.postUsernameText.setText(usernames[position]);
+        holder.postIdText.setText(String.valueOf(postIds[position]));
+        holder.postImageView.setImageBitmap(images[position]);
     }
 
     //returns the number of feeds.
@@ -64,6 +66,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
             postUsernameText = itemView.findViewById(R.id.postUsernameText);
             postImageView = itemView.findViewById(R.id.postImageView);
             postIdText = itemView.findViewById(R.id.postIdText);
+
         }
 
     }
