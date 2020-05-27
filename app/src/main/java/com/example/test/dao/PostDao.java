@@ -14,6 +14,15 @@ public interface PostDao {
     @Query("SELECT * FROM hoply_post")
     public List<Posts> getAllPosts();
 
+    @Query("SELECT id FROM hoply_post ORDER BY timestamp DESC")
+    public int[] getAllIDDESC();
+
+    @Query("SELECT content FROM hoply_post WHERE id=:postID")
+    public String getAllContent(int postID);
+
+    @Query("SELECT user_id FROM hoply_post WHERE id=:postID")
+    public String getUserID(int postID);
+
     @Query("SELECT id FROM hoply_post WHERE id = :postID")
     public int getPostID(int postID);
 
@@ -25,5 +34,8 @@ public interface PostDao {
 
     @Query("UPDATE hoply_post SET post_image = :postImage WHERE id = :postID")
     public void createNewPostImage(String postImage, int postID);
+
+    @Query("SELECT post_image FROM hoply_post WHERE id = :postID")
+    public String getPostImages(int postID);
 
 }

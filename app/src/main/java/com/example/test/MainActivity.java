@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
-                //.fallbackToDestructiveMigration()
+          //      .fallbackToDestructiveMigration()
                 .build();
         this.database = database;
         //UsersDao usersDao = database.getAllUsers();
