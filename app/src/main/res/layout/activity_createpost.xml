@@ -53,15 +53,16 @@
 
     <ImageView
         android:id="@+id/PostImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="45dp"
+        android:layout_height="62dp"
         android:layout_marginTop="70dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/createPostError"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.226"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createPost"
-        app:layout_constraintVertical_bias="0.166"
+        app:layout_constraintVertical_bias="0.369"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <Button
@@ -106,6 +107,7 @@
         android:layout_marginBottom="19dp"
         android:text="Add Location to post"
         android:textStyle="italic"
+        android:onClick="getLocation"
         app:layout_constraintBottom_toTopOf="@+id/PostImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.178"
