@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/createComment"
+        app:layout_constraintEnd_toEndOf="@+id/postContent"
+        app:layout_constraintTop_toTopOf="@+id/createComment" />
+
+    <Button
+        android:id="@+id/createComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="@+id/postContent"
+        app:layout_constraintTop_toBottomOf="@+id/postContent" />
+
+    <TextView
+        android:id="@+id/postContent"
+        android:layout_width="367dp"
+        android:layout_height="172dp"
+        android:layout_marginTop="236dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/postImage"
+        android:layout_width="153dp"
+        android:layout_height="184dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintStart_toStartOf="@+id/postContent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/defaultpic" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/comments"
+        android:layout_width="344dp"
+        android:layout_height="216dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/postContent"
+        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintStart_toStartOf="@+id/postContent"
+        app:layout_constraintTop_toBottomOf="@+id/createComment" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="172dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/timestamp"
+        app:layout_constraintEnd_toEndOf="@+id/timestamp"
+        app:layout_constraintHorizontal_bias="0.928"
+        app:layout_constraintStart_toStartOf="@+id/timestamp" />
+
+    <TextView
+        android:id="@+id/createdBy"
+        android:layout_width="175dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/location"
+        app:layout_constraintEnd_toEndOf="@+id/location"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/location" />
+
+    <TextView
+        android:id="@+id/timestamp"
+        android:layout_width="171dp"
+        android:layout_height="18dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/postContent"
+        app:layout_constraintEnd_toEndOf="@+id/postContent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
