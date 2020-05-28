@@ -48,10 +48,10 @@ public class ReadPostActivity extends AppCompatActivity {
 
                 TextView location = (TextView) findViewById(R.id.location);
                 location.setText("Uploaded from " + postDao.getLocationFromID(PostSession.getSessionID()));
+
             }
 
             //DET VAR HER VI NÅEDE TIL. :) tilføj resten af post indhold og knapper plus kommentare
-
 
 
 

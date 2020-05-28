@@ -151,6 +151,7 @@ public class CreatePostActivity extends AppCompatActivity {
     // All of this is getting the current location, make sure to allow FINE location in manifest and set a location on the emulator
 
     public void getLocation(View view) {
+
         final CheckBox locationCheck = (CheckBox) view;
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
