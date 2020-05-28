@@ -38,4 +38,13 @@ public interface PostDao {
     @Query("SELECT post_image FROM hoply_post WHERE id = :postID")
     public String getPostImages(int postID);
 
+    @Query("SELECT timestamp FROM hoply_post WHERE id= :postID")
+    public long getTimestampFromID(int postID);
+
+    @Query("SELECT location FROM hoply_post WHERE id= :postID")
+    public String getLocationFromID(int postID);
+
+
+
+
 }

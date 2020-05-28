@@ -90,11 +90,15 @@ public class FeedActivity extends AppCompatActivity {
     }
     public void refreshBtn(View view){
 
+        Intent intent = new Intent(this,FeedActivity.class);
+        startActivity(intent);
     }
     public void sendToUserPost(View view){
+
         TextView postId = findViewById(R.id.postIdText);
-        String strPostId = postId.getText().toString();
-        System.out.println(strPostId);
+        PostSession.setSession(Integer.parseInt(postId.getText().toString()));
+        Intent intent = new Intent(this,ReadPostActivity.class);
+        startActivity(intent);
     }
 
 }
