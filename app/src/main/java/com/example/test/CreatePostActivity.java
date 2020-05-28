@@ -36,6 +36,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
     public static String currLocation;
     protected void onCreate(Bundle savedInstanceState) {
+
         if (LogSession.isLoggedIn()) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_createpost);
@@ -53,21 +54,22 @@ public class CreatePostActivity extends AppCompatActivity {
 
         EditText postTxt = findViewById(R.id.createPost);
         String strPostTxt = postTxt.getText().toString();
+        System.out.println(currLocation);
         if (!strPostTxt.trim().isEmpty()) {
             Posts post = new Posts();
             post.userID = LogSession.getSessionID();
             post.postContent = strPostTxt;
             post.timeCreated = System.currentTimeMillis();
             post.postRating = 0;
-                        /*Remember to use .split("/",2) on the returned string when showing location to get the latitude and longitude
+                       //Remember to use .split("/",2) on the returned string when showing location to get the latitude and longitude
                 System.out.println(currLocation);
                 String[] location = currLocation.split("/",2);
                 System.out.println("latitude: " + location[0]);
                 System.out.println("longitude: " + location[1]);
-                */
+
             post.location = currLocation;
 
-            postDao.createNewPost(post);
+     //       postDao.createNewPost(post);
 
 
             //Save profile Image in local Database
@@ -134,7 +136,7 @@ public class CreatePostActivity extends AppCompatActivity {
         CheckBox locationCheck = (CheckBox) view;
 //Checks if checkbox is checked
         if (locationCheck.isChecked()) {
-
+System.out.println("Hello");
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
@@ -142,13 +144,16 @@ public class CreatePostActivity extends AppCompatActivity {
             String provider = locationManager.getBestProvider(criteria,false);
 
             try {
+                System.out.println("Hello");
                 Location location = locationManager.getLastKnownLocation(provider);
 
                 MyLocationListener myListener = new MyLocationListener();
                 if(location != null){
+                    System.out.println("Hello");
                     //This is the important method, sets the location in variable currLocation if it isn't null
                     myListener.onLocationChanged(location);
                 } else{
+                    System.out.println("Hello");
                     Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(intent);
                 }
@@ -158,6 +163,7 @@ public class CreatePostActivity extends AppCompatActivity {
             }
             //     System.out.println(latitude + longitude);
         }else{
+            System.out.println("Hello");
             currLocation = "";
         }
     }
@@ -167,6 +173,7 @@ public class CreatePostActivity extends AppCompatActivity {
             //Here you set the latitude and longitude and saves them together in currLocation
             String latitude = String.valueOf(location.getLatitude());
             String longitude = String.valueOf(location.getLongitude());
+
             currLocation  = latitude + "/" + longitude;
         }
         //Implementing an interface requires these methods to work
