@@ -31,10 +31,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class CreatePostActivity extends AppCompatActivity {
+
     public static AppDatabase database;
+
     public static Bitmap imageBitmap; //Image Bitmap
 
     public static String currLocation;
+
     protected void onCreate(Bundle savedInstanceState) {
         if (LogSession.isLoggedIn()) {
             super.onCreate(savedInstanceState);
@@ -103,10 +106,8 @@ public class CreatePostActivity extends AppCompatActivity {
 
     public void UploadNewPostImageButton(View view){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-
         intent.setType("image/*");
         startActivityForResult(intent,1);
-
     }
 
 
@@ -123,8 +124,6 @@ public class CreatePostActivity extends AppCompatActivity {
             System.out.println(imageUri);
             ImageView editImage = findViewById(R.id.PostImage);
             editImage.setImageURI(imageUri);
-
-
         }
     }
 
@@ -136,6 +135,7 @@ public class CreatePostActivity extends AppCompatActivity {
         if (locationCheck.isChecked()) {
 
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_FINE);
             criteria.setCostAllowed(false);
