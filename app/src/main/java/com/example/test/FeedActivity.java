@@ -94,15 +94,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
         Intent intent = new Intent(this,FeedActivity.class);
         startActivity(intent);
     }
-    public void sendToUserPost(View view){
 
-        TextView postId = findViewById(R.id.postIdText);
-        PostSession.setSession(0);
-        PostSession.setSession(Integer.parseInt(postId.getText().toString()));
-        Intent intent = new Intent(this,ReadPostActivity.class);
-
-      //
-    }
 
     @Override
     public void onPostClick(int position){
