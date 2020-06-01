@@ -94,7 +94,8 @@ public class FeedActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void sendToUserPost(View view){
-
+        TextView xname = findViewById(R.id.postHeadlineText);
+        System.out.println(xname.getText().toString());
         TextView postId = findViewById(R.id.postIdText);
         PostSession.setSession(0);
         PostSession.setSession(Integer.parseInt(postId.getText().toString()));

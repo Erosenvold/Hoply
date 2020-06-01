@@ -67,7 +67,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
             postHeadlineText = itemView.findViewById(R.id.postHeadlineText);
-            postUsernameText = itemView.findViewById(R.id.commentUsernameText);
+            postUsernameText = itemView.findViewById(R.id.postUsernameText);
             postImageView = itemView.findViewById(R.id.postImageView);
             postIdText = itemView.findViewById(R.id.postIdText);
 

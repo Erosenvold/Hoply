@@ -7,10 +7,11 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="409dp"
-        android:layout_height="137dp">
+        android:layout_height="137dp"
+        tools:ignore="MissingConstraints">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-
+            android:layout_marginBottom="10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#ebffbd"
@@ -18,7 +19,7 @@
 
 
             <TextView
-                android:id="@+id/commentUsernameText"
+                android:id="@+id/postUsernameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="28dp"
@@ -62,9 +63,11 @@
                 android:onClick="sendToUserPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="#000"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
+                app:srcCompat="@drawable/ic_launcher_foreground"
+                tools:ignore="VectorDrawableCompat" />
 
             <View
                 android:id="@+id/view"
