@@ -96,9 +96,11 @@ public class FeedActivity extends AppCompatActivity {
     public void sendToUserPost(View view){
 
         TextView postId = findViewById(R.id.postIdText);
+        PostSession.setSession(0);
         PostSession.setSession(Integer.parseInt(postId.getText().toString()));
         Intent intent = new Intent(this,ReadPostActivity.class);
-        startActivity(intent);
+        System.out.println(PostSession.getSessionID());
+      //  startActivity(intent);
     }
 
 }

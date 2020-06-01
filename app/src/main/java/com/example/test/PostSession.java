@@ -1,6 +1,6 @@
 package com.example.test;
 
-public final class PostSession {
+public class PostSession {
 
     static int sessionID;
 

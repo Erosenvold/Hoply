@@ -1,7 +1,9 @@
 package com.example.test;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -64,11 +67,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
         public FeedViewHolder(@NonNull View itemView) {
             super(itemView);
             postHeadlineText = itemView.findViewById(R.id.postHeadlineText);
-            postUsernameText = itemView.findViewById(R.id.postUsernameText);
+            postUsernameText = itemView.findViewById(R.id.commentUsernameText);
             postImageView = itemView.findViewById(R.id.postImageView);
             postIdText = itemView.findViewById(R.id.postIdText);
 
         }
 
     }
+
+
 }

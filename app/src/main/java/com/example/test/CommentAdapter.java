@@ -9,13 +9,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CommentAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder> {
+public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
 
     Context context;
     String comments[];
     String usernames[];
 
-    public FeedAdapter(Context context, String usernames[], String comments[]){
+    public CommentAdapter(Context context, String usernames[], String comments[]){
         this.context = context;
         this.comments = comments;
         this.usernames = usernames;
@@ -24,20 +24,29 @@ public class CommentAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHol
 
     @NonNull
     @Override
-    public FeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.feed, parent, false);
-        return new FeedAdapter.FeedViewHolder((view));
+        View view = layoutInflater.inflate(R.layout.commentfeed, parent, false);
+        return new CommentViewHolder((view));
 
     }
 
     @Override
-    public void onBindViewHolder (@NonNull FeedViewHolder holder, int position){
+    public void onBindViewHolder (@NonNull CommentViewHolder holder, int position){
+        holder.commentContent.setText(comments[position]);
+        holder.commentUsernameText.setText(usernames[position]);
+    }
+    @Override
+    public int getItemCount(){return comments.length;}
 
-
-        
-
+    public class CommentViewHolder extends RecyclerView.ViewHolder{
+        TextView commentContent,commentUsernameText;
+        public CommentViewHolder(@NonNull View itemView){
+            super(itemView);
+            commentContent = itemView.findViewById(R.id.commentContent);
+            commentUsernameText = itemView.findViewById(R.id.commentUsernameText);
+        }
 
     }
 

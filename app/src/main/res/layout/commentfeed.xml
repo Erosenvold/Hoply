@@ -14,12 +14,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#ebffbd"
-            android:onClick="sendToUserPost"
+
             >
 
 
             <TextView
-                android:id="@+id/postUsernameText"
+                android:id="@+id/commentUsernameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="28dp"
@@ -39,7 +39,7 @@
                 android:text="Uploaded by "
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="@+id/postImageView"
-                app:layout_constraintEnd_toStartOf="@+id/postUsernameText"
+                app:layout_constraintEnd_toStartOf="@+id/commentUsernameText"
                 app:layout_constraintTop_toBottomOf="@+id/commentContent" />
 
             <TextView

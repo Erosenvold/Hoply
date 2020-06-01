@@ -14,18 +14,18 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#ebffbd"
-            android:onClick="sendToUserPost"
             >
 
 
             <TextView
-                android:id="@+id/postUsernameText"
+                android:id="@+id/commentUsernameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="28dp"
                 android:layout_marginRight="28dp"
                 android:text="Username"
                 android:textStyle="bold|italic"
+
                 app:layout_constraintBottom_toBottomOf="@+id/uploadedByText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/uploadedByText"
@@ -39,11 +39,13 @@
                 android:text="Uploaded by "
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="@+id/postImageView"
-                app:layout_constraintEnd_toStartOf="@+id/postUsernameText"
+                app:layout_constraintEnd_toStartOf="@+id/commentUsernameText"
+
                 app:layout_constraintTop_toBottomOf="@+id/postHeadlineText" />
 
             <TextView
                 android:id="@+id/postHeadlineText"
+
                 android:layout_width="238dp"
                 android:layout_height="75dp"
                 android:layout_marginTop="4dp"
@@ -57,6 +59,7 @@
 
             <ImageView
                 android:id="@+id/postImageView"
+                android:onClick="sendToUserPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -70,14 +73,17 @@
                 android:background="#d3ff52"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/postIdText"
-                android:layout_width="0dp"
+                android:layout_width="15dp"
                 android:layout_height="0dp"
-                android:text="test"
+                android:layout_marginStart="344dp"
+                android:layout_marginLeft="344dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
