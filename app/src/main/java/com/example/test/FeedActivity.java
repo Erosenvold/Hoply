@@ -95,6 +95,11 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
         startActivity(intent);
     }
 
+    public void myProfile(View view){
+        Intent intent = new Intent(this,ProfileActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public void onPostClick(int position){
