@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.test.dao.PostDao;
 import com.example.test.dao.UsersDao;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPostListener {
 
     RecyclerView rv;
 
@@ -40,6 +40,7 @@ public class FeedActivity extends AppCompatActivity {
             this.database = MainActivity.getDB();
 
             rv = findViewById(R.id.feedRecyclerView);
+            rv.setHasFixedSize(true);
 
             //populates arrays from the values -> strings.xml
             //to do: populate from database instead of values
@@ -78,7 +79,7 @@ public class FeedActivity extends AppCompatActivity {
 
 
             //Instantiates the adapter that contains the feeds
-            FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images, postIds);
+            FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images, postIds, this);
             rv.setAdapter((feedAdapter));
             rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -99,8 +100,15 @@ public class FeedActivity extends AppCompatActivity {
         PostSession.setSession(0);
         PostSession.setSession(Integer.parseInt(postId.getText().toString()));
         Intent intent = new Intent(this,ReadPostActivity.class);
-        System.out.println(PostSession.getSessionID());
-      //  startActivity(intent);
+
+      //
+    }
+
+    @Override
+    public void onPostClick(int position){
+        PostSession.setSession(postIds[position]);
+        Intent intent = new Intent(this,ReadPostActivity.class);;
+        startActivity(intent);
     }
 
 }
