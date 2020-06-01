@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class ReadPostActivity extends AppCompatActivity {
 
             //sets Timestamp TextView
             TextView timestamp = (TextView) findViewById(R.id.timestamp);
+
             timestamp.setText("Uploaded "+ postDao.getTimestampFromID(PostSession.getSessionID()));
 
 
@@ -58,6 +60,8 @@ public class ReadPostActivity extends AppCompatActivity {
 
 
         }
+
+
         //if not logged in, go to Frontpage (mainacivity)
         else {
             Intent intent = new Intent(this, MainActivity.class);
@@ -65,6 +69,11 @@ public class ReadPostActivity extends AppCompatActivity {
 
             startActivity(intent);
         }
+    }
+
+    public void sendToFeed(View view){
+        Intent intent = new Intent(this,FeedActivity.class);
+        startActivity(intent);
     }
 
 

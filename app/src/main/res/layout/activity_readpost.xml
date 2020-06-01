@@ -9,7 +9,8 @@
         android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:onClick="sendToFeed"
+        android:text="Home"
         app:layout_constraintBottom_toBottomOf="@+id/createComment"
         app:layout_constraintEnd_toEndOf="@+id/postContent"
         app:layout_constraintTop_toTopOf="@+id/createComment" />
