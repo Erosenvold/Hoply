@@ -6,13 +6,13 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="409dp"
-        android:layout_height="137dp">
+        android:layout_width="411dp"
+        android:layout_height="110dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
 
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="133dp"
             android:background="#ebffbd"
 
             >
@@ -22,15 +22,11 @@
                 android:id="@+id/postUsernameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="28dp"
-                android:layout_marginRight="28dp"
                 android:text="Username"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="@+id/uploadedByText"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/uploadedByText"
-                app:layout_constraintVertical_bias="0.0" />
-
+                app:layout_constraintStart_toEndOf="@+id/uploadedByText"
+                app:layout_constraintTop_toTopOf="@+id/uploadedByText" />
 
             <TextView
                 android:id="@+id/uploadedByText"
@@ -38,15 +34,14 @@
                 android:layout_height="wrap_content"
                 android:text="Uploaded by "
                 android:textStyle="italic"
-                app:layout_constraintBottom_toBottomOf="@+id/postImageView"
-                app:layout_constraintEnd_toStartOf="@+id/commentUsernameText"
+                app:layout_constraintStart_toStartOf="@+id/commentContent"
                 app:layout_constraintTop_toBottomOf="@+id/commentContent" />
 
             <TextView
                 android:id="@+id/commentContent"
                 android:layout_width="403dp"
                 android:layout_height="76dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="4dp"
                 android:inputType="textMultiLine"
                 android:text="contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
                 android:textSize="16sp"
@@ -60,10 +55,11 @@
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginBottom="24dp"
                 android:background="#d3ff52"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent" />
 
 

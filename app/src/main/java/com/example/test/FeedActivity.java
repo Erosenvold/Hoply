@@ -6,9 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.test.dao.PostDao;
 import com.example.test.dao.UsersDao;
 
-public class FeedActivity extends AppCompatActivity {
+public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPostListener {
 
     RecyclerView rv;
 
@@ -40,6 +38,7 @@ public class FeedActivity extends AppCompatActivity {
             this.database = MainActivity.getDB();
 
             rv = findViewById(R.id.feedRecyclerView);
+            rv.setHasFixedSize(true);
 
             //populates arrays from the values -> strings.xml
             //to do: populate from database instead of values
@@ -78,7 +77,7 @@ public class FeedActivity extends AppCompatActivity {
 
 
             //Instantiates the adapter that contains the feeds
-            FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images, postIds);
+            FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images, postIds, this);
             rv.setAdapter((feedAdapter));
             rv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -93,15 +92,18 @@ public class FeedActivity extends AppCompatActivity {
         Intent intent = new Intent(this,FeedActivity.class);
         startActivity(intent);
     }
-    public void sendToUserPost(View view){
-        TextView xname = findViewById(R.id.postHeadlineText);
-        System.out.println(xname.getText().toString());
-        TextView postId = findViewById(R.id.postIdText);
-        PostSession.setSession(0);
-        PostSession.setSession(Integer.parseInt(postId.getText().toString()));
-        Intent intent = new Intent(this,ReadPostActivity.class);
-        System.out.println(PostSession.getSessionID());
-      //  startActivity(intent);
+
+    public void myProfile(View view){
+        Intent intent = new Intent(this,ProfileActivity.class);
+        startActivity(intent);
+    }
+
+
+    @Override
+    public void onPostClick(int position){
+        PostSession.setSession(postIds[position]);
+        Intent intent = new Intent(this,ReadPostActivity.class);;
+        startActivity(intent);
     }
 
 }

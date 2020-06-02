@@ -22,15 +22,15 @@
                 android:id="@+id/postUsernameText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="28dp"
-                android:layout_marginRight="28dp"
+                android:layout_marginEnd="132dp"
+                android:layout_marginRight="132dp"
                 android:text="Username"
                 android:textStyle="bold|italic"
 
                 app:layout_constraintBottom_toBottomOf="@+id/uploadedByText"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/uploadedByText"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="1.0" />
 
             <TextView
                 android:id="@+id/uploadedByText"
@@ -60,7 +60,6 @@
 
             <ImageView
                 android:id="@+id/postImageView"
-                android:onClick="sendToUserPost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#000"
@@ -82,7 +81,7 @@
 
             <TextView
                 android:id="@+id/postIdText"
-                android:layout_width="15dp"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="344dp"
                 android:layout_marginLeft="344dp"
