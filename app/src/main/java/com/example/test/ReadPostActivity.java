@@ -68,8 +68,11 @@ public class ReadPostActivity extends AppCompatActivity {
             System.out.println("Post ID = "+PostSession.getSessionID());
             CommentsDao commentsDao = database.getAllComments();
             commentContents = commentsDao.getCommentsFromPostID(PostSession.getSessionID());
-            usernames = commentsDao.getCommentUserNameFromID(PostSession.getSessionID());
-
+            usernames = commentsDao.getCommentUserIDFromPostID(PostSession.getSessionID());
+            for(int i=0; usernames.length>i; i++){
+                usernames[i] = usersDao.getUsernameFromID(usernames[i]);
+            }
+//            System.out.println(commentContents[0] + " : " + usernames[0]);
 
             CommentAdapter commentAdapter = new CommentAdapter(this,usernames,commentContents);
             rv.setAdapter((commentAdapter));
