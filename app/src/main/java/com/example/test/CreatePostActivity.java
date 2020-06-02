@@ -45,7 +45,6 @@ public class CreatePostActivity extends AppCompatActivity {
     private static Location location;
     private static String provider;
 
-
     public static String currLocation;
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -151,66 +150,69 @@ public class CreatePostActivity extends AppCompatActivity {
     // All of this is getting the current location, make sure to allow FINE location in manifest and set a location on the emulator
 
     public void getLocation(View view) {
+
         final CheckBox locationCheck = (CheckBox) view;
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean permissionReceived = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
         //Checks if checkbox is checked
 
-        boolean permissionReceived = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-
         if (locationCheck.isChecked()) {
 
-            if (!permissionReceived) {
 
-                        Criteria criteria = new Criteria();
-                        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-                        criteria.setCostAllowed(false);
-                        provider = locationManager.getBestProvider(criteria,false);
-                        location = locationManager.getLastKnownLocation(provider);
-                        // You can use the API that requires the permission.
-        //                performAction(...);
-                        System.out.println("Permission granted");
-
-                        try {
-
-
-                            MyLocationListener myListener = new MyLocationListener();
-                            if(location != null){
-                                //This is the important method, sets the location in variable currLocation if it isn't null
-                                myListener.onLocationChanged(location);
-                                System.out.println("hello from if statement");
-
-                            } else{
-                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(intent);
+                // if we don't have permission to location, then open permission dialog.
+                if (!permissionReceived )
+                    {
+                        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setMessage("Would you like to give GPS permission to Hoply?").setCancelable(false).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)); //VI SKAL NOK LAVE ET MERE ELEGANT VINDUE
                             }
-                            locationManager.requestLocationUpdates(provider,500,1,myListener);
-                        }catch(SecurityException e){
-                            System.out.println("SecurityException: " + e);
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                locationCheck.setChecked(false);
+                                currLocation = "";
+                            }
+                        });
+                        final AlertDialog alertDialog = alert.create();
+                        alertDialog.show();
+                        System.out.println("Permission Denied");
+
+                    }
+                //Else create a postlocation from phone location.
+                else{
+                            Criteria criteria = new Criteria();
+                            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+                            criteria.setCostAllowed(false);
+                            provider = locationManager.getBestProvider(criteria, false);
+                            location = locationManager.getLastKnownLocation(provider);
+                            System.out.println("Permission granted");
+
+
+                            try {
+                                MyLocationListener myListener = new MyLocationListener();
+                                if (location != null) {
+                                    //This is the important method, sets the location in variable currLocation if it isn't null
+                                    myListener.onLocationChanged(location);
+                                    System.out.println("hello from if statement");
+
+                                } else {
+                                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivity(intent);
+                                }
+                                locationManager.requestLocationUpdates(provider, 500, 1, myListener);
+                            } catch (SecurityException e) {
+                                System.out.println("SecurityException: " + e);
+                            }
                         }
 
-            }else {
-
-                final AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                alert.setMessage("Would you like to give GPS permission to Hoply?").setCancelable(false).setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                    }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        locationCheck.setChecked(false);
-                    }
-                });
-                final AlertDialog alertDialog = alert.create();
-                alertDialog.show();
-                System.out.println("Permission Denied");
-            }
 
         }else{
             currLocation = "";
+
         }
     }
     public class MyLocationListener implements LocationListener{

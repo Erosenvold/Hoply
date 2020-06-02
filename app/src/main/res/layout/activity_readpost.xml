@@ -9,7 +9,8 @@
         android:id="@+id/home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:onClick="sendToFeed"
+        android:text="Home"
         app:layout_constraintBottom_toBottomOf="@+id/createComment"
         app:layout_constraintEnd_toEndOf="@+id/postContent"
         app:layout_constraintTop_toTopOf="@+id/createComment" />
@@ -18,27 +19,25 @@
         android:id="@+id/createComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Button"
+        android:onClick="createComment"
+        android:text="Comment"
         app:layout_constraintStart_toStartOf="@+id/postContent"
-        app:layout_constraintTop_toBottomOf="@+id/postContent" />
+        app:layout_constraintTop_toBottomOf="@+id/commentField" />
 
     <TextView
         android:id="@+id/postContent"
-        android:layout_width="367dp"
-        android:layout_height="172dp"
-        android:layout_marginTop="236dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="361dp"
+        android:layout_height="137dp"
+        android:layout_marginTop="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/postImage"
         android:layout_width="153dp"
         android:layout_height="184dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/postContent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/defaultpic" />
@@ -47,10 +46,9 @@
         android:id="@+id/comments"
         android:layout_width="344dp"
         android:layout_height="216dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="@+id/postContent"
-        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/postContent"
         app:layout_constraintTop_toBottomOf="@+id/createComment" />
 
@@ -58,27 +56,37 @@
         android:id="@+id/location"
         android:layout_width="172dp"
         android:layout_height="42dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/timestamp"
         app:layout_constraintEnd_toEndOf="@+id/timestamp"
-        app:layout_constraintHorizontal_bias="0.928"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/timestamp" />
 
     <TextView
         android:id="@+id/createdBy"
         android:layout_width="175dp"
         android:layout_height="52dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/location"
         app:layout_constraintEnd_toEndOf="@+id/location"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/location" />
 
     <TextView
         android:id="@+id/timestamp"
         android:layout_width="171dp"
         android:layout_height="18dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="60dp"
         app:layout_constraintBottom_toTopOf="@+id/postContent"
         app:layout_constraintEnd_toEndOf="@+id/postContent" />
+
+    <EditText
+        android:id="@+id/commentField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Write your comment"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/postContent"
+        app:layout_constraintTop_toBottomOf="@+id/postContent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
