@@ -156,38 +156,38 @@ public class CreatePostActivity extends AppCompatActivity {
 
         //Checks if checkbox is checked
 
+        boolean permissionReceived = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+
         if (locationCheck.isChecked()) {
 
-            if (ContextCompat.checkSelfPermission(
+            if (!permissionReceived) {
 
-                    context, Manifest.permission.ACCESS_FINE_LOCATION) ==
-                    PackageManager.PERMISSION_GRANTED) {
-                Criteria criteria = new Criteria();
-                criteria.setAccuracy(Criteria.ACCURACY_FINE);
-                criteria.setCostAllowed(false);
-                provider = locationManager.getBestProvider(criteria,false);
-                location = locationManager.getLastKnownLocation(provider);
-                // You can use the API that requires the permission.
-//                performAction(...);
-                System.out.println("Permission granted");
+                        Criteria criteria = new Criteria();
+                        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+                        criteria.setCostAllowed(false);
+                        provider = locationManager.getBestProvider(criteria,false);
+                        location = locationManager.getLastKnownLocation(provider);
+                        // You can use the API that requires the permission.
+        //                performAction(...);
+                        System.out.println("Permission granted");
 
-                try {
+                        try {
 
 
-                    MyLocationListener myListener = new MyLocationListener();
-                    if(location != null){
-                        //This is the important method, sets the location in variable currLocation if it isn't null
-                        myListener.onLocationChanged(location);
-                        System.out.println("hello from if statement");
+                            MyLocationListener myListener = new MyLocationListener();
+                            if(location != null){
+                                //This is the important method, sets the location in variable currLocation if it isn't null
+                                myListener.onLocationChanged(location);
+                                System.out.println("hello from if statement");
 
-                    } else{
-                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(intent);
-                    }
-                    locationManager.requestLocationUpdates(provider,500,1,myListener);
-                }catch(SecurityException e){
-                    System.out.println("SecurityException: " + e);
-                }
+                            } else{
+                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(intent);
+                            }
+                            locationManager.requestLocationUpdates(provider,500,1,myListener);
+                        }catch(SecurityException e){
+                            System.out.println("SecurityException: " + e);
+                        }
 
             }else {
 
