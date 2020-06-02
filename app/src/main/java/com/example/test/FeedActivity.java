@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.test.dao.PostDao;
 import com.example.test.dao.UsersDao;
 
+// MOVE EVERYTHING UP
+
 public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPostListener {
 
     RecyclerView rv;

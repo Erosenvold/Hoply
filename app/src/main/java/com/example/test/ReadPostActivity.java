@@ -19,6 +19,8 @@ import com.example.test.dao.PostDao;
 import com.example.test.dao.UsersDao;
 import com.example.test.tables.Comments;
 
+//TIME TO TIMESTAMP + VISUALS
+
 public class ReadPostActivity extends AppCompatActivity {
     RecyclerView rv;
 

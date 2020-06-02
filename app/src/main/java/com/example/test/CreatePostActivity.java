@@ -37,6 +37,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
+// FIX TIME TO TIMESTAMP
+
+
 public class CreatePostActivity extends AppCompatActivity {
     public static AppDatabase database;
     public static Bitmap imageBitmap; //Image Bitmap
