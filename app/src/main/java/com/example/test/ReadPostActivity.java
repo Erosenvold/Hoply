@@ -51,6 +51,17 @@ public class ReadPostActivity extends AppCompatActivity {
 
             timestamp.setText("Uploaded "+ postDao.getTimestampFromID(PostSession.getSessionID()));
 
+            //sets Post image
+            if (postDao.getPostImages(PostSession.getSessionID()) != null) {
+
+                String ImageStr = postDao.getPostImages(PostSession.getSessionID());
+                byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
+                Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
+
+                ImageView postImage = findViewById(R.id.postImage);
+                postImage.setImageBitmap(bitmapPostImage);
+            }
+
 
             //sets Location TextView if not null
             if(postDao.getLocationFromID(PostSession.getSessionID()) != null) {
