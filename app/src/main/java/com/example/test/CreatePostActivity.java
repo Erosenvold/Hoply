@@ -78,14 +78,7 @@ public class CreatePostActivity extends AppCompatActivity {
             post.postContent = strPostTxt;
             post.timeCreated = System.currentTimeMillis();
             post.postRating = 0;
-                        /*Remember to use .split("/",2) on the returned string when showing location to get the latitude and longitude
-                System.out.println(currLocation);
-                c
-                System.out.println("latitude: " + location[0]);
-                System.out.println("longitude: " + location[1]);
-                */
 
-//            getLocation(findViewById(R.id.checkBox));
             post.location = currLocation;
             System.out.println(currLocation);
              postDao.createNewPost(post);
@@ -154,7 +147,6 @@ public class CreatePostActivity extends AppCompatActivity {
         final CheckBox locationCheck = (CheckBox) view;
 
 
-//        boolean permissionReceived = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
         //Checks if checkbox is checked
 
