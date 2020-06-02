@@ -19,7 +19,7 @@ public interface CommentsDao {
     public String[] getCommentsFromPostID(int postID);
 
     @Query("SELECT user_id FROM hoply_comment WHERE post_id =:postID ORDER BY time_created ASC")
-    public String[] getCommentUserNameFromID(int postID);
+    public String[] getCommentUserIDFromPostID(int postID);
 
     @Query("SELECT time_created FROM hoply_comment WHERE post_id=:postID ORDER BY time_created ASC")
     public long getTimeStampFromID(int postID);
