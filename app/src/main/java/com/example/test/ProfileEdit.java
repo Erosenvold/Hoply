@@ -14,7 +14,7 @@ import com.example.test.dao.UsersDao;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-
+//TEST IMAGES
 
 public class ProfileEdit extends AppCompatActivity {
 
@@ -54,10 +54,14 @@ public class ProfileEdit extends AppCompatActivity {
         //Save profile Image in local Database
         if(imageBitmap != null) {
 
-            ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-            byte [] arr=baos.toByteArray();
-            String result= Base64.encodeToString(arr, Base64.DEFAULT);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            imageBitmap = imageBitmap.createScaledBitmap(imageBitmap,500,500,false);
+
+
+
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] arr = baos.toByteArray();
+            String result = Base64.encodeToString(arr, Base64.DEFAULT);
 
 
             userDao.createNewProfileImage(result, LogSession.getSessionID());

@@ -44,6 +44,10 @@ public interface PostDao {
     @Query("SELECT location FROM hoply_post WHERE id= :postID")
     public String getLocationFromID(int postID);
 
+    @Query("DELETE FROM hoply_post WHERE id >= 0")
+    public void deleteAllPosts();
+
+
 
 
 

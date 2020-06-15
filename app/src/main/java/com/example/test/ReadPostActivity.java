@@ -19,6 +19,8 @@ import com.example.test.dao.PostDao;
 import com.example.test.dao.UsersDao;
 import com.example.test.tables.Comments;
 
+//TIME TO TIMESTAMP + VISUALS
+
 public class ReadPostActivity extends AppCompatActivity {
     RecyclerView rv;
 
@@ -51,6 +53,18 @@ public class ReadPostActivity extends AppCompatActivity {
 
             timestamp.setText("Uploaded "+ postDao.getTimestampFromID(PostSession.getSessionID()));
 
+            //sets Post image
+            if (postDao.getPostImages(PostSession.getSessionID()) != null) {
+
+                String ImageStr = postDao.getPostImages(PostSession.getSessionID());
+
+                byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
+                Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
+
+                ImageView postImage = findViewById(R.id.postImage);
+                postImage.setImageBitmap(bitmapPostImage);
+            }
+
 
             //sets Location TextView if not null
             if(postDao.getLocationFromID(PostSession.getSessionID()) != null) {
@@ -68,7 +82,10 @@ public class ReadPostActivity extends AppCompatActivity {
             System.out.println("Post ID = "+PostSession.getSessionID());
             CommentsDao commentsDao = database.getAllComments();
             commentContents = commentsDao.getCommentsFromPostID(PostSession.getSessionID());
-            usernames = commentsDao.getCommentUserNameFromID(PostSession.getSessionID());
+            usernames = commentsDao.getCommentUserIDFromPostID(PostSession.getSessionID());
+            for(int i=0; usernames.length>i; i++){
+                usernames[i] = usersDao.getUsernameFromID(usernames[i]);
+            }
 //            System.out.println(commentContents[0] + " : " + usernames[0]);
 
             CommentAdapter commentAdapter = new CommentAdapter(this,usernames,commentContents);

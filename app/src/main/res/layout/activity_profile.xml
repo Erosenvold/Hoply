@@ -57,17 +57,6 @@
         app:layout_constraintStart_toEndOf="@+id/ProfileImage"
         app:layout_constraintTop_toBottomOf="@+id/UserName" />
 
-    <TextView
-        android:id="@+id/RecentPosts"
-        android:layout_width="331dp"
-        android:layout_height="275dp"
-        android:text="My posts sorted by recent....."
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/ProfileText"
-        app:layout_constraintStart_toStartOf="@+id/ProfileImage"
-        app:layout_constraintTop_toBottomOf="@+id/profEditButton"
-        app:layout_constraintVertical_bias="0.144" />
-
     <Button
         android:id="@+id/HomeButton"
         android:layout_width="wrap_content"
@@ -75,15 +64,13 @@
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:layout_marginBottom="36dp"
+        android:background="#d8ffcd"
         android:onClick="sendToFeed"
         android:text="Home"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/NewPostButton"
         app:layout_constraintHorizontal_bias="0.025"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RecentPosts"
-        android:background="#d8ffcd"
-        app:layout_constraintVertical_bias="0.981" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/NewPostButton"
@@ -92,12 +79,10 @@
         android:layout_marginEnd="44dp"
         android:layout_marginRight="36dp"
         android:layout_marginBottom="36dp"
+        android:background="#d8ffcd"
         android:onClick="createPostSendBtn"
         android:text="Create New Post"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/RecentPosts"
-        android:background="#d8ffcd"
-        app:layout_constraintVertical_bias="0.981" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
