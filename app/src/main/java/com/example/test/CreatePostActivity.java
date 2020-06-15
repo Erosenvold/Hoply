@@ -14,6 +14,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -24,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -74,6 +76,7 @@ public class CreatePostActivity extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void createPostBtn(View view) {
         TextView errMsg = findViewById(R.id.createPostError);
         PostDao postDao = database.getAllPosts();
@@ -96,8 +99,10 @@ public class CreatePostActivity extends AppCompatActivity {
             if (imageBitmap != null) {
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.setHeight(1500);
-                imageBitmap.setWidth(1500);
+                imageBitmap = imageBitmap.createScaledBitmap(imageBitmap,500,500,false);
+
+
+
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] arr = baos.toByteArray();
                 String result = Base64.encodeToString(arr, Base64.DEFAULT);
@@ -108,7 +113,9 @@ public class CreatePostActivity extends AppCompatActivity {
             }
 
             //Needs to insert post
+            Intent intent = new Intent(this, ProfileActivity.class);
 
+            startActivity(intent);
 
         } else {
             errMsg.setText("Remember to write something in your post");
@@ -116,9 +123,7 @@ public class CreatePostActivity extends AppCompatActivity {
         }
 
 
-        Intent intent = new Intent(this, ProfileActivity.class);
 
-        startActivity(intent);
     }
 
 

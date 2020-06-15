@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.test.dao.CommentsDao;
+import com.example.test.dao.PostDao;
 import com.example.test.dao.UsersDao;
 
 
@@ -25,8 +27,19 @@ public class MainActivity extends AppCompatActivity {
           //      .fallbackToDestructiveMigration()
                 .build();
         this.database = database;
-        //UsersDao usersDao = database.getAllUsers();
 
+//        DANGER ZONE
+//
+//        UsersDao usersDao = database.getAllUsers();
+//        PostDao postDao = database.getAllPosts();
+//        CommentsDao commentsDao = database.getAllComments();
+//        commentsDao.deleteAllComments();
+//
+//        postDao.deleteAllPosts();
+//        usersDao.deleteAllUsers();
+
+   //     DANGER ZONE
+ //
 
     }
     public static AppDatabase getDB(){
