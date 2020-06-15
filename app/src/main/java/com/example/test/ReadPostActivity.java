@@ -57,6 +57,7 @@ public class ReadPostActivity extends AppCompatActivity {
             if (postDao.getPostImages(PostSession.getSessionID()) != null) {
 
                 String ImageStr = postDao.getPostImages(PostSession.getSessionID());
+
                 byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
                 Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
 

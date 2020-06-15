@@ -32,8 +32,13 @@ import androidx.core.content.ContextCompat;
 import com.example.test.dao.PostDao;
 import com.example.test.tables.Posts;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.List;
 import java.util.Locale;
 
@@ -91,9 +96,12 @@ public class CreatePostActivity extends AppCompatActivity {
             if (imageBitmap != null) {
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.setHeight(1500);
+                imageBitmap.setWidth(1500);
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] arr = baos.toByteArray();
                 String result = Base64.encodeToString(arr, Base64.DEFAULT);
+
 
 
                 postDao.createNewPostImage(result, postDao.getPostID(post.userID, post.timeCreated));
@@ -135,7 +143,7 @@ public class CreatePostActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(imageUri);
+
             ImageView editImage = findViewById(R.id.PostImage);
             editImage.setImageURI(imageUri);
 
