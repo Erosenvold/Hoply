@@ -32,18 +32,10 @@ import androidx.core.content.ContextCompat;
 import com.example.test.dao.PostDao;
 import com.example.test.tables.Posts;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.util.List;
 import java.util.Locale;
-
-// FIX TIME TO TIMESTAMP
-
 
 public class CreatePostActivity extends AppCompatActivity {
     public static AppDatabase database;
@@ -53,9 +45,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private static Location location;
     private static String provider;
 
-
     public static String currLocation;
-
     protected void onCreate(Bundle savedInstanceState) {
 
         context = this;
@@ -86,22 +76,26 @@ public class CreatePostActivity extends AppCompatActivity {
             post.postContent = strPostTxt;
             post.timeCreated = System.currentTimeMillis();
             post.postRating = 0;
+                        /*Remember to use .split("/",2) on the returned string when showing location to get the latitude and longitude
+                System.out.println(currLocation);
+                c
+                System.out.println("latitude: " + location[0]);
+                System.out.println("longitude: " + location[1]);
+                */
 
+//            getLocation(findViewById(R.id.checkBox));
             post.location = currLocation;
-            System.out.println(currLocation);
-             postDao.createNewPost(post);
+
+            postDao.createNewPost(post);
 
 
             //Save profile Image in local Database
-            if (imageBitmap != null) {
+            if(imageBitmap != null) {
 
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.setHeight(1500);
-                imageBitmap.setWidth(1500);
-                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                byte[] arr = baos.toByteArray();
-                String result = Base64.encodeToString(arr, Base64.DEFAULT);
-
+                ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+                byte [] arr=baos.toByteArray();
+                String result= Base64.encodeToString(arr, Base64.DEFAULT);
 
 
                 postDao.createNewPostImage(result, postDao.getPostID(post.userID, post.timeCreated));
@@ -116,34 +110,36 @@ public class CreatePostActivity extends AppCompatActivity {
         }
 
 
+
         Intent intent = new Intent(this, ProfileActivity.class);
 
         startActivity(intent);
     }
 
 
+
     //UPLOAD IMAGE:
 
-    public void UploadNewPostImageButton(View view) {
+    public void UploadNewPostImageButton(View view){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 
         intent.setType("image/*");
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent,1);
 
     }
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+    protected void onActivityResult(int requestCode,int resultCode,Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode==1 && resultCode == RESULT_OK){
             Uri imageUri = data.getData();
             try {
                 this.imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            System.out.println(imageUri);
             ImageView editImage = findViewById(R.id.PostImage);
             editImage.setImageURI(imageUri);
 
@@ -156,36 +152,111 @@ public class CreatePostActivity extends AppCompatActivity {
     public void getLocation(View view) {
 
         final CheckBox locationCheck = (CheckBox) view;
-
-
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        boolean permissionReceived = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
         //Checks if checkbox is checked
 
         if (locationCheck.isChecked()) {
 
-            if (ActivityCompat.checkSelfPermission(CreatePostActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                List<Address> addresses;
-                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                Criteria criteria = new Criteria();
-                criteria.setAccuracy(Criteria.ACCURACY_FINE);
-                criteria.setCostAllowed(false);
-                provider = locationManager.getBestProvider(criteria, false);
-                location = locationManager.getLastKnownLocation(provider);
 
-                try {
-                    addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                    currLocation = addresses.get(0).getLocality();
+                // if we don't have permission to location, then open permission dialog.
+                if (!permissionReceived )
+                    {
+                        final AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setMessage("Would you like to give GPS permission to Hoply?").setCancelable(false).setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)); //VI SKAL NOK LAVE ET MERE ELEGANT VINDUE
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                locationCheck.setChecked(false);
+                                currLocation = "";
+                            }
+                        });
+                        final AlertDialog alertDialog = alert.create();
+                        alertDialog.show();
+                        System.out.println("Permission Denied");
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                    }
+                //Else create a postlocation from phone location.
+                else{
+                            Criteria criteria = new Criteria();
+                            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+                            criteria.setCostAllowed(false);
+                            provider = locationManager.getBestProvider(criteria, false);
+                            location = locationManager.getLastKnownLocation(provider);
+                            System.out.println("Permission granted");
 
-            } else {
-                ActivityCompat.requestPermissions(CreatePostActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-                locationCheck.setChecked(false);
+
+                            try {
+                                MyLocationListener myListener = new MyLocationListener();
+                                if (location != null) {
+                                    //This is the important method, sets the location in variable currLocation if it isn't null
+                                    myListener.onLocationChanged(location);
+                                    System.out.println("hello from if statement");
+
+                                } else {
+                                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivity(intent);
+                                }
+                                locationManager.requestLocationUpdates(provider, 500, 1, myListener);
+                            } catch (SecurityException e) {
+                                System.out.println("SecurityException: " + e);
+                            }
+                        }
+
+
+        }else{
+            currLocation = "";
+
+        }
+    }
+    public class MyLocationListener implements LocationListener{
+        @Override
+        public void onLocationChanged(Location location){
+            //Here you set the latitude and longitude and saves them together in currLocation
+            String latitude = String.valueOf(location.getLatitude());
+            String longitude = String.valueOf(location.getLongitude());
+
+
+
+            System.out.println(location.toString());
+
+            List<Address> addresses;
+
+
+            //String[] location = postDao.getLocationFromID(PostSession.getSessionID()).split("/",2);
+
+            try {
+                addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                currLocation  = addresses.get(0).getLocality();
+                System.out.println(currLocation);
+            }catch (IOException e){
+                e.printStackTrace();
             }
+
+
+
+        }
+        //Implementing an interface requires these methods to work
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
         }
 
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
 
     }
 }
