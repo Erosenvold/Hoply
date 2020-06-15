@@ -26,4 +26,7 @@ public interface CommentsDao {
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     public void createNewComment(Comments comments);
+
+    @Query("DELETE FROM hoply_comment")
+    public void deleteAllComments();
 }
