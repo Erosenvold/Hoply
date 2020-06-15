@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#bdd37a"
     android:layout_height="match_parent">
 
     <Button
@@ -13,12 +14,15 @@
         android:text="Home"
         app:layout_constraintBottom_toBottomOf="@+id/createComment"
         app:layout_constraintEnd_toEndOf="@+id/postContent"
+        android:background="#d8ffcd"
         app:layout_constraintTop_toTopOf="@+id/createComment" />
 
     <Button
         android:id="@+id/createComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:background="#d8ffcd"
         android:onClick="createComment"
         android:text="Comment"
         app:layout_constraintStart_toStartOf="@+id/postContent"
@@ -26,17 +30,18 @@
 
     <TextView
         android:id="@+id/postContent"
-        android:layout_width="361dp"
+        android:layout_width="320dp"
         android:layout_height="137dp"
-        android:layout_marginTop="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.36" />
 
     <ImageView
         android:id="@+id/postImage"
-        android:layout_width="153dp"
-        android:layout_height="184dp"
+        android:layout_width="144dp"
+        android:layout_height="149dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/postContent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +49,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/comments"
-        android:layout_width="344dp"
+        android:layout_width="320dp"
         android:layout_height="216dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="@+id/postContent"
@@ -55,7 +60,7 @@
     <TextView
         android:id="@+id/location"
         android:layout_width="172dp"
-        android:layout_height="42dp"
+        android:layout_height="35dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/timestamp"
         app:layout_constraintEnd_toEndOf="@+id/timestamp"
@@ -64,8 +69,8 @@
 
     <TextView
         android:id="@+id/createdBy"
-        android:layout_width="175dp"
-        android:layout_height="52dp"
+        android:layout_width="172dp"
+        android:layout_height="35dp"
         android:layout_marginBottom="4dp"
         app:layout_constraintBottom_toTopOf="@+id/location"
         app:layout_constraintEnd_toEndOf="@+id/location"
@@ -76,14 +81,17 @@
         android:id="@+id/timestamp"
         android:layout_width="171dp"
         android:layout_height="18dp"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toTopOf="@+id/postContent"
-        app:layout_constraintEnd_toEndOf="@+id/postContent" />
+        app:layout_constraintBottom_toBottomOf="@+id/postImage"
+        app:layout_constraintEnd_toEndOf="@+id/postContent"
+        app:layout_constraintTop_toTopOf="@+id/postImage"
+        app:layout_constraintVertical_bias="0.77" />
 
     <EditText
         android:id="@+id/commentField"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="4dp"
+        android:background="#ebffbd"
         android:ems="10"
         android:hint="Write your comment"
         android:inputType="textPersonName"
