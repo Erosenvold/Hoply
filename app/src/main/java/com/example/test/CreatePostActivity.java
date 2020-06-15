@@ -82,7 +82,18 @@ public class CreatePostActivity extends AppCompatActivity {
         PostDao postDao = database.getAllPosts();
 
         EditText postTxt = findViewById(R.id.createPost);
-        String strPostTxt = postTxt.getText().toString();
+        String strPostTxt = "";
+
+
+        if(!postTxt.getText().toString().contains("@")){
+            strPostTxt = postTxt.getText().toString();
+        }else{
+
+            errMsg.setText("Your post content contains one or more illegal words");
+            errMsg.setTextColor(Color.RED);
+        }
+
+
         if (!strPostTxt.trim().isEmpty()) {
             Posts post = new Posts();
             post.userID = LogSession.getSessionID();
@@ -92,8 +103,8 @@ public class CreatePostActivity extends AppCompatActivity {
 
             post.location = currLocation;
             System.out.println(currLocation);
-             postDao.createNewPost(post);
 
+            String result = "";
 
             //Save profile Image in local Database
             if (imageBitmap != null) {
@@ -105,12 +116,21 @@ public class CreatePostActivity extends AppCompatActivity {
 
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] arr = baos.toByteArray();
-                String result = Base64.encodeToString(arr, Base64.DEFAULT);
+                result = Base64.encodeToString(arr, Base64.DEFAULT);
 
 
 
-                postDao.createNewPostImage(result, postDao.getPostID(post.userID, post.timeCreated));
+//                postDao.createNewPostImage(result, postDao.getPostID(post.userID, post.timeCreated));
             }
+
+            post.postContent = strPostTxt;
+            post.postContent = post.postContent+"@GPS["+post.location+"]";
+            post.postContent = post.postContent+"@IMG["+result +"]";
+
+
+            postDao.createNewPost(post);
+
+
 
             //Needs to insert post
             Intent intent = new Intent(this, ProfileActivity.class);
@@ -175,6 +195,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 criteria.setAccuracy(Criteria.ACCURACY_FINE);
                 criteria.setCostAllowed(false);
                 provider = locationManager.getBestProvider(criteria, false);
+
                 location = locationManager.getLastKnownLocation(provider);
 
                 try {

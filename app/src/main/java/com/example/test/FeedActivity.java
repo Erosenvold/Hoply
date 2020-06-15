@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +24,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     RecyclerView rv;
 
     //string arrays containing headlines and contents for posts
-    String headlines[],  usernames[];
+    String content[],  usernames[];
     int postIds[];
 
 
@@ -46,40 +48,57 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
             //to do: populate from database instead of values
             PostDao postDao = database.getAllPosts();
             UsersDao usersDao = database.getAllUsers();
-            headlines = new String[postDao.getAllIDDESC().length];
-            usernames = new String[headlines.length];
-            images = new Bitmap[headlines.length];
-            postIds = new int[headlines.length];
-            for(int i = 0; i< postDao.getAllIDDESC().length;i++){
+            content = new String[postDao.getAllIDDESC().length];
+            usernames = new String[content.length];
+            images = new Bitmap[content.length];
+            postIds = new int[content.length];
+            for(int i = 0; i< postDao.getAllIDDESC().length;i++) {
 
-                int x = postDao.getAllContent(postDao.getAllIDDESC()[i]).length();
-                if(x>300){
-                    x = 300;
-                    headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]).substring(0,x) + "...";
-                }else{
-                    headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]).substring(0,x);
+                String[] tempStringArr = postDao.getAllContent(postDao.getAllIDDESC()[i]).split("@", -2);
+
+                String[] stringArr = {"", "GPS[]", "IMG[]"};
+
+                for(String s : tempStringArr){
+                    if (s.contains("GPS[")) {
+                        stringArr[1]= s;
+                    }
+                    else if (s.contains("IMG[")) {
+                        stringArr[2]=s;
+                    }
+                    else{
+                        stringArr[0]=s;
+                    }
+                }
+
+
+                int x = stringArr[0].length() - 1;
+                if (x > 100  ) {
+                    x = 100;
+                    content[i] = stringArr[0].substring(0, x) + "...";
+                } else {
+                    content[i] = stringArr[0];
                 }
                 usernames[i] = usersDao.getUsernameFromID(postDao.getUserID(postDao.getAllIDDESC()[i]));
                 postIds[i] = postDao.getAllIDDESC()[i];
 
 
                 //Imageview: shows profile image if it exists
-                if (postDao.getPostImages(postDao.getAllIDDESC()[i]) != null) {
+                if (!stringArr[2].substring(4, stringArr[2].length() - 1).isEmpty()) {
+                    String ImageStr = stringArr[2].substring(3, stringArr[2].length() - 1);
+                    byte[] encodebyte = Base64.decode(ImageStr, Base64.DEFAULT);
+                    Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0, encodebyte.length);
 
-                    String ImageStr = postDao.getPostImages(postDao.getAllIDDESC()[i]);
-                    byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
-                    Bitmap bitmapProfileImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
-                    images[i] = bitmapProfileImage;
+                    images[i] = bitmapPostImage;
 
                 } else {
 
-                    images[i] = BitmapFactory.decodeResource(getResources(),R.drawable.defaultpic);
+                    images[i] = BitmapFactory.decodeResource(getResources(), R.drawable.defaultpic);
                 }
+
             }
 
-
             //Instantiates the adapter that contains the feeds
-            FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images, postIds, this);
+            FeedAdapter feedAdapter = new FeedAdapter(this, content, usernames, images, postIds, this);
             rv.setAdapter((feedAdapter));
             rv.setLayoutManager(new LinearLayoutManager(this));
 

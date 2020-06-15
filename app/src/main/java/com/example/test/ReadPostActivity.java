@@ -40,9 +40,60 @@ public class ReadPostActivity extends AppCompatActivity {
 
             PostDao postDao = database.getAllPosts();
 
+            String[] tempStringArr = postDao.getAllContent(PostSession.getSessionID()).split("@", 3);
+            String[] stringArr = {"", "GPS[]", "IMG[]"};
+
+            for(String s : tempStringArr){
+                if (s.contains("GPS[")) {
+                    stringArr[1]= s;
+                }
+                else if (s.contains("IMG[")) {
+                    stringArr[2]=s;
+                }
+                else{
+                    stringArr[0]=s;
+                }
+            }
+
+//            if(stringArr.length >= 3) {
+//
+//                if (stringArr[0].contains("GPS[")) {
+//                    String temp = stringArr[1];
+//                    stringArr[1] = stringArr[0];
+//                    stringArr[0] = temp;
+//                }
+//                if (stringArr[0].contains("IMG[")) {
+//                    String temp = stringArr[2];
+//                    stringArr[2] = stringArr[0];
+//                    stringArr[0] = temp;
+//                }
+//                if (stringArr[1].contains("IMG[") || stringArr[2].contains("GPS[")) {
+//                    String temp = stringArr[2];
+//                    stringArr[2] = stringArr[1];
+//                    stringArr[1] = temp;
+//                }
+//            }
+
             //sets content TextView
             TextView content = (TextView) findViewById(R.id.postContent);
-            content.setText(postDao.getAllContent(PostSession.getSessionID()));
+            content.setText(stringArr[0]);
+
+            //sets Location TextView
+            if(!stringArr[1].substring(4,stringArr[1].length()-1).isEmpty()){
+                TextView location = (TextView) findViewById(R.id.location);
+                location.setText("Uploaded from " + stringArr[1].substring(4, stringArr[1].length()-1));
+            }
+
+            //sets Postimage ImageView
+            if(!stringArr[2].substring(4, stringArr[2].length() - 1).isEmpty()){
+                    String ImageStr = stringArr[2].substring(3, stringArr[2].length()-1);
+
+                    byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
+                    Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
+
+                    ImageView postImage = findViewById(R.id.postImage);
+                    postImage.setImageBitmap(bitmapPostImage);
+            }
 
             //sets uploaded by user TextView
             TextView createdBy = (TextView) findViewById(R.id.createdBy);
@@ -53,26 +104,26 @@ public class ReadPostActivity extends AppCompatActivity {
 
             timestamp.setText("Uploaded "+ postDao.getTimestampFromID(PostSession.getSessionID()));
 
-            //sets Post image
-            if (postDao.getPostImages(PostSession.getSessionID()) != null) {
-
-                String ImageStr = postDao.getPostImages(PostSession.getSessionID());
-
-                byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
-                Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
-
-                ImageView postImage = findViewById(R.id.postImage);
-                postImage.setImageBitmap(bitmapPostImage);
-            }
-
-
-            //sets Location TextView if not null
-            if(postDao.getLocationFromID(PostSession.getSessionID()) != null) {
-
-                TextView location = (TextView) findViewById(R.id.location);
-                location.setText("Uploaded from " + postDao.getLocationFromID(PostSession.getSessionID()));
-
-            }
+//            //sets Post image
+//            if (postDao.getPostImages(PostSession.getSessionID()) != null) {
+//
+//                String ImageStr = postDao.getPostImages(PostSession.getSessionID());
+//
+//                byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
+//                Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
+//
+//                ImageView postImage = findViewById(R.id.postImage);
+//                postImage.setImageBitmap(bitmapPostImage);
+//            }
+//
+//
+//            //sets Location TextView if not null
+//            if(postDao.getLocationFromID(PostSession.getSessionID()) != null) {
+//
+//                TextView location = (TextView) findViewById(R.id.location);
+//                location.setText("Uploaded from " + postDao.getLocationFromID(PostSession.getSessionID()));
+//
+//            }
 
             //DET VAR HER VI NÅEDE TIL. :) tilføj resten af post indhold og knapper plus kommentare
 

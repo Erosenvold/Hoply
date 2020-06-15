@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         AppDatabase database = Room.databaseBuilder(this, AppDatabase.class, "mydb")
                 .allowMainThreadQueries()
-          //      .fallbackToDestructiveMigration()
+//                .fallbackToDestructiveMigration()
                 .build();
         this.database = database;
 
@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
 //        UsersDao usersDao = database.getAllUsers();
 //        PostDao postDao = database.getAllPosts();
 //        CommentsDao commentsDao = database.getAllComments();
+////
 //        commentsDao.deleteAllComments();
-//
 //        postDao.deleteAllPosts();
 //        usersDao.deleteAllUsers();
 
