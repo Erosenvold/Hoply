@@ -177,6 +177,7 @@ public class CreatePostActivity extends AppCompatActivity {
                 provider = locationManager.getBestProvider(criteria, false);
                 location = locationManager.getLastKnownLocation(provider);
 
+
                 try {
                     addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                     currLocation = addresses.get(0).getLocality();
