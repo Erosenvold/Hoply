@@ -41,6 +41,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -60,6 +62,8 @@ public class CreatePostActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
 
+
+        currLocation = "";
         context = this;
 
         if (LogSession.isLoggedIn()) {
@@ -82,54 +86,52 @@ public class CreatePostActivity extends AppCompatActivity {
         PostDao postDao = database.getAllPosts();
 
         EditText postTxt = findViewById(R.id.createPost);
-        String strPostTxt = "";
+        String strPostTxt = postTxt.getText().toString();
 
 
-        if(!postTxt.getText().toString().contains("@")){
-            strPostTxt = postTxt.getText().toString();
-        }else{
-
+        //Checks if the text contains String regex used to wrap content.
+        if(postTxt.getText().toString().contains("@") || postTxt.getText().toString().contains("GPS[") || postTxt.getText().toString().contains("IMG[")) {
             errMsg.setText("Your post content contains one or more illegal words");
             errMsg.setTextColor(Color.RED);
-        }
 
 
-        if (!strPostTxt.trim().isEmpty()) {
+        //checks if textfield was left null or filled with whitespace. If not, adds Timestamp, userID and content to a new Post.
+        }else if (!strPostTxt.trim().isEmpty()) {
             Posts post = new Posts();
             post.userID = LogSession.getSessionID();
-            post.postContent = strPostTxt;
+            Date currDate = new Date();
+
+            SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH.mm.ss.SSSZ");
+            System.out.println(time.format(currDate));
             post.timeCreated = System.currentTimeMillis();
-            post.postRating = 0;
+            post.postContent = strPostTxt;
 
-            post.location = currLocation;
-            System.out.println(currLocation);
 
-            String result = "";
-
-            //Save profile Image in local Database
+            //If user has chosen an image, add image to content.
             if (imageBitmap != null) {
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 imageBitmap = imageBitmap.createScaledBitmap(imageBitmap,500,500,false);
 
-
-
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] arr = baos.toByteArray();
-                result = Base64.encodeToString(arr, Base64.DEFAULT);
+                String result = Base64.encodeToString(arr, Base64.DEFAULT);
 
 
+                post.postContent = post.postContent+"@IMG["+result +"]";
 
-//                postDao.createNewPostImage(result, postDao.getPostID(post.userID, post.timeCreated));
+
             }
 
-            post.postContent = strPostTxt;
-            post.postContent = post.postContent+"@GPS["+post.location+"]";
-            post.postContent = post.postContent+"@IMG["+result +"]";
+            //Add location to content
+            if(!currLocation.isEmpty()){
+                post.postContent = post.postContent+"@GPS["+currLocation+"]";
+            }
 
 
+
+            // Creates posts
             postDao.createNewPost(post);
-
 
 
             //Needs to insert post
@@ -137,7 +139,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
             startActivity(intent);
 
-        } else {
+        }else {
             errMsg.setText("Remember to write something in your post");
             errMsg.setTextColor(Color.RED);
         }
@@ -156,7 +158,6 @@ public class CreatePostActivity extends AppCompatActivity {
         startActivityForResult(intent, 1);
 
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -181,8 +182,6 @@ public class CreatePostActivity extends AppCompatActivity {
     public void getLocation(View view) {
 
         final CheckBox locationCheck = (CheckBox) view;
-
-
 
         //Checks if checkbox is checked
 
