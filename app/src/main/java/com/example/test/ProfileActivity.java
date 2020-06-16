@@ -31,28 +31,29 @@ public class ProfileActivity extends AppCompatActivity {
             this.database = MainActivity.getDB();
             UsersDao usersDao = database.getAllUsers();
 
-            //Textview: Profile ProfileText. Queries Database from SessionId to find Username.
+
             TextView UserText = (TextView) findViewById(R.id.UserName);
-            UserText.setText(usersDao.getUsernameFromID(LogSession.getSessionID()));
+            UserText.setText(LogSession.getSessionUsername());
 
-
-            //Textview: Profile text. Queries Database from SessionId to find Profile Txt.
-            TextView ProfileTxt = (TextView) findViewById(R.id.ProfileText);
-            ProfileTxt.setText(usersDao.getProfileTxtFromID(LogSession.getSessionID()));
-
-
+            TextView Timestamp = (TextView) findViewById(R.id.Timestamp);
+            Timestamp.setText("Member since: " + LogSession.getSessionStamp());
 
             //Imageview: shows profile image if it exists
-            if (usersDao.getProfileImageFromID(LogSession.getSessionID()) != null) {
+            if (LogSession.getSessionIMG().length() != 0) {
 
-                String ImageStr = usersDao.getProfileImageFromID((LogSession.getSessionID()));
+                System.out.println("Picture found:" + LogSession.getSessionIMG());
+
+                String ImageStr = LogSession.getSessionIMG();
                 byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
                 Bitmap bitmapProfileImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
 
                 ImageView profilePic = findViewById(R.id.ProfileImage);
                 profilePic.setImageBitmap(bitmapProfileImage);
-            } else {
-                System.out.println("It's null dummy!");
+            }else{
+                Bitmap bitmapProfileImage = BitmapFactory.decodeResource(getResources(), R.drawable.defaultpic);
+                ImageView profilePic = findViewById(R.id.ProfileImage);
+                profilePic.setImageBitmap(bitmapProfileImage);
+
             }
 
 

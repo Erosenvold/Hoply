@@ -9,13 +9,18 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.example.test.dao.RemoteUserDAO;
 import com.example.test.dao.UsersDao;
+import com.example.test.tables.RemoteUsers;
 import com.example.test.tables.Users;
 
 import org.w3c.dom.Text;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class CreateUserActivity extends AppCompatActivity {
@@ -30,7 +35,9 @@ public class CreateUserActivity extends AppCompatActivity {
     public void createUser(View view){
         TextView errorMsg = findViewById(R.id.createUserError);
 
-        UsersDao userDao = database.getAllUsers();
+        RemoteUserDAO remoteUsersDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
+
+
 
 
         EditText username = findViewById(R.id.createUsername);
@@ -40,36 +47,86 @@ public class CreateUserActivity extends AppCompatActivity {
         EditText userID = findViewById(R.id.createUserID);
         String strUserID = userID.getText().toString();
 
+        Call<List<RemoteUsers>> getUserFromId = remoteUsersDAO.getUserFromId("eq."+strUserID);
+        getUserFromId.enqueue(new Callback<List<RemoteUsers>>() {
+            @Override
+            public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
 
-               if(userDao.getUserID(strUserID) == null){
-                   if(!strUserID.trim().isEmpty() && !strUsername.trim().isEmpty() && !strPassword.trim().isEmpty()) {
+                if(response.body().size()==0){
+                    //create user
+                    System.out.println("No user by this name");
 
-                       Users newUser = new Users();
-                       newUser.id = strUserID;
-                       newUser.username = strUsername;
-                       newUser.password = strPassword;
+                }else{
+                    errorMsg.setVisibility(View.VISIBLE);
+                    errorMsg.setText("An account with this email already exists");
+                }
 
-                       newUser.username = newUser.username+"@PWD["+strPassword+"]";
+//                if(userDao.getUserID(strUserID) == null){
+//                    if(!strUserID.trim().isEmpty() && !strUsername.trim().isEmpty() && !strPassword.trim().isEmpty()) {
+//
+//                        Users newUser = new Users();
+//                        newUser.id = strUserID;
+//                        newUser.username = strUsername;
+//                        newUser.password = strPassword;
+//
+//                        newUser.username = newUser.username+"@PWD["+strPassword+"]";
+//
+//                        newUser.timeCreated = System.currentTimeMillis();
+//                        userDao.createNewUser(newUser);
+//
+//                        Intent intent = new Intent(this, LoginActivity.class);
+//                        intent.putExtra("NEWUSERMSG","Congrats on joining Hoply");
+//
+//                        startActivity(intent);
+//
+//                    }else{
+//                        errorMsg.setVisibility(View.VISIBLE);
+//                        errorMsg.setText("Please enter a username and a password");
+//                    }
+//
+//                }else{
+//
+//                    errorMsg.setVisibility(View.VISIBLE);
+//                    errorMsg.setText("An account with this email already exists");
+//
+//                }
 
-                       newUser.timeCreated = System.currentTimeMillis();
-                       userDao.createNewUser(newUser);
+            }
 
-                       Intent intent = new Intent(this, LoginActivity.class);
-                       intent.putExtra("NEWUSERMSG","Congrats on joining Hoply");
+            @Override
+            public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
 
-                       startActivity(intent);
-
-                   }else{
-                       errorMsg.setVisibility(View.VISIBLE);
-                       errorMsg.setText("Please enter a username and a password");
-                   }
-
-             }else{
-
-                   errorMsg.setVisibility(View.VISIBLE);
-                   errorMsg.setText("An account with this email already exists");
-
-               }
+            }
+        });
+//               if(userDao.getUserID(strUserID) == null){
+//                   if(!strUserID.trim().isEmpty() && !strUsername.trim().isEmpty() && !strPassword.trim().isEmpty()) {
+//
+//                       Users newUser = new Users();
+//                       newUser.id = strUserID;
+//                       newUser.username = strUsername;
+//                       newUser.password = strPassword;
+//
+//                       newUser.username = newUser.username+"@PWD["+strPassword+"]";
+//
+//                       newUser.timeCreated = System.currentTimeMillis();
+//                       userDao.createNewUser(newUser);
+//
+//                       Intent intent = new Intent(this, LoginActivity.class);
+//                       intent.putExtra("NEWUSERMSG","Congrats on joining Hoply");
+//
+//                       startActivity(intent);
+//
+//                   }else{
+//                       errorMsg.setVisibility(View.VISIBLE);
+//                       errorMsg.setText("Please enter a username and a password");
+//                   }
+//
+//             }else{
+//
+//                   errorMsg.setVisibility(View.VISIBLE);
+//                   errorMsg.setText("An account with this email already exists");
+//
+//               }
 
 
     }
