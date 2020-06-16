@@ -12,13 +12,10 @@ import android.location.Geocoder;
 import android.net.Uri;
 import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,13 +23,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.example.test.dao.PostDao;
 import com.example.test.tables.Posts;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -45,6 +42,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicReference;
 
 // FIX TIME TO TIMESTAMP
 
@@ -54,9 +52,9 @@ public class CreatePostActivity extends AppCompatActivity {
     public static Bitmap imageBitmap; //Image Bitmap
     private static Geocoder geo;
     private static Context context;
-    private static Location location;
-    private static String provider;
-
+    //private static Location location;
+    //private static String provider;
+    private static FusedLocationProviderClient flpClient;
 
     public static String currLocation;
 
@@ -65,6 +63,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
         currLocation = "";
         context = this;
+        flpClient = LocationServices.getFusedLocationProviderClient(this);
 
         if (LogSession.isLoggedIn()) {
 
@@ -186,28 +185,34 @@ public class CreatePostActivity extends AppCompatActivity {
         //Checks if checkbox is checked
 
         if (locationCheck.isChecked()) {
-
             if (ActivityCompat.checkSelfPermission(CreatePostActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                List<Address> addresses;
-                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                AtomicReference<List<Address>> addresses = new AtomicReference<>();
+
+                //LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 Criteria criteria = new Criteria();
                 criteria.setAccuracy(Criteria.ACCURACY_FINE);
                 criteria.setCostAllowed(false);
-                provider = locationManager.getBestProvider(criteria, false);
+                //provider = locationManager.getBestProvider(criteria, false);
+                //location = locationManager.getLastKnownLocation(provider);
 
-                location = locationManager.getLastKnownLocation(provider);
+                flpClient.getLastLocation().addOnSuccessListener(CreatePostActivity.this, l -> {
+                    if(l != null){
+                        try {
+                            addresses.set(geo.getFromLocation(l.getLatitude(), l.getLongitude(), 1));
+                            currLocation = addresses.get().get(addresses.get().size()-1).getLocality();
 
-                try {
-                    addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                    currLocation = addresses.get(0).getLocality();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
 
             } else {
                 ActivityCompat.requestPermissions(CreatePostActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
                 locationCheck.setChecked(false);
+
             }
         }
 
