@@ -46,14 +46,11 @@ import java.util.concurrent.atomic.AtomicReference;
 
 // FIX TIME TO TIMESTAMP
 
-
 public class CreatePostActivity extends AppCompatActivity {
     public static AppDatabase database;
     public static Bitmap imageBitmap; //Image Bitmap
     private static Geocoder geo;
     private static Context context;
-    //private static Location location;
-    //private static String provider;
     private static FusedLocationProviderClient flpClient;
 
     public static String currLocation;
@@ -100,8 +97,9 @@ public class CreatePostActivity extends AppCompatActivity {
             post.userID = LogSession.getSessionID();
             Date currDate = new Date();
 
-            SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH.mm.ss.SSSZ");
+            SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH.mm.ss.SSSXXX");
             System.out.println(time.format(currDate));
+            //FIX THIS
             post.timeCreated = System.currentTimeMillis();
             post.postContent = strPostTxt;
 
@@ -123,7 +121,7 @@ public class CreatePostActivity extends AppCompatActivity {
             }
 
             //Add location to content
-            if(!currLocation.isEmpty()){
+            if(currLocation != null){
                 post.postContent = post.postContent+"@GPS["+currLocation+"]";
             }
 
@@ -199,6 +197,7 @@ public class CreatePostActivity extends AppCompatActivity {
                     if(l != null){
                         try {
                             addresses.set(geo.getFromLocation(l.getLatitude(), l.getLongitude(), 1));
+
                             currLocation = addresses.get().get(addresses.get().size()-1).getLocality();
 
                         } catch (IOException e) {

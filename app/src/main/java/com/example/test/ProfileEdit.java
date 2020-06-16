@@ -46,10 +46,10 @@ public class ProfileEdit extends AppCompatActivity {
 
 
         //Save profile text in local Database
-        EditText ProfileTxt = findViewById(R.id.editText);
-        String ProfileTxtStr = ProfileTxt.getText().toString();
+//        EditText ProfileTxt = findViewById(R.id.editText);
+//        String ProfileTxtStr = ProfileTxt.getText().toString();
         String UserId = LogSession.getSessionID();
-        userDao.createNewProfileTxt(ProfileTxtStr, UserId);
+//        userDao.createNewProfileTxt(ProfileTxtStr, UserId);
 
         //Save profile Image in local Database
         if(imageBitmap != null) {
@@ -63,8 +63,8 @@ public class ProfileEdit extends AppCompatActivity {
             byte[] arr = baos.toByteArray();
             String result = Base64.encodeToString(arr, Base64.DEFAULT);
 
+//            getUser(userId)  = getUSer(userId) + "@IMG["+result+"]";
 
-            userDao.createNewProfileImage(result, LogSession.getSessionID());
         }
 
 

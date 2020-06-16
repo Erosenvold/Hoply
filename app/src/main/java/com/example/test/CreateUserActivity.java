@@ -48,6 +48,9 @@ public class CreateUserActivity extends AppCompatActivity {
                        newUser.id = strUserID;
                        newUser.username = strUsername;
                        newUser.password = strPassword;
+
+                       newUser.username = newUser.username+"@PWD["+strPassword+"]";
+
                        newUser.timeCreated = System.currentTimeMillis();
                        userDao.createNewUser(newUser);
 

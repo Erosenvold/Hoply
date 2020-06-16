@@ -19,6 +19,9 @@ import com.example.test.dao.PostDao;
 import com.example.test.dao.UsersDao;
 import com.example.test.tables.Comments;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 //TIME TO TIMESTAMP + VISUALS
 
 public class ReadPostActivity extends AppCompatActivity {
@@ -167,7 +170,11 @@ public class ReadPostActivity extends AppCompatActivity {
             Comments newComment = new Comments();
             newComment.userID = LogSession.getSessionID();
             newComment.postID = PostSession.getSessionID();
-            newComment.timeCreated = System.currentTimeMillis();
+
+            Date currDate = new Date();
+            SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH.mm.ss.SSSXXX");
+//            newComment.timeCreated = time.format(currDate);
+
             newComment.commentContent = strComment;
             commentsDao.createNewComment(newComment);
             Intent intent = new Intent(this, ReadPostActivity.class);
