@@ -27,4 +27,7 @@ public interface RemoteUserDAO {
     @GET("users")
     Call<List<RemoteUsers>>getUserFromId(@Query("id") String id);
 
+    @GET("users")
+    Call<List<RemoteUsers>>getLimitedUsers(@Query("id") String id,@Query("limit") int limit );
+
 }

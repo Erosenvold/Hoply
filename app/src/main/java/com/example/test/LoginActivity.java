@@ -58,26 +58,29 @@ public class LoginActivity extends AppCompatActivity {
                 System.out.println("response body size: "+response.body().size());
                 if(response.body().size()==1){
 
-
                     for(RemoteUsers u : response.body()) {
                         String s = u.getName();
 
 
                         String[] tempString = s.split("@");
-                        String[] stringarr = {"", "", ""};
+
+                        String username = "";
+                        String password = "";
+                        String profileIMG = "";
+
 
                         for (String str : tempString) {
                             if (str.contains("PWD[")) {
-                                stringarr[1] = str.substring(4, str.length() - 1);
+                                password = str.substring(4, str.length() - 1);
                             } else if (str.contains("IMG[")) {
-                                stringarr[2] = str.substring(4, str.length() - 1);
+                                profileIMG = str.substring(4, str.length() - 1);
                             } else {
-                                stringarr[0] = str;
+                                username = str;
                             }
 
                         }
-                        if (strPassword.equals(stringarr[1])) {
-                            LogSession.setSession(u.getId(), stringarr[0], stringarr[2], u.getStamp());
+                        if (strPassword.equals(password)) {
+                            LogSession.setSession(u.getId(), username, profileIMG, u.getStamp());
                             Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                             startActivity(intent);
                         } else {

@@ -1,15 +1,19 @@
 package com.example.test.tables;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class RemoteUsers {
 
     @SerializedName("id")
+
     private String id;
 
     @SerializedName("name")
+
     private String name;
 
     @SerializedName("stamp")
+
     private String stamp;
 
     public String getId() {

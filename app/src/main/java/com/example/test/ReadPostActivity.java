@@ -16,11 +16,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test.dao.CommentsDao;
 import com.example.test.dao.PostDao;
+import com.example.test.dao.RemoteCommentsDAO;
 import com.example.test.dao.UsersDao;
 import com.example.test.tables.Comments;
+import com.example.test.tables.RemoteComments;
+import com.example.test.tables.RemoteUsers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 //TIME TO TIMESTAMP + VISUALS
 
@@ -43,69 +52,31 @@ public class ReadPostActivity extends AppCompatActivity {
 
             PostDao postDao = database.getAllPosts();
 
-            String[] tempStringArr = postDao.getAllContent(PostSession.getSessionID()).split("@", 3);
-            String[] stringArr = {"", "GPS[]", "IMG[]"};
-
-            for(String s : tempStringArr){
-                if (s.contains("GPS[")) {
-                    stringArr[1]= s;
-                }
-                else if (s.contains("IMG[")) {
-                    stringArr[2]=s;
-                }
-                else{
-                    stringArr[0]=s;
-                }
-            }
-
-//            if(stringArr.length >= 3) {
-//
-//                if (stringArr[0].contains("GPS[")) {
-//                    String temp = stringArr[1];
-//                    stringArr[1] = stringArr[0];
-//                    stringArr[0] = temp;
-//                }
-//                if (stringArr[0].contains("IMG[")) {
-//                    String temp = stringArr[2];
-//                    stringArr[2] = stringArr[0];
-//                    stringArr[0] = temp;
-//                }
-//                if (stringArr[1].contains("IMG[") || stringArr[2].contains("GPS[")) {
-//                    String temp = stringArr[2];
-//                    stringArr[2] = stringArr[1];
-//                    stringArr[1] = temp;
-//                }
-//            }
 
             //sets content TextView
             TextView content = (TextView) findViewById(R.id.postContent);
-            content.setText(stringArr[0]);
+            content.setText(PostSession.getSessionContent());
 
             //sets Location TextView
-            if(!stringArr[1].substring(4,stringArr[1].length()-1).isEmpty()){
+            if(PostSession.getSessionGPS()!=null){
                 TextView location = (TextView) findViewById(R.id.location);
-                location.setText("Uploaded from " + stringArr[1].substring(4, stringArr[1].length()-1));
+                location.setText("Uploaded from " + PostSession.getSessionGPS());
             }
 
             //sets Postimage ImageView
-            if(!stringArr[2].substring(4, stringArr[2].length() - 1).isEmpty()){
-                    String ImageStr = stringArr[2].substring(3, stringArr[2].length()-1);
-
-                    byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
-                    Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
+            if(PostSession.getSessionIMG() != null){
 
                     ImageView postImage = findViewById(R.id.postImage);
-                    postImage.setImageBitmap(bitmapPostImage);
+                    postImage.setImageBitmap(PostSession.getSessionIMG());
             }
 
             //sets uploaded by user TextView
             TextView createdBy = (TextView) findViewById(R.id.createdBy);
-            createdBy.setText("Uploaded by "+usersDao.getUsernameFromID(postDao.getUserID(PostSession.getSessionID())));
+            createdBy.setText("Uploaded by "+PostSession.getSessionName());
 
             //sets Timestamp TextView
             TextView timestamp = (TextView) findViewById(R.id.timestamp);
-
-            timestamp.setText("Uploaded "+ postDao.getTimestampFromID(PostSession.getSessionID()));
+            timestamp.setText("Uploaded "+ PostSession.getSessionStamp());
 
 //            //sets Post image
 //            if (postDao.getPostImages(PostSession.getSessionID()) != null) {
@@ -133,18 +104,47 @@ public class ReadPostActivity extends AppCompatActivity {
 
 
             rv = findViewById(R.id.comments);
-            System.out.println("Post ID = "+PostSession.getSessionID());
-            CommentsDao commentsDao = database.getAllComments();
-            commentContents = commentsDao.getCommentsFromPostID(PostSession.getSessionID());
-            usernames = commentsDao.getCommentUserIDFromPostID(PostSession.getSessionID());
-            for(int i=0; usernames.length>i; i++){
-                usernames[i] = usersDao.getUsernameFromID(usernames[i]);
-            }
-//            System.out.println(commentContents[0] + " : " + usernames[0]);
+            System.out.println("Post ID = "+PostSession.getSessionPostID());
+            RemoteCommentsDAO commentsDao = RemoteClient.getRetrofitInstance().create(RemoteCommentsDAO.class);
+            System.out.println(PostSession.getSessionPostID());
 
-            CommentAdapter commentAdapter = new CommentAdapter(this,usernames,commentContents);
-            rv.setAdapter((commentAdapter));
-            rv.setLayoutManager(new LinearLayoutManager(this));
+            Call<List<RemoteComments>> getCommentsFromPostId = commentsDao.getCommentsFromPostId("eq."+PostSession.getSessionPostID());
+
+            getCommentsFromPostId.enqueue(new Callback<List<RemoteComments>>() {
+                @Override
+                public void onResponse(Call<List<RemoteComments>> call, Response<List<RemoteComments>> response) {
+                    System.out.println(response);
+
+                    if(response.body() != null) {
+                        AtomicInteger i = new AtomicInteger(0);
+                        commentContents = new String[response.body().size()];
+                        usernames = new String[commentContents.length];
+
+                        for (RemoteComments comment : response.body()) {
+                            commentContents[i.get()] = comment.getContent();
+                            usernames[i.get()] = "Gandalf";
+                            i.incrementAndGet();
+                        }
+                        setUsernames();
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<List<RemoteComments>> call, Throwable t) {
+                    System.out.println("Failure : " +t.getMessage());
+                }
+            });
+
+
+//            commentContents = commentsDao.getCommentsFromPostID(PostSession.getSessionPostID());
+//            usernames = commentsDao.getCommentUserIDFromPostID(PostSession.getSessionPostID());
+//            for(int i=0; usernames.length>i; i++){
+//                usernames[i] = usersDao.getUsernameFromID(usernames[i]);
+//            }
+////            System.out.println(commentContents[0] + " : " + usernames[0]);
+
+
         }
 
 
@@ -161,6 +161,14 @@ public class ReadPostActivity extends AppCompatActivity {
         }
     }
 
+
+    public void setUsernames(){
+        CommentAdapter commentAdapter = new CommentAdapter(this,usernames,commentContents);
+        rv.setAdapter((commentAdapter));
+        rv.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+
     public void createComment(View view){
 
         EditText comment = findViewById(R.id.commentField);
@@ -169,7 +177,7 @@ public class ReadPostActivity extends AppCompatActivity {
             CommentsDao commentsDao = database.getAllComments();
             Comments newComment = new Comments();
             newComment.userID = LogSession.getSessionID();
-            newComment.postID = PostSession.getSessionID();
+//            newComment.postID = PostSession.getSessionID();
 
             Date currDate = new Date();
             SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH.mm.ss.SSSXXX");

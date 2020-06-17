@@ -1,5 +1,8 @@
 package com.example.test.tables;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class RemotePosts {
 
@@ -14,6 +17,7 @@ public class RemotePosts {
 
     @SerializedName("content")
     private String content;
+
 
     public String getContent() {
         return content;
