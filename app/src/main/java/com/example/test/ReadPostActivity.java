@@ -39,6 +39,8 @@ public class ReadPostActivity extends AppCompatActivity {
 
     String commentContents[],usernames[], userIds[];
 
+    AtomicInteger completionCount = new AtomicInteger(0);
+
 
     public static AppDatabase database;
     @Override
@@ -107,16 +109,16 @@ public class ReadPostActivity extends AppCompatActivity {
 
 
             rv = findViewById(R.id.comments);
-            System.out.println("Post ID = "+PostSession.getSessionPostID());
+
             RemoteCommentsDAO commentsDao = RemoteClient.getRetrofitInstance().create(RemoteCommentsDAO.class);
-            System.out.println(PostSession.getSessionPostID());
+
 
             Call<List<RemoteComments>> getCommentsFromPostId = commentsDao.getCommentsFromPostId("eq."+PostSession.getSessionPostID());
 
             getCommentsFromPostId.enqueue(new Callback<List<RemoteComments>>() {
                 @Override
                 public void onResponse(Call<List<RemoteComments>> call, Response<List<RemoteComments>> response) {
-                    System.out.println(response);
+
 
                     if(response.body() != null) {
                         AtomicInteger i = new AtomicInteger(0);
@@ -128,13 +130,13 @@ public class ReadPostActivity extends AppCompatActivity {
                             commentContents[i.get()] = comment.getContent();
                             userIds[i.get()] = comment.getUser_id();
 
-                            System.out.println("This is the result: " + usernames[i.get()]);
+
                             setUsernames(i.get());
                             i.incrementAndGet();
                         }
 
                     }
-                    setFeed();
+
                 }
 
                 @Override
@@ -191,25 +193,30 @@ public class ReadPostActivity extends AppCompatActivity {
                             }
                             j++;
                         }
+
                         usernames[k] = result;
+
+                        if(completionCount.incrementAndGet()>=commentContents.length-1){
+                            setFeed();
+                        }
                     }
 
-                    System.out.println("username on k : " + usernames[k]);
 
                 }
             }
 
             @Override
             public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
-                System.out.println("Failer in inner " + t.getMessage());
+                System.out.println("Failure in inner " + t.getMessage());
             }
         });
     }
 
     public void setFeed(){
+        rv.setLayoutManager(new LinearLayoutManager(this));
         CommentAdapter commentAdapter = new CommentAdapter(this,usernames,commentContents);
         rv.setAdapter((commentAdapter));
-        rv.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
 

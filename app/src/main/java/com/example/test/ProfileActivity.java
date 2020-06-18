@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
     public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        System.out.println("This is the username :  "+LogSession.getSessionUsername());
         //if logged in.
         if (LogSession.isLoggedIn()) {
 
@@ -81,6 +82,7 @@ public class ProfileActivity extends AppCompatActivity {
     //Starts CreatePost Activity
     public void createPostSendBtn(View view){
         Intent intent = new Intent(this,CreatePostActivity.class);
+
         startActivity(intent);
     }
 

@@ -61,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
                     for(RemoteUsers u : response.body()) {
                         String s = u.getName();
 
-                        System.out.println("this is the s : "+s);
 
                         String[] tempString = s.split("@|]", -2);
                         System.out.println("Length of tempstring : "+tempString.length);
@@ -82,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                             } else if (str.contains("IMG[")) {
                                 profileIMG = str.substring(4, str.length());
                             } else {
-                                username = str;
+                                username = username+ str;
 //                                System.out.println(username);
                             }
 

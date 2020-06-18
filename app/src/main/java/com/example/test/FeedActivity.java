@@ -38,18 +38,21 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
     Bitmap images[];
     AtomicInteger i = new AtomicInteger(0);
+    AtomicInteger completionCount = new AtomicInteger(0);
 
     public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         if(LogSession.isLoggedIn()) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_feed);
 
-            this.database = MainActivity.getDB();
 
+            this.database = MainActivity.getDB();
             rv = findViewById(R.id.feedRecyclerView);
             rv.setHasFixedSize(true);
+
 
             //populates arrays from the values -> strings.xml
             //to do: populate from database instead of values
@@ -87,7 +90,6 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                                 location = s.substring(4,s.length());
                             } else if (s.contains("IMG[" ) && !s.equals("IMG[")) {
                                 image = s.substring(4,s.length());
-                                System.out.println("This is an image :  "+ image);
                             } else {
                                 text = text + s;
                             }
@@ -121,7 +123,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                         i.incrementAndGet();
                     }
 
-                    instFeedAdapter();
+
                 }
 
                 @Override
@@ -162,21 +164,30 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                         }
                     }
                     usernames[k] = result;
+
+                    if(completionCount.incrementAndGet()>=content.length-1){
+                        instFeedAdapter();
+                    }
+
                 }
+
             }
 
             @Override
             public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
                 System.out.println("Failer in inner " + t.getMessage());
             }
+
         });
+
     }
 
 
     public void instFeedAdapter(){
+        rv.setLayoutManager(new LinearLayoutManager(FeedActivity.this));
         FeedAdapter feedAdapter = new FeedAdapter(FeedActivity.this, content, usernames, images, postIds, this);
         rv.setAdapter((feedAdapter));
-        rv.setLayoutManager(new LinearLayoutManager(FeedActivity.this));
+
     }
 
     public void refreshBtn(View view){
