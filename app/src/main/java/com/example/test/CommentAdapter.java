@@ -20,6 +20,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.comments = comments;
         this.usernames = usernames;
 
+        for(String s : usernames){
+            System.out.println("Names: "+ s);
+        }
     }
 
     @NonNull

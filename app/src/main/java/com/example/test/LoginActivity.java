@@ -61,8 +61,13 @@ public class LoginActivity extends AppCompatActivity {
                     for(RemoteUsers u : response.body()) {
                         String s = u.getName();
 
+                        System.out.println("this is the s : "+s);
 
-                        String[] tempString = s.split("@");
+                        String[] tempString = s.split("@|]", -2);
+                        System.out.println("Length of tempstring : "+tempString.length);
+                        for(String z : tempString){
+                            System.out.println(z);
+                        }
 
                         String username = "";
                         String password = "";
@@ -71,11 +76,14 @@ public class LoginActivity extends AppCompatActivity {
 
                         for (String str : tempString) {
                             if (str.contains("PWD[")) {
-                                password = str.substring(4, str.length() - 1);
+                                password = str.substring(4, str.length());
+
+//                                System.out.println(password);
                             } else if (str.contains("IMG[")) {
-                                profileIMG = str.substring(4, str.length() - 1);
+                                profileIMG = str.substring(4, str.length());
                             } else {
                                 username = str;
+//                                System.out.println(username);
                             }
 
                         }

@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.test.dao.CommentsDao;
 import com.example.test.dao.PostDao;
 import com.example.test.dao.RemoteCommentsDAO;
+import com.example.test.dao.RemoteUserDAO;
 import com.example.test.dao.UsersDao;
 import com.example.test.tables.Comments;
 import com.example.test.tables.RemoteComments;
@@ -36,7 +37,9 @@ import retrofit2.Response;
 public class ReadPostActivity extends AppCompatActivity {
     RecyclerView rv;
 
-    String commentContents[],usernames[];
+    String commentContents[],usernames[], userIds[];
+
+
     public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +61,7 @@ public class ReadPostActivity extends AppCompatActivity {
             content.setText(PostSession.getSessionContent());
 
             //sets Location TextView
-            if(PostSession.getSessionGPS()!=null){
+            if(!PostSession.getSessionGPS().isEmpty()){
                 TextView location = (TextView) findViewById(R.id.location);
                 location.setText("Uploaded from " + PostSession.getSessionGPS());
             }
@@ -119,15 +122,19 @@ public class ReadPostActivity extends AppCompatActivity {
                         AtomicInteger i = new AtomicInteger(0);
                         commentContents = new String[response.body().size()];
                         usernames = new String[commentContents.length];
+                        userIds = new String[commentContents.length];
 
                         for (RemoteComments comment : response.body()) {
                             commentContents[i.get()] = comment.getContent();
-                            usernames[i.get()] = "Gandalf";
+                            userIds[i.get()] = comment.getUser_id();
+
+                            System.out.println("This is the result: " + usernames[i.get()]);
+                            setUsernames(i.get());
                             i.incrementAndGet();
                         }
-                        setUsernames();
-                    }
 
+                    }
+                    setFeed();
                 }
 
                 @Override
@@ -161,8 +168,45 @@ public class ReadPostActivity extends AppCompatActivity {
         }
     }
 
+    public void setUsernames(int k){
+        RemoteUserDAO remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
 
-    public void setUsernames(){
+        Call<List<RemoteUsers>> getUser = remoteUserDAO.getLimitedUsers("eq." + userIds[k], 20);
+        getUser.enqueue(new Callback<List<RemoteUsers>>() {
+
+            @Override
+            public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
+
+                for (RemoteUsers s : response.body()) {
+                    String result = "";
+                    if (s != null) {
+                        boolean done = false;
+                        String name = s.getName();
+                        int j = 0;
+                        while (!done) {
+                            if (name.length() > j && name.charAt(j) != '@') {
+                                result = result + name.charAt(j);
+                            } else {
+                                done = true;
+                            }
+                            j++;
+                        }
+                        usernames[k] = result;
+                    }
+
+                    System.out.println("username on k : " + usernames[k]);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
+                System.out.println("Failer in inner " + t.getMessage());
+            }
+        });
+    }
+
+    public void setFeed(){
         CommentAdapter commentAdapter = new CommentAdapter(this,usernames,commentContents);
         rv.setAdapter((commentAdapter));
         rv.setLayoutManager(new LinearLayoutManager(this));
