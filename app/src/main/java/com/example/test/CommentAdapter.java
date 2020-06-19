@@ -15,11 +15,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     String comments[];
     String usernames[];
 
+
     public CommentAdapter(Context context, String usernames[], String comments[]){
         this.context = context;
         this.comments = comments;
         this.usernames = usernames;
 
+        for(String s : usernames){
+            System.out.println("Names: "+ s);
+        }
     }
 
     @NonNull

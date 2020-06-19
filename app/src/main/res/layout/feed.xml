@@ -33,8 +33,8 @@
                 android:id="@+id/uploadedByText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Uploaded by "
-                android:textStyle="italic"
+                android:text="✐ "
+                android:textStyle="bold|italic"
 
                 app:layout_constraintEnd_toEndOf="@+id/postHeadlineText"
                 app:layout_constraintHorizontal_bias="0.0"

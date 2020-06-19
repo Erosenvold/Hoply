@@ -10,7 +10,15 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.example.test.dao.RemoteUserDAO;
 import com.example.test.dao.UsersDao;
+import com.example.test.tables.RemoteUsers;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     public TextView newUserMsg;
@@ -40,21 +48,63 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        UsersDao usersDao = database.getAllUsers();
+        RemoteUserDAO remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
 
-        if(strUsername.equals(usersDao.getUserIDLogin(strUsername, strPassword))){
+        Call<List<RemoteUsers>> userFromId = remoteUserDAO.getUserFromId("eq."+strUsername);
 
-          LogSession.setSession(usersDao.getUserID(strUsername));
-          Intent intent = new Intent(this,ProfileActivity.class);
-          startActivity(intent);
+        userFromId.enqueue(new Callback<List<RemoteUsers>>() {
+            @Override
+            public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
+
+                if(response.body().size()==1){
+
+                    for(RemoteUsers u : response.body()) {
+                        String s = u.getName();
 
 
+                        String[] tempString = s.split("@|]", -2);
 
-        }
-        else{
-            newUserMsg.setText("Incorrect Username or Password!");
-            newUserMsg.setTextColor(Color.RED);
-        }
+                        String username = "";
+                        String password = "";
+                        String profileIMG = "";
 
+
+                        for (String str : tempString) {
+                            if (str.contains("PWD[")) {
+                                password = str.substring(4, str.length());
+
+//                                System.out.println(password);
+                            } else if (str.contains("IMG[")) {
+                                profileIMG = str.substring(4, str.length());
+                            } else {
+                                username = username+ str;
+//                                System.out.println(username);
+                            }
+
+                        }
+                        if (strPassword.equals(password)) {
+                            LogSession.setSession(u.getId(), username, profileIMG, u.getStamp(), password);
+                            Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                            startActivity(intent);
+                        } else {
+                            newUserMsg.setText("Incorrect Username or Password!");
+                            newUserMsg.setTextColor(Color.RED);
+                        }
+
+                    }
+
+                }else{
+                        newUserMsg.setText("Incorrect Username or Password!");
+                        newUserMsg.setTextColor(Color.RED);
+                    }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
+
+            }
+        });
+        
     }
 }

@@ -29,6 +29,7 @@
 
         android:adjustViewBounds="true"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/DoneButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.268"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,21 +53,6 @@
         android:background="#d8ffcd"
         app:layout_constraintVertical_bias="0.509" />
 
-    <TextView
-        android:id="@+id/ProfileTextHeader"
-        android:layout_width="280dp"
-        android:layout_height="39dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="center"
-        android:text="Profile Text:"
-        android:textSize="26dp"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
-        app:layout_constraintEnd_toEndOf="@+id/UploadNewImageButton"
-        app:layout_constraintHorizontal_bias="0.465"
-        app:layout_constraintStart_toStartOf="@+id/ProfilePic"
-        app:layout_constraintTop_toBottomOf="@+id/ProfilePic" />
-
 
     <TextView
         android:id="@+id/ProfilePicHeader"
@@ -80,31 +66,17 @@
         app:layout_constraintStart_toStartOf="@+id/HeaderTxt"
         app:layout_constraintTop_toBottomOf="@+id/HeaderTxt" />
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="280dp"
-        android:layout_height="126dp"
-        android:background="#ebffbd"
-        android:ems="10"
-        android:hint="Type your profile text here..."
-        android:inputType="textPersonName"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@+id/ProfileTextHeader"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="@+id/ProfileTextHeader"
-        app:layout_constraintTop_toBottomOf="@+id/ProfileTextHeader" />
-
     <Button
         android:id="@+id/DoneButton"
         android:layout_width="170dp"
         android:layout_height="44dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="172dp"
+        android:background="#d8ffcd"
         android:onClick="DoneButton"
         android:text="Save and Exit"
-        app:layout_constraintEnd_toEndOf="@+id/editText"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="@+id/editText"
-        android:background="#d8ffcd"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/UploadNewImageButton"
+        app:layout_constraintHorizontal_bias="0.625"
+        app:layout_constraintStart_toStartOf="@+id/ProfilePic" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
