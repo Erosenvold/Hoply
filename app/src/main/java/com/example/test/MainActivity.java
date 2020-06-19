@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-
+//Nicolai
 public class MainActivity extends AppCompatActivity {
 
     @Override

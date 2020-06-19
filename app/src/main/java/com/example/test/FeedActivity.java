@@ -20,7 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-// MOVE EVERYTHING UP
+// Erik
 
 public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPostListener {
 

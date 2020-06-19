@@ -26,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
+//Erik
 public class ReadPostActivity extends AppCompatActivity {
     RecyclerView rv;
     RemoteUserDAO remoteUserDAO;
