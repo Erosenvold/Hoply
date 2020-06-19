@@ -27,10 +27,10 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
-            TextView UserText = (TextView) findViewById(R.id.UserName);
+            TextView UserText =  findViewById(R.id.UserName);
             UserText.setText(LogSession.getSessionUsername());
 
-            TextView Timestamp = (TextView) findViewById(R.id.Timestamp);
+            TextView Timestamp =  findViewById(R.id.Timestamp);
             Timestamp.setText("Member since: " + LogSession.getSessionStamp());
 
             //Imageview: shows profile image if it exists

@@ -1,7 +1,6 @@
 package com.example.test;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.content.pm.PackageManager;
@@ -36,7 +35,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -44,16 +42,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// FIX TIME TO TIMESTAMP
+
 
 public class CreatePostActivity extends AppCompatActivity {
 
     private static Bitmap imageBitmap; //Image Bitmap
     private static Geocoder geo;
-    private static Context context;
+
     private static String stamp, content;
-    private static FusedLocationProviderClient flpClient;
-    private static AtomicBoolean found = new AtomicBoolean(false);
+    private FusedLocationProviderClient flpClient;
+
 
     private static AtomicInteger newUniqueId = new AtomicInteger(0);
     public static String currLocation;
@@ -86,7 +84,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
 
         TextView errMsg = findViewById(R.id.createPostError);
-        RemotePostDAO remotePostDao = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
+
 
 
         EditText postTxt = findViewById(R.id.createPost);

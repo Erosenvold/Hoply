@@ -1,7 +1,6 @@
 package com.example.test.dao;
 import com.example.test.tables.RemoteComments;
-import com.example.test.tables.RemotePosts;
-import com.example.test.tables.RemoteUsers;
+
 
 import java.util.List;
 

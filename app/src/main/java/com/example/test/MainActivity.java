@@ -1,7 +1,6 @@
 package com.example.test;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 
 import android.content.Intent;

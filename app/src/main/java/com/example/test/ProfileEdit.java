@@ -20,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//TEST IMAGES
+
 
 public class ProfileEdit extends AppCompatActivity {
 
@@ -54,11 +54,7 @@ public class ProfileEdit extends AppCompatActivity {
 
 
 
-        //Save profile text in local Database
-//        EditText ProfileTxt = findViewById(R.id.editText);
-//        String ProfileTxtStr = ProfileTxt.getText().toString();
-        String UserId = LogSession.getSessionID();
-//        userDao.createNewProfileTxt(ProfileTxtStr, UserId);
+
 
         //Save profile Image in local Database
         if(imageBitmap != null) {

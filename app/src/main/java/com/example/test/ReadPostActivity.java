@@ -25,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//TIME TO TIMESTAMP + VISUALS
+
 
 public class ReadPostActivity extends AppCompatActivity {
     RecyclerView rv;
@@ -75,29 +75,6 @@ public class ReadPostActivity extends AppCompatActivity {
             TextView timestamp = (TextView) findViewById(R.id.timestamp);
             timestamp.setText("Uploaded "+ PostSession.getSessionStamp());
 
-//            //sets Post image
-//            if (postDao.getPostImages(PostSession.getSessionID()) != null) {
-//
-//                String ImageStr = postDao.getPostImages(PostSession.getSessionID());
-//
-//                byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
-//                Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
-//
-//                ImageView postImage = findViewById(R.id.postImage);
-//                postImage.setImageBitmap(bitmapPostImage);
-//            }
-//
-//
-//            //sets Location TextView if not null
-//            if(postDao.getLocationFromID(PostSession.getSessionID()) != null) {
-//
-//                TextView location = (TextView) findViewById(R.id.location);
-//                location.setText("Uploaded from " + postDao.getLocationFromID(PostSession.getSessionID()));
-//
-//            }
-
-            //DET VAR HER VI NÅEDE TIL. :) tilføj resten af post indhold og knapper plus kommentare
-
 
 
             rv = findViewById(R.id.comments);
@@ -138,12 +115,6 @@ public class ReadPostActivity extends AppCompatActivity {
             });
 
 
-//            commentContents = commentsDao.getCommentsFromPostID(PostSession.getSessionPostID());
-//            usernames = commentsDao.getCommentUserIDFromPostID(PostSession.getSessionPostID());
-//            for(int i=0; usernames.length>i; i++){
-//                usernames[i] = usersDao.getUsernameFromID(usernames[i]);
-//            }
-////            System.out.println(commentContents[0] + " : " + usernames[0]);
 
 
         }
