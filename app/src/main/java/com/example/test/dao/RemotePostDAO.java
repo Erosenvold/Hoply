@@ -1,6 +1,5 @@
 package com.example.test.dao;
 
-import com.example.test.tables.JoinPost;
 import com.example.test.tables.RemotePosts;
 
 import java.util.List;

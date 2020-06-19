@@ -7,14 +7,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import com.example.test.dao.RemoteUserDAO;
-import com.example.test.dao.UsersDao;
 import com.example.test.tables.RemoteUsers;
-import com.example.test.tables.Users;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,13 +25,13 @@ public class CreateUserActivity extends AppCompatActivity {
     RemoteUserDAO remoteUsersDAO;
     private static String strUsername, strPassword, strUserID;
 
-    public AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        this.database = MainActivity.getDB();
+
     }
     public void createUser(View view){
         TextView errorMsg = findViewById(R.id.createUserError);

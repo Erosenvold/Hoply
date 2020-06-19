@@ -6,7 +6,7 @@ import androidx.room.Room;
 
 public final class LogSession {
 
-    AppDatabase database = MainActivity.getDB();
+
     private static String sessionID;
     private static String sessionIMG;
     private static String sessionUsername;

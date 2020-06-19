@@ -41,7 +41,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     AtomicInteger i = new AtomicInteger(0);
     AtomicInteger completionCount = new AtomicInteger(0);
 
-    public static AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -50,7 +50,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
             setContentView(R.layout.activity_feed);
 
 
-            this.database = MainActivity.getDB();
+
             rv = findViewById(R.id.feedRecyclerView);
             rv.setHasFixedSize(true);
 

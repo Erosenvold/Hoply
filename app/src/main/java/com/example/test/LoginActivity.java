@@ -8,10 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import com.example.test.dao.RemoteUserDAO;
-import com.example.test.dao.UsersDao;
 import com.example.test.tables.RemoteUsers;
 
 import java.util.List;
@@ -22,14 +20,14 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     public TextView newUserMsg;
-    public static AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
 
-       this.database = MainActivity.getDB();
+
 
 
         Intent newUserIntent = getIntent();

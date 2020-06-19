@@ -1,10 +1,7 @@
 package com.example.test;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,12 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.test.dao.CommentsDao;
-import com.example.test.dao.PostDao;
 import com.example.test.dao.RemoteCommentsDAO;
 import com.example.test.dao.RemoteUserDAO;
-import com.example.test.dao.UsersDao;
-import com.example.test.tables.Comments;
 import com.example.test.tables.RemoteComments;
 import com.example.test.tables.RemoteUsers;
 
@@ -44,7 +37,7 @@ public class ReadPostActivity extends AppCompatActivity {
     AtomicInteger completionCount = new AtomicInteger(0);
 
 
-    public static AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,10 +47,7 @@ public class ReadPostActivity extends AppCompatActivity {
             //sets contentview to activity_readpost and gets database
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_readpost);
-            this.database = MainActivity.getDB();
-            UsersDao usersDao = database.getAllUsers();
 
-            PostDao postDao = database.getAllPosts();
 
 
             //sets content TextView

@@ -5,21 +5,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.test.dao.UsersDao;
-
-
 
 public class ProfileActivity extends AppCompatActivity {
 
 
-    public static AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //if logged in.
@@ -28,8 +24,7 @@ public class ProfileActivity extends AppCompatActivity {
             //sets contentview to activity_profile and gets database
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_profile);
-            this.database = MainActivity.getDB();
-            UsersDao usersDao = database.getAllUsers();
+
 
 
             TextView UserText = (TextView) findViewById(R.id.UserName);

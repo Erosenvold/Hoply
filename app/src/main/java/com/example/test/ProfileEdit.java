@@ -7,16 +7,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test.dao.RemoteUserDAO;
-import com.example.test.dao.UsersDao;
 import com.example.test.tables.RemoteUsers;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -30,7 +25,7 @@ import retrofit2.Response;
 public class ProfileEdit extends AppCompatActivity {
 
 
-    public static AppDatabase database;
+
     public static Bitmap imageBitmap;
     static String userUpdate;
     static String result;
@@ -40,7 +35,7 @@ public class ProfileEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profedit);
         imageBitmap = null;
-        this.database = MainActivity.getDB();
+
 
 
     }
@@ -56,7 +51,7 @@ public class ProfileEdit extends AppCompatActivity {
 
     //saves new profileImage and ProfileText, starts profile acitivity
     public void DoneButton(View view) {
-        UsersDao userDao = database.getAllUsers();
+
 
 
         //Save profile text in local Database
