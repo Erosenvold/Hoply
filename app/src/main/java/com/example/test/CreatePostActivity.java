@@ -1,4 +1,6 @@
 package com.example.test;
+import com.example.test.dao.RemotePostDAO;
+import com.example.test.tables.RemotePosts;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,12 +19,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.test.dao.RemotePostDAO;
-import com.example.test.tables.RemotePosts;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
@@ -219,7 +218,7 @@ public class CreatePostActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<RemotePosts> call, Response<RemotePosts> response) {
                 if(response.isSuccessful()){
-                    System.out.println("you Made a Post! wow such post");
+
                 }else{
                     JSONObject jObjErr = null;
                     try {

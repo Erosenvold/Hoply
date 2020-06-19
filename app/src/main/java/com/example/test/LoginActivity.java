@@ -70,13 +70,10 @@ public class LoginActivity extends AppCompatActivity {
                         for (String str : tempString) {
                             if (str.contains("PWD[")) {
                                 password = str.substring(4, str.length());
-
-//                                System.out.println(password);
                             } else if (str.contains("IMG[")) {
                                 profileIMG = str.substring(4, str.length());
                             } else {
                                 username = username+ str;
-//                                System.out.println(username);
                             }
 
                         }
