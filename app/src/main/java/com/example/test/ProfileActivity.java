@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
+//Erik
 public class ProfileActivity extends AppCompatActivity {
 
 

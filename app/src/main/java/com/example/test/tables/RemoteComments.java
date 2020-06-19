@@ -2,6 +2,7 @@ package com.example.test.tables;
 
 import com.google.gson.annotations.SerializedName;
 
+//Erik til tables
 public class RemoteComments {
 
     @SerializedName("post_id")

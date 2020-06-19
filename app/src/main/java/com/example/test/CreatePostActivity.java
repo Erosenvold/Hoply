@@ -42,7 +42,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-
+//Nicolai
 public class CreatePostActivity extends AppCompatActivity {
 
     private static Bitmap imageBitmap; //Image Bitmap

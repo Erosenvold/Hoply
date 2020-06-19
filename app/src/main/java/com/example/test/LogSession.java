@@ -1,7 +1,7 @@
 package com.example.test;
 
 
-
+//Asger
 public final class LogSession {
 
 

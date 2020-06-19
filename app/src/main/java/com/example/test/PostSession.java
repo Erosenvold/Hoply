@@ -1,7 +1,7 @@
 package com.example.test;
 
 import android.graphics.Bitmap;
-
+//Nicolai
 public class PostSession {
 
     static int sessionPostID;
