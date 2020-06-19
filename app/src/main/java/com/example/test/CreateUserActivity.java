@@ -95,6 +95,8 @@ public class CreateUserActivity extends AppCompatActivity {
                 System.out.println("Failure, no response : " + t.getMessage());
             }
         });
+        Intent intent = new Intent(CreateUserActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
 
