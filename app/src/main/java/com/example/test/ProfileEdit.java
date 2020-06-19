@@ -10,9 +10,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.test.dao.RemoteUserDAO;
 import com.example.test.dao.UsersDao;
+import com.example.test.tables.RemoteUsers;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 //TEST IMAGES
 
@@ -21,11 +32,14 @@ public class ProfileEdit extends AppCompatActivity {
 
     public static AppDatabase database;
     public static Bitmap imageBitmap;
+    static String userUpdate;
+    static String result;
     @Override
     protected void onCreate(Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profedit);
-
+        imageBitmap = null;
         this.database = MainActivity.getDB();
 
 
@@ -61,16 +75,33 @@ public class ProfileEdit extends AppCompatActivity {
 
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] arr = baos.toByteArray();
-            String result = Base64.encodeToString(arr, Base64.DEFAULT);
+            result = Base64.encodeToString(arr, Base64.DEFAULT);
 
-//            getUser(userId)  = getUSer(userId) + "@IMG["+result+"]";
+            userUpdate = LogSession.getSessionUsername()+ "@PWD["+LogSession.getSessionPassword()+"]"+ "@IMG["+result+"]";
 
         }
 
+        RemoteUserDAO remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
+        Call<RemoteUsers> updateUser = remoteUserDAO.updateUser("eq."+LogSession.getSessionID(), userUpdate,
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAyMCJ9.PZG35xIvP9vuxirBshLunzYADEpn68wPgDUqzGDd7ok");
 
-        Intent intent = new Intent(this, ProfileActivity.class);
+        updateUser.enqueue(new Callback<RemoteUsers>() {
+            @Override
+            public void onResponse(Call<RemoteUsers> call, Response<RemoteUsers> response) {
 
-        startActivity(intent);
+                LogSession.setSessionIMG(result);
+                goToProfile();
+
+            }
+
+            @Override
+            public void onFailure(Call<RemoteUsers> call, Throwable t) {
+                System.out.println("Failure : "+ t.getMessage());
+            }
+        });
+
+
+
     }
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
@@ -82,12 +113,18 @@ public class ProfileEdit extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println(imageUri);
+
             ImageView editImage = findViewById(R.id.ProfilePic);
             editImage.setImageURI(imageUri);
 
 
         }
+    }
+
+
+    public void goToProfile(){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
 }

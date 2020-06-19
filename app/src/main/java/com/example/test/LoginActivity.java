@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         userFromId.enqueue(new Callback<List<RemoteUsers>>() {
             @Override
             public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
-                System.out.println("response body size: "+response.body().size());
+
                 if(response.body().size()==1){
 
                     for(RemoteUsers u : response.body()) {
@@ -63,10 +63,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
                         String[] tempString = s.split("@|]", -2);
-                        System.out.println("Length of tempstring : "+tempString.length);
-                        for(String z : tempString){
-                            System.out.println(z);
-                        }
 
                         String username = "";
                         String password = "";
@@ -87,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         }
                         if (strPassword.equals(password)) {
-                            LogSession.setSession(u.getId(), username, profileIMG, u.getStamp());
+                            LogSession.setSession(u.getId(), username, profileIMG, u.getStamp(), password);
                             Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                             startActivity(intent);
                         } else {
@@ -109,20 +105,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
-//        if(strUsername.equals(usersDao.getUserIDLogin(strUsername, strPassword))){
-//
-//          LogSession.setSession(usersDao.getUserID(strUsername));
-//          Intent intent = new Intent(this,ProfileActivity.class);
-//          startActivity(intent);
-//
-//
-//
-//        }
-//        else{
-//            newUserMsg.setText("Incorrect Username or Password!");
-//            newUserMsg.setTextColor(Color.RED);
-//        }
-
+        
     }
 }

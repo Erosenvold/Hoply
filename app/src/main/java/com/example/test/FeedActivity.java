@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -58,7 +59,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
             //to do: populate from database instead of values
             RemotePostDAO remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
 
-            Call<List<RemotePosts>> getPostsDESC = remotePostDAO.getPostsDESC("stamp.desc",20,0);
+            Call<List<RemotePosts>> getPostsDESC = remotePostDAO.getPostsDESC("stamp.desc",20,FeedSession.getSessionOffset());
 
             getPostsDESC.enqueue(new Callback<List<RemotePosts>>() {
                 @Override
@@ -166,8 +167,9 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                     usernames[k] = result;
 
                     if(completionCount.incrementAndGet()>=content.length-1){
-                        instFeedAdapter();
+                            instFeedAdapter();
                     }
+
 
                 }
 
@@ -184,9 +186,9 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
 
     public void instFeedAdapter(){
-        rv.setLayoutManager(new LinearLayoutManager(FeedActivity.this));
-        FeedAdapter feedAdapter = new FeedAdapter(FeedActivity.this, content, usernames, images, postIds, this);
-        rv.setAdapter((feedAdapter));
+            rv.setLayoutManager(new LinearLayoutManager(FeedActivity.this));
+            FeedAdapter feedAdapter = new FeedAdapter(FeedActivity.this, content, usernames, images, postIds, this);
+            rv.setAdapter((feedAdapter));
 
     }
 
@@ -206,6 +208,28 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     public void onPostClick(int position){
         PostSession.setSession(postIds[position], usernames[position], nameIds[position], content[position], stamp[position], gps[position], images[position]);
         Intent intent = new Intent(this,ReadPostActivity.class);;
+        startActivity(intent);
+    }
+
+    public void increaseOffset(View view ){
+        FeedSession.incSessionOffset();
+        Intent intent = new Intent(this,FeedActivity.class);
+        startActivity(intent);
+    }
+
+    public void decreaseOffset(View view ){
+
+        if(FeedSession.getSessionOffset()>0) {
+            FeedSession.decSessionOffset();
+            Intent intent = new Intent(this,FeedActivity.class);
+            startActivity(intent);
+        }
+
+    }
+
+    //Starts CreatePost Activity
+    public void createBtn(View view){
+        Intent intent = new Intent(this,CreatePostActivity.class);
         startActivity(intent);
     }
 

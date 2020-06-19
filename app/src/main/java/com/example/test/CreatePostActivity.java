@@ -116,9 +116,9 @@ public class CreatePostActivity extends AppCompatActivity {
         }else if (!strPostTxt.trim().isEmpty()) {
 
             Date currDate = new Date();
-
             SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
             stamp = time.format(currDate);
+
             content = strPostTxt;
 
 

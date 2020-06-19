@@ -36,6 +36,8 @@ import retrofit2.Response;
 
 public class ReadPostActivity extends AppCompatActivity {
     RecyclerView rv;
+    RemoteUserDAO remoteUserDAO;
+    RemoteCommentsDAO remoteCommentsDAO;
 
     String commentContents[],usernames[], userIds[];
 
@@ -110,10 +112,10 @@ public class ReadPostActivity extends AppCompatActivity {
 
             rv = findViewById(R.id.comments);
 
-            RemoteCommentsDAO commentsDao = RemoteClient.getRetrofitInstance().create(RemoteCommentsDAO.class);
+            remoteCommentsDAO = RemoteClient.getRetrofitInstance().create(RemoteCommentsDAO.class);
 
 
-            Call<List<RemoteComments>> getCommentsFromPostId = commentsDao.getCommentsFromPostId("eq."+PostSession.getSessionPostID());
+            Call<List<RemoteComments>> getCommentsFromPostId = remoteCommentsDAO.getCommentsFromPostId("eq."+PostSession.getSessionPostID());
 
             getCommentsFromPostId.enqueue(new Callback<List<RemoteComments>>() {
                 @Override
@@ -171,7 +173,7 @@ public class ReadPostActivity extends AppCompatActivity {
     }
 
     public void setUsernames(int k){
-        RemoteUserDAO remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
+        remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
 
         Call<List<RemoteUsers>> getUser = remoteUserDAO.getLimitedUsers("eq." + userIds[k], 20);
         getUser.enqueue(new Callback<List<RemoteUsers>>() {
@@ -225,19 +227,28 @@ public class ReadPostActivity extends AppCompatActivity {
         EditText comment = findViewById(R.id.commentField);
         String strComment = comment.getText().toString();
         if(!strComment.trim().isEmpty()){
-            CommentsDao commentsDao = database.getAllComments();
-            Comments newComment = new Comments();
-            newComment.userID = LogSession.getSessionID();
-//            newComment.postID = PostSession.getSessionID();
-
             Date currDate = new Date();
-            SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH.mm.ss.SSSXXX");
-//            newComment.timeCreated = time.format(currDate);
+            SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            String stamp = time.format(currDate);
 
-            newComment.commentContent = strComment;
-            commentsDao.createNewComment(newComment);
-            Intent intent = new Intent(this, ReadPostActivity.class);
-            startActivity(intent);
+
+            Call<RemoteComments> insertComment = remoteCommentsDAO.insertComment(LogSession.getSessionID(), Integer.parseInt(PostSession.getSessionPostID()),
+                    strComment, stamp, "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAyMCJ9.PZG35xIvP9vuxirBshLunzYADEpn68wPgDUqzGDd7ok");
+
+            insertComment.enqueue(new Callback<RemoteComments>() {
+                @Override
+                public void onResponse(Call<RemoteComments> call, Response<RemoteComments> response) {
+                    refreshPage();
+                }
+
+                @Override
+                public void onFailure(Call<RemoteComments> call, Throwable t) {
+                    System.out.println("failure : "+ t.getMessage());
+                    refreshPage();
+                }
+            });
+
+
         }
     }
     public void sendToFeed(View view){
@@ -245,5 +256,9 @@ public class ReadPostActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void refreshPage(){
+        Intent intent = new Intent(this,ReadPostActivity.class);
+        startActivity(intent);
+    }
 
 }

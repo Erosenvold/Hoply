@@ -22,7 +22,6 @@ public class ProfileActivity extends AppCompatActivity {
     public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("This is the username :  "+LogSession.getSessionUsername());
         //if logged in.
         if (LogSession.isLoggedIn()) {
 
@@ -41,8 +40,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             //Imageview: shows profile image if it exists
             if (LogSession.getSessionIMG().length() != 0) {
-
-                System.out.println("Picture found:" + LogSession.getSessionIMG());
 
                 String ImageStr = LogSession.getSessionIMG();
                 byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
@@ -88,6 +85,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     //Starts Feed Activity
     public void sendToFeed(View view){
+        FeedSession.resetSessionOffset();
         Intent intent = new Intent(this,FeedActivity.class);
         startActivity(intent);
     }

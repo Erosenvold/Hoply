@@ -65,7 +65,8 @@
         android:layout_marginBottom="36dp"
         android:background="#d8ffcd"
         android:onClick="sendToFeed"
-        android:text="Home"
+        android:text="⟰"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/NewPostButton"
         app:layout_constraintHorizontal_bias="0.025"
@@ -80,7 +81,9 @@
         android:layout_marginBottom="36dp"
         android:background="#d8ffcd"
         android:onClick="createPostSendBtn"
-        android:text="Create New Post"
+        android:text="✎"
+        android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
