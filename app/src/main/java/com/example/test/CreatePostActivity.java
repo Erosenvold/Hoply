@@ -162,18 +162,14 @@ public class CreatePostActivity extends AppCompatActivity {
         if (locationCheck.isChecked()) {
             if (ActivityCompat.checkSelfPermission(CreatePostActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 AtomicReference<List<Address>> addresses = new AtomicReference<>();
-
-                //LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                 Criteria criteria = new Criteria();
                 criteria.setAccuracy(Criteria.ACCURACY_FINE);
                 criteria.setCostAllowed(false);
-                //provider = locationManager.getBestProvider(criteria, false);
-                //location = locationManager.getLastKnownLocation(provider);
-
                 flpClient.getLastLocation().addOnSuccessListener(CreatePostActivity.this, l -> {
                     if(l != null){
                         try {
                             addresses.set(geo.getFromLocation(l.getLatitude(), l.getLongitude(), 1));
+
                             currLocation = addresses.get().get(addresses.get().size()-1).getLocality();
 
                         } catch (IOException e) {
@@ -181,9 +177,6 @@ public class CreatePostActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-
-
             } else {
                 ActivityCompat.requestPermissions(CreatePostActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
                 locationCheck.setChecked(false);
