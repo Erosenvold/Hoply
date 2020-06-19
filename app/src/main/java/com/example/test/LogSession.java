@@ -1,10 +1,12 @@
 package com.example.test;
 
+import android.content.Context;
 
-//Asger
+import androidx.room.Room;
+
 public final class LogSession {
 
-
+    AppDatabase database = MainActivity.getDB();
     private static String sessionID;
     private static String sessionIMG;
     private static String sessionUsername;
@@ -19,7 +21,11 @@ public final class LogSession {
         sessionPassword = password;
     }
     public static boolean isLoggedIn(){
-        return sessionID != null;
+        if(sessionID != null){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public static String getSessionPassword() {

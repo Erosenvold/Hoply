@@ -7,9 +7,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.example.test.dao.RemoteUserDAO;
+import com.example.test.dao.UsersDao;
 import com.example.test.tables.RemoteUsers;
+import com.example.test.tables.Users;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,19 +24,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//Asger
+
 public class CreateUserActivity extends AppCompatActivity {
 
     RemoteUserDAO remoteUsersDAO;
     private static String strUsername, strPassword, strUserID;
 
-
+    public AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-
+        this.database = MainActivity.getDB();
     }
     public void createUser(View view){
         TextView errorMsg = findViewById(R.id.createUserError);
@@ -77,12 +82,17 @@ public class CreateUserActivity extends AppCompatActivity {
         Date currDate = new Date();
         SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         stamp = time.format(currDate);
+        UsersDao usersDao = database.getAllUsers();
         Call<RemoteUsers> insertUser = remoteUsersDAO.insertUser(strUserID, strUsername+"@PWD["+strPassword+"]",
                 stamp, "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAyMCJ9.PZG35xIvP9vuxirBshLunzYADEpn68wPgDUqzGDd7ok");
         insertUser.enqueue(new Callback<RemoteUsers>() {
             @Override
             public void onResponse(Call<RemoteUsers> call, Response<RemoteUsers> response) {
-
+                Users user = new Users();
+                user.id = strUserID;
+                user.username = strUsername;
+                user.timeCreated = stamp;
+                usersDao.createNewUser(user);
             }
 
             @Override

@@ -6,21 +6,31 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.test.dao.PostDao;
 import com.example.test.dao.RemotePostDAO;
 import com.example.test.dao.RemoteUserDAO;
+
+import com.example.test.dao.UsersDao;
+import com.example.test.tables.Posts;
 import com.example.test.tables.RemotePosts;
 import com.example.test.tables.RemoteUsers;
+
 import java.util.List;
+
 import java.util.concurrent.atomic.AtomicInteger;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-// Erik
+// MOVE EVERYTHING UP
 
 public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPostListener {
 
@@ -34,20 +44,141 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     AtomicInteger i = new AtomicInteger(0);
     AtomicInteger completionCount = new AtomicInteger(0);
 
-
+    public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+//////////////////////////////////////////////////////////////////
         if(LogSession.isLoggedIn()) {
+
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_feed);
 
 
-
+            this.database = MainActivity.getDB();
             rv = findViewById(R.id.feedRecyclerView);
             rv.setHasFixedSize(true);
 
 
+            PostDao postDao = database.getAllPosts();
+            UsersDao usersDao = database.getAllUsers();
+            postDao.deleteAllPosts();
+            content = new String[postDao.getAllIDDESC().length];
+            usernames = new String[content.length];
+            images = new Bitmap[content.length];
+            postIds = new int[content.length];
+            nameIds = new String[content.length];
+            gps = new String[content.length];
+            stamp = new String[content.length];
+
+            RemotePostDAO remotePostDAO;
+
+            remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
+            System.out.println("OFFSET: " + FeedSession.getSessionOffset());
+            Call<List<RemotePosts>> getPosts = remotePostDAO.getPostsDESC("stamp.desc",10,FeedSession.getSessionOffset());
+            getPosts.enqueue(new Callback<List<RemotePosts>>() {
+                @Override
+                public void onResponse(Call<List<RemotePosts>> call, Response<List<RemotePosts>> response) {
+
+                    PostDao postDao = database.getAllPosts();
+                    postDao.deleteAllPosts();
+                    for(RemotePosts u: response.body()){
+                        Posts posts = new Posts();
+                        posts.postID = u.getId();
+                        posts.userID = u.getUser_id();
+                        posts.timeCreated = u.getStamp();
+                        posts.postContent = u.getContent();
+                        //      postDao.createNewPost(posts);
+//////////////
+                        for(int i = 0; i< postDao.getAllIDDESC().length;i++){
+
+
+                            usernames[i] = usersDao.getUsernameFromID(postDao.getUserID(postDao.getAllIDDESC()[i]));
+                            //CUT UP USERNAMES
+
+                            postIds[i] = postDao.getAllIDDESC()[i];
+
+                            // nameIds[i.get()]=u.getUser_id();
+                            content[i] = "";//postDao.getContentFromID(postIds[i]);
+                            String[] tempStringArr = content[i].split("@|]", -2);
+
+
+                            String text = "";
+                            String image = "";
+                            String location = "";
+
+                            for (String s : tempStringArr) {
+                                if (s.contains("GPS[") && !s.equals("GPS[")) {
+                                    location = s.substring(4,s.length());
+                                } else if (s.contains("IMG[" ) && !s.equals("IMG[")) {
+                                    image = s.substring(4,s.length());
+                                } else {
+                                    text = text + s;
+                                }
+                            }
+
+                            if(text.length()>100){
+
+                                content[i] = postDao.getContentFromID(postDao.getAllIDDESC()[i]).substring(0,100) + "...";
+                            }else if(text.length()>0){
+                                content[i] = postDao.getContentFromID(postDao.getAllIDDESC()[i]).substring(0,text.length()-1);
+                            }
+
+                            //Imageview: shows profile image if it exists
+                            if (!image.isEmpty()) {
+                                byte[] encodebyte = Base64.decode(image, Base64.DEFAULT);
+                                Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0, encodebyte.length);
+
+                                images[i] = bitmapPostImage;
+
+                            } else {
+
+                                images[i] = BitmapFactory.decodeResource(getResources(), R.drawable.defaultpic);
+                            }
+
+                            postIds[i] = postDao.getAllIDDESC()[i];
+                            gps[i] = location;
+                            stamp[i] =postDao.getAllStampsDESC()[i];
+
+                            //  setUsernames(i.get());
+
+                            //i.incrementAndGet();
+                        }
+                        instFeedAdapter();
+                        /////////////////
+
+
+
+
+                    }
+
+                 //   Intent intent = new Intent(FeedActivity.this, FeedActivity.class);
+                //    startActivity(intent);
+                }
+
+                @Override
+                public void onFailure(Call<List<RemotePosts>> call, Throwable t) {
+
+                }
+            });
+     /////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
             //populates arrays from the values -> strings.xml
             //to do: populate from database instead of values
             RemotePostDAO remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
@@ -125,7 +256,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                     System.out.println("Failure! :" + t.getMessage());
                 }
         });
-
+*/
 
         } else{
             Intent intent = new Intent(this, MainActivity.class);
@@ -186,9 +317,9 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     }
 
     public void refreshBtn(View view){
+        FeedSession.resetSessionOffset();
+        syncPosts();
 
-        Intent intent = new Intent(this,FeedActivity.class);
-        startActivity(intent);
     }
 
     public void myProfile(View view){
@@ -206,18 +337,18 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
     public void increaseOffset(View view ){
         if(FeedSession.getSessionOffset()<=200) {
+            syncPosts();
             FeedSession.incSessionOffset();
-            Intent intent = new Intent(this, FeedActivity.class);
-            startActivity(intent);
+
         }
     }
 
     public void decreaseOffset(View view ){
 
         if(FeedSession.getSessionOffset()>0) {
+            syncPosts();
             FeedSession.decSessionOffset();
-            Intent intent = new Intent(this,FeedActivity.class);
-            startActivity(intent);
+
         }
 
     }
@@ -226,6 +357,40 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     public void createBtn(View view){
         Intent intent = new Intent(this,CreatePostActivity.class);
         startActivity(intent);
+    }
+    public void syncPosts(){
+        //Indsæt posts
+        RemotePostDAO remotePostDAO;
+
+        remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
+        System.out.println("OFFSET: " + FeedSession.getSessionOffset());
+        Call<List<RemotePosts>> getPosts = remotePostDAO.getPostsDESC("stamp.desc",10,FeedSession.getSessionOffset());
+        getPosts.enqueue(new Callback<List<RemotePosts>>() {
+            @Override
+            public void onResponse(Call<List<RemotePosts>> call, Response<List<RemotePosts>> response) {
+
+                PostDao postDao = database.getAllPosts();
+                postDao.deleteAllPosts();
+                for(RemotePosts u: response.body()){
+                    Posts posts = new Posts();
+                    posts.postID = u.getId();
+                    posts.userID = u.getUser_id();
+                    posts.timeCreated = u.getStamp();
+                    posts.postContent = u.getContent();
+              //      postDao.createNewPost(posts);
+
+                }
+
+                Intent intent = new Intent(FeedActivity.this, FeedActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<List<RemotePosts>> call, Throwable t) {
+
+            }
+        });
+
     }
 
 }
