@@ -7,6 +7,24 @@
     android:background="#bdd37a"
     android:layout_height="match_parent">
 
+    <Button
+        android:id="@+id/decreaseOffset"
+        android:layout_width="45dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="8dp"
+        android:background="#d8ffcd"
+        android:onClick="decreaseOffset"
+        android:text="↑"
+        android:textAllCaps="false"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/increaseOffset"
+        app:layout_constraintEnd_toEndOf="@+id/increaseOffset"
+        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintStart_toStartOf="@+id/increaseOffset"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feedRecyclerView"
         android:layout_width="412dp"
@@ -22,12 +40,27 @@
         android:id="@+id/goToProfileButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginBottom="52dp"
         android:background="#d8ffcd"
         android:onClick="myProfile"
-        android:text="My profile"
+        android:text="☻"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="@+id/increaseOffset"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/decreaseOffset" />
+
+    <Button
+        android:id="@+id/increaseOffset"
+        android:layout_width="45dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginRight="52dp"
+        android:layout_marginBottom="52dp"
+        android:background="#d8ffcd"
+        android:onClick="increaseOffset"
+        android:text="↓"
+        android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/feedRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,17 +68,34 @@
 
     <Button
         android:id="@+id/refreshFeedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
-        android:onClick="refreshBtn"
-        android:text="Refresh"
-        app:layout_constraintBottom_toTopOf="@+id/feedRecyclerView"
-        app:layout_constraintEnd_toStartOf="@+id/goToProfileButton"
-        app:layout_constraintHorizontal_bias="0.673"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="51dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginLeft="52dp"
         android:background="#d8ffcd"
+        android:onClick="refreshBtn"
+        android:text="↺"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/increaseOffset"
+        app:layout_constraintEnd_toStartOf="@+id/goToProfileButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/createPost"
+        android:layout_width="51dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="8dp"
+        android:background="#d8ffcd"
+        android:onClick="createBtn"
+        android:text="✎"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/refreshFeedButton"
+        app:layout_constraintEnd_toEndOf="@+id/refreshFeedButton"
+        app:layout_constraintStart_toStartOf="@+id/refreshFeedButton"
+        app:layout_constraintTop_toTopOf="@+id/decreaseOffset"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

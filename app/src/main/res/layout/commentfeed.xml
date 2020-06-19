@@ -20,8 +20,8 @@
 
             <TextView
                 android:id="@+id/commentUsernameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="321dp"
+                android:layout_height="22dp"
                 android:text="Username"
                 android:textStyle="bold|italic"
                 app:layout_constraintBottom_toBottomOf="@+id/uploadedByText"
@@ -30,8 +30,8 @@
 
             <TextView
                 android:id="@+id/uploadedByText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="78dp"
+                android:layout_height="22dp"
                 android:text="Uploaded by "
                 android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="@+id/commentContent"

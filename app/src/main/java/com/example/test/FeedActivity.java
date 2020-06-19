@@ -6,14 +6,26 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
-
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.test.dao.PostDao;
-import com.example.test.dao.UsersDao;
+import com.example.test.dao.RemotePostDAO;
+import com.example.test.dao.RemoteUserDAO;
+
+import com.example.test.tables.RemotePosts;
+import com.example.test.tables.RemoteUsers;
+
+import java.util.List;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 // MOVE EVERYTHING UP
 
@@ -22,66 +34,104 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     RecyclerView rv;
 
     //string arrays containing headlines and contents for posts
-    String headlines[],  usernames[];
+    String content[],  usernames[], gps[], stamp[],nameIds[];
     int postIds[];
 
-
-    //array of paths to images in the drawables folder.
-    //to do: populate from database instead of drawable
     Bitmap images[];
+    AtomicInteger i = new AtomicInteger(0);
+    AtomicInteger completionCount = new AtomicInteger(0);
 
     public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         if(LogSession.isLoggedIn()) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_feed);
 
-            this.database = MainActivity.getDB();
 
+            this.database = MainActivity.getDB();
             rv = findViewById(R.id.feedRecyclerView);
             rv.setHasFixedSize(true);
 
+
             //populates arrays from the values -> strings.xml
             //to do: populate from database instead of values
-            PostDao postDao = database.getAllPosts();
-            UsersDao usersDao = database.getAllUsers();
-            headlines = new String[postDao.getAllIDDESC().length];
-            usernames = new String[headlines.length];
-            images = new Bitmap[headlines.length];
-            postIds = new int[headlines.length];
-            for(int i = 0; i< postDao.getAllIDDESC().length;i++){
+            RemotePostDAO remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
 
-                int x = postDao.getAllContent(postDao.getAllIDDESC()[i]).length();
-                if(x>300){
-                    x = 300;
-                    headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]).substring(0,x) + "...";
-                }else{
-                    headlines[i] = postDao.getAllContent(postDao.getAllIDDESC()[i]).substring(0,x);
+            Call<List<RemotePosts>> getPostsDESC = remotePostDAO.getPostsDESC("stamp.desc",10,FeedSession.getSessionOffset());
+
+            getPostsDESC.enqueue(new Callback<List<RemotePosts>>() {
+                @Override
+                public void onResponse(Call<List<RemotePosts>> call, Response<List<RemotePosts>> response) {
+                    System.out.println("Succes: ");
+                    content = new String[response.body().size()];
+                    usernames = new String[content.length];
+                    images = new Bitmap[content.length];
+                    postIds = new int[content.length];
+                    nameIds = new String[content.length];
+                    gps = new String[content.length];
+                    stamp = new String[content.length];
+
+
+
+                    for (RemotePosts u : response.body()) {
+
+                        nameIds[i.get()]=u.getUser_id();
+
+                        String[] tempStringArr = u.getContent().split("@|]", -2);
+
+
+                        String text = "";
+                        String image = "";
+                        String location = "";
+
+                        for (String s : tempStringArr) {
+                            if (s.contains("GPS[") && !s.equals("GPS[")) {
+                                location = s.substring(4,s.length());
+                            } else if (s.contains("IMG[" ) && !s.equals("IMG[")) {
+                                image = s.substring(4,s.length());
+                            } else {
+                                text = text + s;
+                            }
+                        }
+
+                        int x = text.length() - 1;
+                        if (x > 100) {
+                            x = 100;
+                            content[i.get()] = text.substring(0, x) + "...";
+                        } else {
+                            content[i.get()] = text;
+                        }
+
+                        //Imageview: shows profile image if it exists
+                        if (!image.isEmpty()) {
+                            byte[] encodebyte = Base64.decode(image, Base64.DEFAULT);
+                            Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0, encodebyte.length);
+
+                            images[i.get()] = bitmapPostImage;
+
+                        } else {
+
+                            images[i.get()] = BitmapFactory.decodeResource(getResources(), R.drawable.defaultpic);
+                        }
+
+                        postIds[i.get()] = u.getId();
+                        gps[i.get()] = location;
+                        stamp[i.get()] = u.getStamp();
+                        setUsernames(i.get());
+
+                        i.incrementAndGet();
+                    }
+
+
                 }
-                usernames[i] = usersDao.getUsernameFromID(postDao.getUserID(postDao.getAllIDDESC()[i]));
-                postIds[i] = postDao.getAllIDDESC()[i];
 
-
-                //Imageview: shows profile image if it exists
-                if (postDao.getPostImages(postDao.getAllIDDESC()[i]) != null) {
-
-                    String ImageStr = postDao.getPostImages(postDao.getAllIDDESC()[i]);
-                    byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
-                    Bitmap bitmapProfileImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
-                    images[i] = bitmapProfileImage;
-
-                } else {
-
-                    images[i] = BitmapFactory.decodeResource(getResources(),R.drawable.defaultpic);
+                @Override
+                public void onFailure(Call<List<RemotePosts>> call, Throwable t) {
+                    System.out.println("Failure! :" + t.getMessage());
                 }
-            }
-
-
-            //Instantiates the adapter that contains the feeds
-            FeedAdapter feedAdapter = new FeedAdapter(this, headlines, usernames, images, postIds, this);
-            rv.setAdapter((feedAdapter));
-            rv.setLayoutManager(new LinearLayoutManager(this));
+        });
 
 
         } else{
@@ -89,6 +139,59 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
             startActivity(intent);
         }
     }
+
+    public void setUsernames(int k) {
+        RemoteUserDAO remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
+
+        Call<List<RemoteUsers>> getUser = remoteUserDAO.getLimitedUsers("eq." + nameIds[k], 10);
+        getUser.enqueue(new Callback<List<RemoteUsers>>() {
+
+            @Override
+            public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
+
+                for (RemoteUsers s : response.body()) {
+                    String result = "";
+                    if (s != null) {
+                        boolean done = false;
+                        String name = s.getName();
+                        int j = 0;
+                        while (!done) {
+                            if (name.length() > j && name.charAt(j) != '@') {
+                                result = result + name.charAt(j);
+                            } else {
+                                done = true;
+                            }
+                            j++;
+                        }
+                    }
+                    usernames[k] = result;
+
+                    if(completionCount.incrementAndGet()>=content.length-1){
+                            instFeedAdapter();
+                    }
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
+                System.out.println("Failer in inner " + t.getMessage());
+            }
+
+        });
+
+    }
+
+
+    public void instFeedAdapter(){
+            rv.setLayoutManager(new LinearLayoutManager(FeedActivity.this));
+            FeedAdapter feedAdapter = new FeedAdapter(FeedActivity.this, content, usernames, images, postIds, this);
+            rv.setAdapter((feedAdapter));
+
+    }
+
     public void refreshBtn(View view){
 
         Intent intent = new Intent(this,FeedActivity.class);
@@ -103,8 +206,32 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
     @Override
     public void onPostClick(int position){
-        PostSession.setSession(postIds[position]);
+        PostSession.setSession(postIds[position], usernames[position], nameIds[position], content[position], stamp[position], gps[position], images[position]);
         Intent intent = new Intent(this,ReadPostActivity.class);;
+        startActivity(intent);
+    }
+
+    public void increaseOffset(View view ){
+        if(FeedSession.getSessionOffset()<=200) {
+            FeedSession.incSessionOffset();
+            Intent intent = new Intent(this, FeedActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    public void decreaseOffset(View view ){
+
+        if(FeedSession.getSessionOffset()>0) {
+            FeedSession.decSessionOffset();
+            Intent intent = new Intent(this,FeedActivity.class);
+            startActivity(intent);
+        }
+
+    }
+
+    //Starts CreatePost Activity
+    public void createBtn(View view){
+        Intent intent = new Intent(this,CreatePostActivity.class);
         startActivity(intent);
     }
 
