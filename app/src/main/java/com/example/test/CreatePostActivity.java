@@ -1,9 +1,6 @@
 package com.example.test;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.content.pm.PackageManager;
@@ -12,8 +9,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.location.Criteria;
-import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -23,14 +18,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.test.dao.PostDao;
-import com.example.test.dao.RemoteCommentsDAO;
 import com.example.test.dao.RemotePostDAO;
-import com.example.test.tables.Posts;
 import com.example.test.tables.RemotePosts;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -38,18 +29,12 @@ import com.google.android.gms.location.LocationServices;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -57,16 +42,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// FIX TIME TO TIMESTAMP
+
 
 public class CreatePostActivity extends AppCompatActivity {
-    public static AppDatabase database;
+
     private static Bitmap imageBitmap; //Image Bitmap
     private static Geocoder geo;
-    private static Context context;
+
     private static String stamp, content;
-    private static FusedLocationProviderClient flpClient;
-    private static AtomicBoolean found = new AtomicBoolean(false);
+    private FusedLocationProviderClient flpClient;
+
 
     private static AtomicInteger newUniqueId = new AtomicInteger(0);
     public static String currLocation;
@@ -85,7 +70,7 @@ public class CreatePostActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_createpost);
 
-            this.database = MainActivity.getDB();
+
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -99,7 +84,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
 
         TextView errMsg = findViewById(R.id.createPostError);
-        RemotePostDAO remotePostDao = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
+
 
 
         EditText postTxt = findViewById(R.id.createPost);
@@ -139,7 +124,7 @@ public class CreatePostActivity extends AppCompatActivity {
             }
 
             //Add location to content
-            if(currLocation != null){
+            if(currLocation.trim().length() != 0){
                 content = content+"@GPS["+currLocation+"]";
             }
 
@@ -194,9 +179,9 @@ public class CreatePostActivity extends AppCompatActivity {
 
         RemotePostDAO remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
 
-        String stirng = "eq."+i*key%Integer.MAX_VALUE;
+        String passID = "eq."+i*key%Integer.MAX_VALUE;
 
-        Call<List<RemotePosts>> checkIds = remotePostDAO.getPostFromId(stirng);
+        Call<List<RemotePosts>> checkIds = remotePostDAO.getPostFromId(passID);
 
         checkIds.enqueue(new Callback<List<RemotePosts>>() {
             @Override

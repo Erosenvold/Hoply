@@ -1,10 +1,7 @@
 package com.example.test;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,12 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.test.dao.CommentsDao;
-import com.example.test.dao.PostDao;
 import com.example.test.dao.RemoteCommentsDAO;
 import com.example.test.dao.RemoteUserDAO;
-import com.example.test.dao.UsersDao;
-import com.example.test.tables.Comments;
 import com.example.test.tables.RemoteComments;
 import com.example.test.tables.RemoteUsers;
 
@@ -32,7 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//TIME TO TIMESTAMP + VISUALS
+
 
 public class ReadPostActivity extends AppCompatActivity {
     RecyclerView rv;
@@ -44,7 +37,7 @@ public class ReadPostActivity extends AppCompatActivity {
     AtomicInteger completionCount = new AtomicInteger(0);
 
 
-    public static AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -54,10 +47,7 @@ public class ReadPostActivity extends AppCompatActivity {
             //sets contentview to activity_readpost and gets database
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_readpost);
-            this.database = MainActivity.getDB();
-            UsersDao usersDao = database.getAllUsers();
 
-            PostDao postDao = database.getAllPosts();
 
 
             //sets content TextView
@@ -84,29 +74,6 @@ public class ReadPostActivity extends AppCompatActivity {
             //sets Timestamp TextView
             TextView timestamp = (TextView) findViewById(R.id.timestamp);
             timestamp.setText("Uploaded "+ PostSession.getSessionStamp());
-
-//            //sets Post image
-//            if (postDao.getPostImages(PostSession.getSessionID()) != null) {
-//
-//                String ImageStr = postDao.getPostImages(PostSession.getSessionID());
-//
-//                byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
-//                Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
-//
-//                ImageView postImage = findViewById(R.id.postImage);
-//                postImage.setImageBitmap(bitmapPostImage);
-//            }
-//
-//
-//            //sets Location TextView if not null
-//            if(postDao.getLocationFromID(PostSession.getSessionID()) != null) {
-//
-//                TextView location = (TextView) findViewById(R.id.location);
-//                location.setText("Uploaded from " + postDao.getLocationFromID(PostSession.getSessionID()));
-//
-//            }
-
-            //DET VAR HER VI NÅEDE TIL. :) tilføj resten af post indhold og knapper plus kommentare
 
 
 
@@ -148,12 +115,6 @@ public class ReadPostActivity extends AppCompatActivity {
             });
 
 
-//            commentContents = commentsDao.getCommentsFromPostID(PostSession.getSessionPostID());
-//            usernames = commentsDao.getCommentUserIDFromPostID(PostSession.getSessionPostID());
-//            for(int i=0; usernames.length>i; i++){
-//                usernames[i] = usersDao.getUsernameFromID(usernames[i]);
-//            }
-////            System.out.println(commentContents[0] + " : " + usernames[0]);
 
 
         }

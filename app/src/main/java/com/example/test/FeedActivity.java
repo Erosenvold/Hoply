@@ -6,22 +6,15 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
-import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.test.dao.RemotePostDAO;
 import com.example.test.dao.RemoteUserDAO;
-
 import com.example.test.tables.RemotePosts;
 import com.example.test.tables.RemoteUsers;
-
 import java.util.List;
-
 import java.util.concurrent.atomic.AtomicInteger;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,7 +34,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     AtomicInteger i = new AtomicInteger(0);
     AtomicInteger completionCount = new AtomicInteger(0);
 
-    public static AppDatabase database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -50,7 +43,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
             setContentView(R.layout.activity_feed);
 
 
-            this.database = MainActivity.getDB();
+
             rv = findViewById(R.id.feedRecyclerView);
             rv.setHasFixedSize(true);
 
