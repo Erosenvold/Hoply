@@ -59,7 +59,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
             //to do: populate from database instead of values
             RemotePostDAO remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
 
-            Call<List<RemotePosts>> getPostsDESC = remotePostDAO.getPostsDESC("stamp.desc",20,FeedSession.getSessionOffset());
+            Call<List<RemotePosts>> getPostsDESC = remotePostDAO.getPostsDESC("stamp.desc",10,FeedSession.getSessionOffset());
 
             getPostsDESC.enqueue(new Callback<List<RemotePosts>>() {
                 @Override
@@ -143,7 +143,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     public void setUsernames(int k) {
         RemoteUserDAO remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
 
-        Call<List<RemoteUsers>> getUser = remoteUserDAO.getLimitedUsers("eq." + nameIds[k], 20);
+        Call<List<RemoteUsers>> getUser = remoteUserDAO.getLimitedUsers("eq." + nameIds[k], 10);
         getUser.enqueue(new Callback<List<RemoteUsers>>() {
 
             @Override
@@ -212,9 +212,11 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     }
 
     public void increaseOffset(View view ){
-        FeedSession.incSessionOffset();
-        Intent intent = new Intent(this,FeedActivity.class);
-        startActivity(intent);
+        if(FeedSession.getSessionOffset()<=200) {
+            FeedSession.incSessionOffset();
+            Intent intent = new Intent(this, FeedActivity.class);
+            startActivity(intent);
+        }
     }
 
     public void decreaseOffset(View view ){

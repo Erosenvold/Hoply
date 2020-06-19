@@ -15,11 +15,11 @@ public class FeedSession {
     }
 
     public static void incSessionOffset() {
-        sessionOffset = sessionOffset +20;
+        sessionOffset = sessionOffset +10;
     }
 
     public static void decSessionOffset() {
-        sessionOffset = sessionOffset -20;
+        sessionOffset = sessionOffset -10;
     }
 
 
