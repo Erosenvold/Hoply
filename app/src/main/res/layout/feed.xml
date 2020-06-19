@@ -44,9 +44,11 @@
             <TextView
                 android:id="@+id/postHeadlineText"
 
-                android:layout_width="238dp"
-                android:layout_height="75dp"
+                android:layout_width="221dp"
+                android:layout_height="72dp"
 
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 android:inputType="textMultiLine"
                 android:text="contentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontentcontent"
                 android:textSize="16sp"
@@ -55,18 +57,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/postImageView" />
+                app:layout_constraintTop_toTopOf="@+id/postImageView"
+                app:layout_constraintVertical_bias="0.475" />
 
             <ImageView
                 android:id="@+id/postImageView"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_width="153dp"
+                android:layout_height="133dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/postHeadlineText"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.75"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
 
             <View
