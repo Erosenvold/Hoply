@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test.dao.UsersDao;
 
-
+// Asger
 public class LoginActivity extends AppCompatActivity {
     public TextView newUserMsg;
     public static AppDatabase database;

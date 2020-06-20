@@ -27,7 +27,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 //TIME TO TIMESTAMP + VISUALS
-
+// Asger
 public class ReadPostActivity extends AppCompatActivity {
     RecyclerView rv;
 

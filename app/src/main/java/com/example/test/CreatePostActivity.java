@@ -54,7 +54,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 // FIX TIME TO TIMESTAMP
-
+// Erik
 public class CreatePostActivity extends AppCompatActivity {
     public static AppDatabase database;
     private static Bitmap imageBitmap; //Image Bitmap
