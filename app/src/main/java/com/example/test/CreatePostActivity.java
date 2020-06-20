@@ -38,7 +38,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-//
 public class CreatePostActivity extends AppCompatActivity {
 
     public static AppDatabase database;

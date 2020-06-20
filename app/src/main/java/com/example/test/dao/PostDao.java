@@ -15,7 +15,7 @@ public interface PostDao {
 
     //Returns 10 newest post ID's in array
     @Query("SELECT id FROM hoply_post ORDER BY stamp DESC LIMIT 10")
-    public int[] getAllIDDESC();
+    public int[] getLimitedPostIDDESC();
 
     //Returns newest timestamps in array
     @Query("SELECT stamp FROM hoply_post ORDER BY stamp DESC")

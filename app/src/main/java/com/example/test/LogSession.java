@@ -1,9 +1,8 @@
 package com.example.test;
 
 
-//Asger
+//Saves User info for convenience and "logged in" Checks.
 public final class LogSession {
-
 
     private static String sessionID;
     private static String sessionIMG;
@@ -11,6 +10,7 @@ public final class LogSession {
     private static String sessionStamp;
     private static String sessionPassword;
 
+    //Sets user Info.
     public static void setSession(String userID, String username, String userIMG, String userStamp, String password){
         sessionID = userID;
         sessionIMG = userIMG;
@@ -18,6 +18,8 @@ public final class LogSession {
         sessionStamp = userStamp;
         sessionPassword = password;
     }
+
+    //Checks if user is logged in.
     public static boolean isLoggedIn(){
         if(sessionID != null){
             return true;
@@ -26,6 +28,7 @@ public final class LogSession {
         }
     }
 
+    //Gets User info.
     public static String getSessionPassword() {
         return sessionPassword;
     }
@@ -46,6 +49,7 @@ public final class LogSession {
         return sessionStamp;
     }
 
+    //Sets user image separately during profile edit.
     public static void setSessionIMG(String sessionIMG) {
         LogSession.sessionIMG = sessionIMG;
     }

@@ -32,7 +32,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
     //string arrays containing headlines and contents for posts
     String content[],  usernames[], gps[], stamp[],nameIds[];
-    int postIds[];
+    int postIds[], localPostID[];
 
     Bitmap images[];
     AtomicInteger i = new AtomicInteger(0);
@@ -93,8 +93,11 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                         postDao.createNewPost(posts);
                     }
 
+
+
                     //Initialises Arrays to the length of the getALLIDDESC (10 unless the page has less than 10 elements);
-                    content = new String[postDao.getAllIDDESC().length];
+                    localPostID = postDao.getLimitedPostIDDESC();
+                    content = new String[localPostID.length];
                     usernames = new String[content.length];
                     images = new Bitmap[content.length];
                     postIds = new int[content.length];
@@ -103,12 +106,12 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                     stamp = new String[content.length];
 
 
-                    for(int i = 0; i< postDao.getAllIDDESC().length;i++){
+                    for(int i = 0; i< localPostID.length;i++){
 
                         //Separates actual username in local database from passwords and profile image, sets username array to actual username.
                         String result = "";
                         boolean done = false;
-                        String name = usersDao.getUsernameFromID(postDao.getUserID(postDao.getAllIDDESC()[i]));
+                        String name = usersDao.getUsernameFromID(postDao.getUserID(localPostID[i]));
                         if( name == null){
                             name = "";
                         }
@@ -124,7 +127,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                         usernames[i] = result;
 
                         //Sets postIds array (index i) to postID's from local database.
-                        postIds[i] = postDao.getAllIDDESC()[i];
+                        postIds[i] = localPostID[i];
 
                         //Sets content array (index i) to postID's from local database.
                         content[i] = postDao.getContentFromID(postIds[i]);
@@ -161,7 +164,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                         }
 
                         // sets postIds to postID's from local database
-                        postIds[i] = postDao.getAllIDDESC()[i];
+                        postIds[i] = localPostID[i];
 
                         stamp[i] =postDao.getAllStampsDESC()[i];
                     }
@@ -194,7 +197,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
     }
 
-    //Sets Offset to 0 and
+    //Sets Offset to 0 and recreates the activity
     public void refreshBtn(View view){
         FeedSession.resetSessionOffset();
 
@@ -204,12 +207,13 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
     }
 
+    //Sends user to ProfileActivity
     public void myProfile(View view){
         Intent intent = new Intent(this,ProfileActivity.class);
         startActivity(intent);
     }
 
-
+    //Saves info about the post clicked and sends user to ReadPostActivity.
     @Override
     public void onPostClick(int position){
         PostSession.setSession(postIds[position], usernames[position], nameIds[position], content[position], stamp[position], gps[position], images[position]);
@@ -217,6 +221,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
         startActivity(intent);
     }
 
+    //Increments the Offset by +10 and recreates the activity
     public void increaseOffset(View view ){
 
             FeedSession.incSessionOffset();
@@ -226,6 +231,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
     }
 
+    //Decrements the Offset by -10 if over 0 and recreates the activity
     public void decreaseOffset(View view ){
 
         if(FeedSession.getSessionOffset()>0) {
