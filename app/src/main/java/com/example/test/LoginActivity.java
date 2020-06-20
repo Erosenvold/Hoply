@@ -9,26 +9,19 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.test.dao.RemoteUserDAO;
-import com.example.test.tables.RemoteUsers;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.example.test.dao.UsersDao;
 
 // Asger
 public class LoginActivity extends AppCompatActivity {
     public TextView newUserMsg;
-
+    public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
 
-
+       this.database = MainActivity.getDB();
 
 
         Intent newUserIntent = getIntent();
@@ -41,66 +34,58 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view){
         EditText userName = findViewById(R.id.usernameInput);
+
         String strUsername = userName.getText().toString();
         EditText password = findViewById(R.id.passwordInput);
         String strPassword = password.getText().toString();
+        UsersDao usersDao = database.getAllUsers();
+        System.out.println("USERID: "+usersDao.getUserID(strUsername));
+        String userID = usersDao.getUserID(strUsername);
+
+        if(userID != null && !userID.isEmpty() ){
 
 
-
-        RemoteUserDAO remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
-
-        Call<List<RemoteUsers>> userFromId = remoteUserDAO.getUserFromId("eq."+strUsername);
-
-        userFromId.enqueue(new Callback<List<RemoteUsers>>() {
-            @Override
-            public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
-
-                if(response.body().size()==1){
-
-                    for(RemoteUsers u : response.body()) {
-                        String s = u.getName();
+                String s = usersDao.getUsernameFromID(strUsername);
 
 
-                        String[] tempString = s.split("@|]", -2);
+                String[] tempString = s.split("@|]", -2);
 
-                        String username = "";
-                        String password = "";
-                        String profileIMG = "";
+                String logUsername = "";
+                String logPassword = "";
+                String logProfileIMG = "";
 
 
-                        for (String str : tempString) {
-                            if (str.contains("PWD[")) {
-                                password = str.substring(4, str.length());
-                            } else if (str.contains("IMG[")) {
-                                profileIMG = str.substring(4, str.length());
-                            } else {
-                                username = username+ str;
-                            }
+                for (String str : tempString) {
+                    if (str.contains("PWD[")) {
+                        logPassword = str.substring(4);
 
-                        }
-                        if (strPassword.equals(password)) {
-                            LogSession.setSession(u.getId(), username, profileIMG, u.getStamp(), password);
-                            Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
-                            startActivity(intent);
-                        } else {
-                            newUserMsg.setText("Incorrect Username or Password!");
-                            newUserMsg.setTextColor(Color.RED);
-                        }
+
+                    } else if (str.contains("IMG[")) {
+                        logProfileIMG = str.substring(4);
+                    } else {
+                        logUsername = logUsername+ str;
 
                     }
 
-                }else{
-                        newUserMsg.setText("Incorrect Username or Password!");
-                        newUserMsg.setTextColor(Color.RED);
-                    }
+                }
 
-            }
+                if (strPassword.equals(logPassword)) {
 
-            @Override
-            public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
+                    LogSession.setSession(usersDao.getUserID(strUsername), logUsername, logProfileIMG, usersDao.getUserStamp(strUsername), logPassword);
+                    Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                    startActivity(intent);
+                } else {
+                    newUserMsg.setText("Incorrect Username or Password!");
+                    newUserMsg.setTextColor(Color.RED);
+                }
 
-            }
-        });
+
+
+        }else{
+            newUserMsg.setText("Incorrect Username or Password!");
+            newUserMsg.setTextColor(Color.RED);
+        }
+
         
     }
 }

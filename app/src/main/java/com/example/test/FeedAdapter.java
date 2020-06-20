@@ -16,7 +16,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     private OnPostListener mOnNoteListener;
 
 
-    String postText[], usernames[];
+    String postText[], usernames[],shownText[];
     Bitmap images[];
 
     int postIds[];
@@ -24,12 +24,25 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
 
     //constructor for FeedAdapter, images are an int array because it can be tracked by enumeration.
     public FeedAdapter(Context context, String postText[], String usernames[], Bitmap images[],int postIds[], OnPostListener onPostListener){
+
+
         this.context = context;
         this.postText = postText;
         this.usernames = usernames;
         this.images = images;
         this.postIds = postIds;
         this.mOnNoteListener = onPostListener;
+        int i = 0;
+        shownText = new String[postText.length];
+        for(String s: postText) {
+            if (s.length() > 100) {
+                this.shownText[i] = s.substring(0, 100) + "...";
+            } else if (s.length() > 0) {
+                this.shownText[i] = s;
+            }
+            i = i+1;
+        }
+
 
     }
 
@@ -44,7 +57,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.FeedViewHolder
     //Creates a positioning in the FeedViewHolder, populates the feeds with postText, usernames and images.
     @Override
     public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
-        holder.postHeadlineText.setText(postText[position]);
+        holder.postHeadlineText.setText(shownText[position]);
         holder.postUsernameText.setText(usernames[position]);
         holder.postIdText.setText(String.valueOf(postIds[position]));
         holder.postImageView.setImageBitmap(images[position]);

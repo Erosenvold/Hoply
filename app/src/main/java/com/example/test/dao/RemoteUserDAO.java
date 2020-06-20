@@ -21,7 +21,8 @@ import retrofit2.http.Url;
 
 public interface RemoteUserDAO {
 
-
+    @GET("users")
+    Call<List<RemoteUsers>>getAllUsers();
 
     @GET("users")
     Call<List<RemoteUsers>>getUserFromId(@Query("id") String id);

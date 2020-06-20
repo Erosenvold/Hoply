@@ -5,17 +5,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-//Erik
+
+// Nicolai
 public class ProfileActivity extends AppCompatActivity {
 
 
-
+    public static AppDatabase database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //if logged in.
@@ -24,14 +26,18 @@ public class ProfileActivity extends AppCompatActivity {
             //sets contentview to activity_profile and gets database
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_profile);
+            this.database = MainActivity.getDB();
+
+
+
 
 
 
             TextView UserText =  findViewById(R.id.UserName);
             UserText.setText(LogSession.getSessionUsername());
 
-            TextView Timestamp =  findViewById(R.id.Timestamp);
-            Timestamp.setText("Member since: " + LogSession.getSessionStamp());
+            TextView Timestamp = findViewById(R.id.Timestamp);
+            Timestamp.setText("Member since: " + LogSession.getSessionStamp().substring(0,10));
 
             //Imageview: shows profile image if it exists
             if (LogSession.getSessionIMG().length() != 0) {
@@ -73,18 +79,19 @@ public class ProfileActivity extends AppCompatActivity {
 
     //Starts CreatePost Activity
     public void createPostSendBtn(View view){
-        Intent intent = new Intent(this,CreatePostActivity.class);
 
+        FeedSession.resetSessionOffset();
+        Intent intent = new Intent(ProfileActivity.this,CreatePostActivity.class);
         startActivity(intent);
     }
 
     //Starts Feed Activity
     public void sendToFeed(View view){
+
         FeedSession.resetSessionOffset();
-        Intent intent = new Intent(this,FeedActivity.class);
+        Intent intent = new Intent(ProfileActivity.this,FeedActivity.class);
         startActivity(intent);
     }
-
 
 
 

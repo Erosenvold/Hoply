@@ -19,7 +19,11 @@ public final class LogSession {
         sessionPassword = password;
     }
     public static boolean isLoggedIn(){
-        return sessionID != null;
+        if(sessionID != null){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public static String getSessionPassword() {

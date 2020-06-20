@@ -15,7 +15,8 @@ import retrofit2.http.Query;
 
 public interface RemotePostDAO {
 
-
+    @GET("posts")
+    Call<List<RemotePosts>>getAllPosts();
 
     @GET("posts")
     Call<List<RemotePosts>>getPostFromId(@Query("id") String id);

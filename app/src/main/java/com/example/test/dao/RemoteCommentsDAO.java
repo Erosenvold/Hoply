@@ -1,6 +1,7 @@
 package com.example.test.dao;
 import com.example.test.tables.RemoteComments;
-
+import com.example.test.tables.RemotePosts;
+import com.example.test.tables.RemoteUsers;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-//Erik til DAO
+
 public interface RemoteCommentsDAO {
 
 
