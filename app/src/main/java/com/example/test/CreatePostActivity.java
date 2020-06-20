@@ -1,9 +1,9 @@
 package com.example.test;
 
 import android.Manifest;
-import android.app.Activity;
+
 import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.content.pm.PackageManager;
@@ -12,8 +12,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.location.Criteria;
-import android.location.Location;
-import android.os.Build;
+
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -23,14 +22,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.test.dao.PostDao;
-import com.example.test.dao.RemoteCommentsDAO;
+
 import com.example.test.dao.RemotePostDAO;
-import com.example.test.tables.Posts;
+
 import com.example.test.tables.RemotePosts;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -38,18 +36,16 @@ import com.google.android.gms.location.LocationServices;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
+
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
+
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
+
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -63,10 +59,10 @@ public class CreatePostActivity extends AppCompatActivity {
     public static AppDatabase database;
     private static Bitmap imageBitmap; //Image Bitmap
     private static Geocoder geo;
-    private static Context context;
+
     private static String stamp, content;
     private static FusedLocationProviderClient flpClient;
-    private static AtomicBoolean found = new AtomicBoolean(false);
+
 
     private static AtomicInteger newUniqueId = new AtomicInteger(0);
     public static String currLocation;
@@ -99,7 +95,7 @@ public class CreatePostActivity extends AppCompatActivity {
 
 
         TextView errMsg = findViewById(R.id.createPostError);
-        RemotePostDAO remotePostDao = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
+
 
 
         EditText postTxt = findViewById(R.id.createPost);
@@ -132,14 +128,16 @@ public class CreatePostActivity extends AppCompatActivity {
                 byte[] arr = baos.toByteArray();
                 String result = Base64.encodeToString(arr, Base64.DEFAULT);
 
+                if(!result.isEmpty()){
+                    content = content+"@IMG["+result +"]";
+                }
 
-                content = content+"@IMG["+result +"]";
 
 
             }
 
             //Add location to content
-            if(currLocation != null){
+            if(currLocation != null && !currLocation.isEmpty()){
                 content = content+"@GPS["+currLocation+"]";
             }
 
@@ -235,14 +233,7 @@ public class CreatePostActivity extends AppCompatActivity {
             public void onResponse(Call<RemotePosts> call, Response<RemotePosts> response) {
                 if(response.isSuccessful()){
                     System.out.println("you Made a Post! wow such post");
-               /*     PostDao postDao = database.getAllPosts();
 
-                        Posts posts = new Posts();
-                        posts.postID = newUniqueId.get();
-                        posts.userID = LogSession.getSessionID();
-                        posts.timeCreated = stamp;
-                        posts.postContent = content;
-                        postDao.createNewPost(posts);*/
                 }else{
                     JSONObject jObjErr = null;
                     try {
@@ -277,12 +268,11 @@ public class CreatePostActivity extends AppCompatActivity {
             if (ActivityCompat.checkSelfPermission(CreatePostActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 AtomicReference<List<Address>> addresses = new AtomicReference<>();
 
-                //LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
                 Criteria criteria = new Criteria();
                 criteria.setAccuracy(Criteria.ACCURACY_FINE);
                 criteria.setCostAllowed(false);
-                //provider = locationManager.getBestProvider(criteria, false);
-                //location = locationManager.getLastKnownLocation(provider);
+
 
                 flpClient.getLastLocation().addOnSuccessListener(CreatePostActivity.this, l -> {
                     if(l != null){

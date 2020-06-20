@@ -24,6 +24,8 @@ public interface UsersDao {
     @Query("SELECT name FROM hoply_users WHERE id = :userID")
     public String getUsernameFromID(String userID);
 
+    @Query("UPDATE hoply_users SET name = :name  WHERE id = :userID")
+    public void updateUser(String name, String userID);
 
     @Insert(onConflict = OnConflictStrategy.FAIL)
     public void createNewUser(Users user);

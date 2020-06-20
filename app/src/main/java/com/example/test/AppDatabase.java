@@ -11,7 +11,7 @@ import com.example.test.dao.UsersDao;
 import com.example.test.tables.Comments;
 import com.example.test.tables.Posts;
 import com.example.test.tables.Users;
-
+//Erik
 @Database(entities = {Users.class, Posts.class, Comments.class},version=1)
 public abstract class AppDatabase extends RoomDatabase {
 

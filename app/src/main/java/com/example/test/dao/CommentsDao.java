@@ -9,7 +9,7 @@ import com.example.test.tables.Comments;
 import com.example.test.tables.Users;
 
 import java.util.List;
-
+//Erik DAO
 @Dao
 public interface CommentsDao {
     @Query("SELECT * FROM hoply_comment")

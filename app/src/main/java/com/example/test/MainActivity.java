@@ -1,12 +1,11 @@
 package com.example.test;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
-
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import com.example.test.dao.CommentsDao;
 import com.example.test.dao.PostDao;
@@ -15,17 +14,13 @@ import com.example.test.dao.UsersDao;
 import com.example.test.tables.RemoteUsers;
 import com.example.test.tables.Users;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
+//Erik
 public class MainActivity extends AppCompatActivity {
     public static AppDatabase database;
     @Override
@@ -74,80 +69,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        READ
-
-        for(Users u: usersDao.getAllUsers()){
-
-            System.out.println("username: "+u.username);
-            System.out.println("user id: "+u.id);
-            System.out.println("stamp: " + u.timeCreated);
-
-        }
-/*
-        WRITE
-        Users user = new Users();
-        user.id = ;
-        user.username = ;
-        user.timeCreated = ;
-        usersDao.createNewUser(user);
-*/
-
-
-
-//      Read Users
-//        RemoteUserDAO userDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
-//
-//        Call<List<RemoteUsers>> call = userDAO.getUserFromId("eq.54321");
-//
-//        call.enqueue(new Callback<List<RemoteUsers>>() {
-//            @Override
-//            public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
-//
-//                if(response.isSuccessful()){
-//                    System.out.println("Succes!");
-//
-//                    for(RemoteUsers u : response.body()){
-//                        System.out.println(u.getName());
-//                    }
-//
-//
-//                }else{
-//                    System.out.println(response.message());
-//                    JSONObject jObjErr = null;
-//                    try {
-//                        jObjErr = new JSONObject(response.errorBody().string());
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    System.out.println(jObjErr);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
-//
-//                System.out.println("Failure! "+t.getMessage() );
-//
-//            }
-//        });
-//      Read Users
-
-//        DANGER ZONE
-//
-//        UsersDao usersDao = database.getAllUsers();
-//        PostDao postDao = database.getAllPosts();
-//        CommentsDao commentsDao = database.getAllComments();
-////
-//        commentsDao.deleteAllComments();
-//        postDao.deleteAllPosts();
-//        usersDao.deleteAllUsers();
-
-   //     DANGER ZONE
- //
 
     }
     public static AppDatabase getDB(){

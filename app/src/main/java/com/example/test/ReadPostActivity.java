@@ -1,10 +1,7 @@
 package com.example.test;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,13 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.test.dao.CommentsDao;
-import com.example.test.dao.PostDao;
 import com.example.test.dao.RemoteCommentsDAO;
-import com.example.test.dao.RemoteUserDAO;
 import com.example.test.dao.UsersDao;
 import com.example.test.tables.Comments;
 import com.example.test.tables.RemoteComments;
-import com.example.test.tables.RemoteUsers;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,12 +30,13 @@ import retrofit2.Response;
 
 public class ReadPostActivity extends AppCompatActivity {
     RecyclerView rv;
-    RemoteUserDAO remoteUserDAO;
-    RemoteCommentsDAO remoteCommentsDAO;
 
+    RemoteCommentsDAO remoteCommentsDAO;
+    CommentsDao commentsDao;
+    UsersDao usersDao;
     String commentContents[],usernames[], userIds[];
 
-    AtomicInteger completionCount = new AtomicInteger(0);
+
 
 
     public static AppDatabase database;
@@ -55,18 +50,20 @@ public class ReadPostActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_readpost);
             this.database = MainActivity.getDB();
-            UsersDao usersDao = database.getAllUsers();
+            usersDao = database.getAllUsers();
 
-            PostDao postDao = database.getAllPosts();
 
+
+            commentsDao = database.getAllComments();
+            commentsDao.deleteAllComments();
 
             //sets content TextView
-            TextView content = (TextView) findViewById(R.id.postContent);
+            TextView content =  findViewById(R.id.postContent);
             content.setText(PostSession.getSessionContent());
 
             //sets Location TextView
             if(!PostSession.getSessionGPS().isEmpty()){
-                TextView location = (TextView) findViewById(R.id.location);
+                TextView location =  findViewById(R.id.location);
                 location.setText("Uploaded from " + PostSession.getSessionGPS());
             }
 
@@ -78,35 +75,20 @@ public class ReadPostActivity extends AppCompatActivity {
             }
 
             //sets uploaded by user TextView
-            TextView createdBy = (TextView) findViewById(R.id.createdBy);
+            TextView createdBy =  findViewById(R.id.createdBy);
             createdBy.setText("Uploaded by "+PostSession.getSessionName());
 
             //sets Timestamp TextView
-            TextView timestamp = (TextView) findViewById(R.id.timestamp);
-            timestamp.setText("Uploaded "+ PostSession.getSessionStamp());
+            TextView timestamp =  findViewById(R.id.timestamp);
+            Date currDate = new Date();
+            SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+            String stamp = time.format(currDate);
+            if(stamp.substring(0,10).equals(PostSession.getSessionStamp().substring(0,10))){
+                timestamp.setText("Uploaded at "+ PostSession.getSessionStamp().substring(11,16));
+            }else{
+                timestamp.setText("Uploaded "+ PostSession.getSessionStamp().substring(8,10) +". "+ PostSession.getSessionStamp().substring(5,7) +". "+ PostSession.getSessionStamp().substring(0,4));
+            }
 
-//            //sets Post image
-//            if (postDao.getPostImages(PostSession.getSessionID()) != null) {
-//
-//                String ImageStr = postDao.getPostImages(PostSession.getSessionID());
-//
-//                byte[]encodebyte = Base64.decode(ImageStr,Base64.DEFAULT);
-//                Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0,encodebyte.length);
-//
-//                ImageView postImage = findViewById(R.id.postImage);
-//                postImage.setImageBitmap(bitmapPostImage);
-//            }
-//
-//
-//            //sets Location TextView if not null
-//            if(postDao.getLocationFromID(PostSession.getSessionID()) != null) {
-//
-//                TextView location = (TextView) findViewById(R.id.location);
-//                location.setText("Uploaded from " + postDao.getLocationFromID(PostSession.getSessionID()));
-//
-//            }
-
-            //DET VAR HER VI NÅEDE TIL. :) tilføj resten af post indhold og knapper plus kommentare
 
 
 
@@ -128,14 +110,18 @@ public class ReadPostActivity extends AppCompatActivity {
                         usernames = new String[commentContents.length];
                         userIds = new String[commentContents.length];
 
-                        for (RemoteComments comment : response.body()) {
-                            commentContents[i.get()] = comment.getContent();
-                            userIds[i.get()] = comment.getUser_id();
+                        for (RemoteComments remoteComment : response.body()) {
+                            Comments localComments = new Comments();
+                            localComments.commentContent = remoteComment.getContent();
+                            localComments.timeCreated = remoteComment.getStamp();
+                            localComments.postID = remoteComment.getPost_id();
+                            localComments.userID = remoteComment.getUser_id();
+                            commentsDao.createNewComment(localComments);
+                            readCommentsLocal();
 
-
-                            setUsernames(i.get());
                             i.incrementAndGet();
                         }
+                        setFeed();
 
                     }
 
@@ -148,12 +134,9 @@ public class ReadPostActivity extends AppCompatActivity {
             });
 
 
-//            commentContents = commentsDao.getCommentsFromPostID(PostSession.getSessionPostID());
-//            usernames = commentsDao.getCommentUserIDFromPostID(PostSession.getSessionPostID());
-//            for(int i=0; usernames.length>i; i++){
-//                usernames[i] = usersDao.getUsernameFromID(usernames[i]);
-//            }
-////            System.out.println(commentContents[0] + " : " + usernames[0]);
+
+
+
 
 
         }
@@ -172,46 +155,27 @@ public class ReadPostActivity extends AppCompatActivity {
         }
     }
 
-    public void setUsernames(int k){
-        remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
+    public void readCommentsLocal(){
+        for(int i = 0; i< commentsDao.getCommentUserIDFromPostID(PostSession.sessionPostID).length;i++) {
+            String result = "";
 
-        Call<List<RemoteUsers>> getUser = remoteUserDAO.getLimitedUsers("eq." + userIds[k], 20);
-        getUser.enqueue(new Callback<List<RemoteUsers>>() {
-
-            @Override
-            public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
-
-                for (RemoteUsers s : response.body()) {
-                    String result = "";
-                    if (s != null) {
-                        boolean done = false;
-                        String name = s.getName();
-                        int j = 0;
-                        while (!done) {
-                            if (name.length() > j && name.charAt(j) != '@') {
-                                result = result + name.charAt(j);
-                            } else {
-                                done = true;
-                            }
-                            j++;
-                        }
-
-                        usernames[k] = result;
-
-                        if(completionCount.incrementAndGet()>=commentContents.length-1){
-                            setFeed();
-                        }
-                    }
-
-
+            boolean done = false;
+            String name = usersDao.getUsernameFromID(commentsDao.getCommentUserIDFromPostID(PostSession.sessionPostID)[i]);
+            int j = 0;
+            while (!done) {
+                if (name.length() > j && name.charAt(j) != '@') {
+                    result = result + name.charAt(j);
+                } else {
+                    done = true;
                 }
+                j++;
             }
+            usernames[i] = result;
+        }
 
-            @Override
-            public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
-                System.out.println("Failure in inner " + t.getMessage());
-            }
-        });
+        commentContents = commentsDao.getCommentsFromPostID(PostSession.sessionPostID);
+
+
     }
 
     public void setFeed(){

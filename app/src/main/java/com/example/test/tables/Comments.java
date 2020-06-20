@@ -3,10 +3,9 @@ package com.example.test.tables;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Index;
-import androidx.room.PrimaryKey;
 
+//Erik Dao
 @Entity(tableName = "hoply_comment", indices = {@Index(value = {"user_id","post_id","stamp"},unique = true)},primaryKeys = {"user_id","post_id","stamp"})
 public class Comments {
 

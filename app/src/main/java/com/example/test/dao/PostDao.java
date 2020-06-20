@@ -39,7 +39,7 @@ public interface PostDao {
     public String getTimestampFromID(int postID);
 
 
-    @Query("DELETE FROM hoply_post WHERE id >= 0")
+    @Query("DELETE FROM hoply_post")
     public void deleteAllPosts();
 
 

@@ -12,21 +12,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.test.dao.CommentsDao;
-import com.example.test.dao.PostDao;
-import com.example.test.dao.RemotePostDAO;
-import com.example.test.dao.RemoteUserDAO;
-import com.example.test.dao.UsersDao;
-import com.example.test.tables.Posts;
-import com.example.test.tables.RemotePosts;
-import com.example.test.tables.RemoteUsers;
-import com.example.test.tables.Users;
-
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class ProfileActivity extends AppCompatActivity {
@@ -48,11 +33,11 @@ public class ProfileActivity extends AppCompatActivity {
 
 
 
-            TextView UserText = (TextView) findViewById(R.id.UserName);
+            TextView UserText =  findViewById(R.id.UserName);
             UserText.setText(LogSession.getSessionUsername());
 
-            TextView Timestamp = (TextView) findViewById(R.id.Timestamp);
-            Timestamp.setText("Member since: " + LogSession.getSessionStamp());
+            TextView Timestamp = findViewById(R.id.Timestamp);
+            Timestamp.setText("Member since: " + LogSession.getSessionStamp().substring(0,10));
 
             //Imageview: shows profile image if it exists
             if (LogSession.getSessionIMG().length() != 0) {

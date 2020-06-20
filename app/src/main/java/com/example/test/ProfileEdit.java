@@ -7,16 +7,13 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test.dao.RemoteUserDAO;
 import com.example.test.dao.UsersDao;
 import com.example.test.tables.RemoteUsers;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -59,11 +56,6 @@ public class ProfileEdit extends AppCompatActivity {
         UsersDao userDao = database.getAllUsers();
 
 
-        //Save profile text in local Database
-//        EditText ProfileTxt = findViewById(R.id.editText);
-//        String ProfileTxtStr = ProfileTxt.getText().toString();
-        String UserId = LogSession.getSessionID();
-//        userDao.createNewProfileTxt(ProfileTxtStr, UserId);
 
         //Save profile Image in local Database
         if(imageBitmap != null) {
@@ -90,6 +82,7 @@ public class ProfileEdit extends AppCompatActivity {
             public void onResponse(Call<RemoteUsers> call, Response<RemoteUsers> response) {
 
                 LogSession.setSessionIMG(result);
+                userDao.updateUser(result,LogSession.getSessionID());
                 goToProfile();
 
             }

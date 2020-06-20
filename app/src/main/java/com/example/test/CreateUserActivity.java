@@ -1,20 +1,18 @@
 package com.example.test;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import com.example.test.dao.RemoteUserDAO;
 import com.example.test.dao.UsersDao;
 import com.example.test.tables.RemoteUsers;
 import com.example.test.tables.Users;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
+//Erik
 public class CreateUserActivity extends AppCompatActivity {
 
     RemoteUserDAO remoteUsersDAO;
@@ -52,29 +50,34 @@ public class CreateUserActivity extends AppCompatActivity {
         strPassword = password.getText().toString();
         EditText userID = findViewById(R.id.createUserID);
         strUserID = userID.getText().toString();
+        if(strUsername != null && !strUsername.isEmpty() && strUserID != null && !strUserID.isEmpty()){
+            Call<List<RemoteUsers>> getUserFromId = remoteUsersDAO.getUserFromId("eq."+strUserID);
+            getUserFromId.enqueue(new Callback<List<RemoteUsers>>() {
+                @Override
+                public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
 
-        Call<List<RemoteUsers>> getUserFromId = remoteUsersDAO.getUserFromId("eq."+strUserID);
-        getUserFromId.enqueue(new Callback<List<RemoteUsers>>() {
-            @Override
-            public void onResponse(Call<List<RemoteUsers>> call, Response<List<RemoteUsers>> response) {
+                    if(response.body().size()==0){
+                        //create user
+                        insertUser();
 
-                if(response.body().size()==0){
-                    //create user
-                    insertUser();
+                    }else{
+                        errorMsg.setVisibility(View.VISIBLE);
+                        errorMsg.setTextColor(Color.RED);
+                        errorMsg.setText("An account with this name already exists");
+                    }
 
-                }else{
-                    errorMsg.setVisibility(View.VISIBLE);
-                    errorMsg.setText("An account with this name already exists");
                 }
 
-            }
+                @Override
+                public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
 
-            @Override
-            public void onFailure(Call<List<RemoteUsers>> call, Throwable t) {
-
-            }
-        });
-
+                }
+            });
+        }else{
+            errorMsg.setVisibility(View.VISIBLE);
+            errorMsg.setTextColor(Color.RED);
+            errorMsg.setText("Please enter something!");
+        }
     }
 
     public void insertUser(){
