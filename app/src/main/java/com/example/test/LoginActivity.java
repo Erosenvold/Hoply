@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        newUserMsg = findViewById(R.id.loginJoinMsg);
 
         //sets local database connection
         this.database = MainActivity.getDB();
@@ -73,14 +74,16 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
                     startActivity(intent);
                 }
-                //Shows error message
+//                Shows error message
                 else {
+                    newUserMsg.setVisibility(View.VISIBLE);
                     newUserMsg.setText("Incorrect Username or Password!");
                     newUserMsg.setTextColor(Color.RED);
                 }
         }
-        //Shows error message
+//        Shows error message
         else{
+            newUserMsg.setVisibility(View.VISIBLE);
             newUserMsg.setText("Incorrect Username or Password!");
             newUserMsg.setTextColor(Color.RED);
         }

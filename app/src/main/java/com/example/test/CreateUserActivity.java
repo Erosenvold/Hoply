@@ -44,7 +44,7 @@ public class CreateUserActivity extends AppCompatActivity {
         EditText userID = findViewById(R.id.createUserID);
         strUserID = userID.getText().toString();
         //Checks for null or empty input
-        if(strUsername != null && !strUsername.isEmpty() && strUserID != null && !strUserID.isEmpty()){
+        if(strUsername != null && !strUsername.isEmpty() && !strUserID.isEmpty()){
             Call<List<RemoteUsers>> getUserFromId = remoteUsersDAO.getUserFromId("eq."+strUserID);
             //Calls remote DB
             getUserFromId.enqueue(new Callback<List<RemoteUsers>>() {
@@ -100,10 +100,15 @@ public class CreateUserActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RemoteUsers> call, Throwable t) {
-                //Error message       System.out.println("Failure : "+ t.getMessage());
+                System.out.println("Failure : "+ t.getMessage());
             }
         });
-        Intent intent = new Intent(CreateUserActivity.this, LoginActivity.class);
+
+
+        Intent intent = new Intent(CreateUserActivity.this, MainActivity.class);
         startActivity(intent);
+
     }
+
+
 }
