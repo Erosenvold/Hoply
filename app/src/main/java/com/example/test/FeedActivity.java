@@ -25,11 +25,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-// MOVE EVERYTHING UP
-//Asger
 public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPostListener {
 
     RecyclerView rv;
+    PostDao postDao;
 
     //string arrays containing headlines and contents for posts
     String content[],  usernames[], gps[], stamp[],nameIds[];
@@ -38,10 +37,13 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     Bitmap images[];
     AtomicInteger i = new AtomicInteger(0);
 
+
     public static AppDatabase database;
     @Override
+    //On start of activity
     protected void onCreate(Bundle savedInstanceState) {
 
+        //Check if user is logged in
         if(LogSession.isLoggedIn()) {
 
             super.onCreate(savedInstanceState);
@@ -52,38 +54,47 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
             rv = findViewById(R.id.feedRecyclerView);
             rv.setHasFixedSize(true);
 
-
-            PostDao postDao = database.getAllPosts();
+            //Declares and initializes local databases for users.
             UsersDao usersDao = database.getAllUsers();
+
+            //initializes local database for posts
+            postDao = database.getAllPosts();
+
+            //Deletes all posts in local database, as to not run into memory problems. This way the local database only holds 10 posts at a time.
             postDao.deleteAllPosts();
 
-
+            //Declares remote post database
             RemotePostDAO remotePostDAO;
 
+            /*
+            * Initializes remote database. Query remote post database, sorted by timestamp and limited to 10 posts, with an offset set to from FeedSession.class.
+            * This enables it to look at the 10 newest posts if offset is set to 0, the next 10 for offset 10 and so on.
+            */
             remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
-            System.out.println("OFFSET: " + FeedSession.getSessionOffset());
             Call<List<RemotePosts>> getPosts = remotePostDAO.getPostsDESC("stamp.desc",10,FeedSession.getSessionOffset());
             getPosts.enqueue(new Callback<List<RemotePosts>>() {
                 @Override
+                //If server response:
                 public void onResponse(Call<List<RemotePosts>> call, Response<List<RemotePosts>> response) {
 
-                    PostDao postDao = database.getAllPosts();
-
+                    //Creates a new post in local for each post in getPosts (remote database).
                     for(RemotePosts u: response.body()){
                         Posts posts = new Posts();
                         posts.postID = u.getId();
                         posts.userID = u.getUser_id();
                         posts.timeCreated = u.getStamp();
+
+                        //Makes sure that the the content is not to large for SQLite to handle.
                         if(u.getContent().length() < 1800000){
                             posts.postContent = u.getContent();
                         }else{
                             posts.postContent = "";
                         }
-
                         postDao.createNewPost(posts);
                     }
+
+                    //Initialises Arrays to the length of the getALLIDDESC (10 unless the page has less than 10 elements);
                     content = new String[postDao.getAllIDDESC().length];
-                    System.out.println("CONTENT LENGTH: "+content.length);
                     usernames = new String[content.length];
                     images = new Bitmap[content.length];
                     postIds = new int[content.length];
@@ -91,83 +102,82 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                     gps = new String[content.length];
                     stamp = new String[content.length];
 
-                        for(int i = 0; i< postDao.getAllIDDESC().length;i++){
 
+                    for(int i = 0; i< postDao.getAllIDDESC().length;i++){
 
-
-                            //CUT UP USERNAMES
-                            String result = "";
-
-                                boolean done = false;
-                                String name = usersDao.getUsernameFromID(postDao.getUserID(postDao.getAllIDDESC()[i]));
-                                if( name == null){
-                                    name = "";
-                                }
-                                int j = 0;
-                                while (!done) {
-                                    if (name.length() > j && name.charAt(j) != '@') {
-                                        result = result + name.charAt(j);
-                                    } else {
-                                        done = true;
-                                    }
-                                    j++;
-                                }
-                                usernames[i] = result;
-
-
-                            postIds[i] = postDao.getAllIDDESC()[i];
-
-
-                            content[i] = postDao.getContentFromID(postIds[i]);
-
-                            String[] tempStringArr = content[i].split("@|]", -2);
-
-
-                            String text = "";
-                            String image = "";
-                            String location = "";
-
-                            for (String s : tempStringArr) {
-                                if (s.contains("GPS[") && !s.equals("GPS[")) {
-                                    location = s.substring(4);
-                                } else if (s.contains("IMG[" ) && !s.equals("IMG[")) {
-                                    image = s.substring(4);
-                                } else {
-                                    text = text + s;
-                                }
-                            }
-
-                            content[i] = text;
-                            System.out.println("IMAGE LENGTH: "+image.length());
-
-                            //Imageview: shows profile image if it exists
-                            if (!image.isEmpty()) {
-                                byte[] encodebyte = Base64.decode(image, Base64.DEFAULT);
-                                Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0, encodebyte.length);
-
-                                images[i] = bitmapPostImage;
-
-                            } else {
-
-                                images[i] = BitmapFactory.decodeResource(getResources(), R.drawable.defaultpic);
-                            }
-
-                            postIds[i] = postDao.getAllIDDESC()[i];
-                            gps[i] = location;
-                            stamp[i] =postDao.getAllStampsDESC()[i];
-
-
+                        //Separates actual username in local database from passwords and profile image, sets username array to actual username.
+                        String result = "";
+                        boolean done = false;
+                        String name = usersDao.getUsernameFromID(postDao.getUserID(postDao.getAllIDDESC()[i]));
+                        if( name == null){
+                            name = "";
                         }
-                        instFeedAdapter();
+                        int j = 0;
+                        while (!done) {
+                            if (name.length() > j && name.charAt(j) != '@') {
+                                result = result + name.charAt(j);
+                            } else {
+                                done = true;
+                            }
+                            j++;
+                        }
+                        usernames[i] = result;
 
+                        //Sets postIds array (index i) to postID's from local database.
+                        postIds[i] = postDao.getAllIDDESC()[i];
+
+                        //Sets content array (index i) to postID's from local database.
+                        content[i] = postDao.getContentFromID(postIds[i]);
+
+                        //Separate Text, images and location in content.
+                        String[] tempStringArr = content[i].split("@|]", -2);
+                        String text = "";
+                        String image = "";
+                        String location = "";
+
+                        for (String s : tempStringArr) {
+                            if (s.contains("GPS[") && !s.equals("GPS[")) {
+                                location = s.substring(4);
+                            } else if (s.contains("IMG[" ) && !s.equals("IMG[")) {
+                                image = s.substring(4);
+                            } else {
+                                text = text + s;
+                            }
+                        }
+
+                        //Sets content to be only the text.
+                        content[i] = text;
+
+                        //sets gps array (index i) to location from separation of content above.
+                        gps[i] = location;
+
+                        //Creates a bitmap from string of image (from separation of content above), if no image is present create a default bitmap.
+                        if (!image.isEmpty()) {
+                            byte[] encodebyte = Base64.decode(image, Base64.DEFAULT);
+                            Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0, encodebyte.length);
+                            images[i] = bitmapPostImage;
+                        } else {
+                            images[i] = BitmapFactory.decodeResource(getResources(), R.drawable.defaultpic);
+                        }
+
+                        // sets postIds to postID's from local database
+                        postIds[i] = postDao.getAllIDDESC()[i];
+
+                        stamp[i] =postDao.getAllStampsDESC()[i];
+                    }
+
+                    //Call instFeedAdapter to initialize FeedAdapter.
+                    instFeedAdapter();
                 }
+
+                //if server does not response
                 @Override
                 public void onFailure(Call<List<RemotePosts>> call, Throwable t) {
 
                 }
             });
 
-
+        //if not user is not Logged in send to MainActivity.
         } else{
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -176,7 +186,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
 
 
-
+    //Initiate FeedAdapter
     public void instFeedAdapter(){
             rv.setLayoutManager(new LinearLayoutManager(FeedActivity.this));
             FeedAdapter feedAdapter = new FeedAdapter(FeedActivity.this, content, usernames, images, postIds, this);
@@ -184,6 +194,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
 
     }
 
+    //Sets Offset to 0 and
     public void refreshBtn(View view){
         FeedSession.resetSessionOffset();
 
