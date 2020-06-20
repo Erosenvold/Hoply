@@ -8,9 +8,11 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.test.dao.RemoteUserDAO;
+import com.example.test.dao.UsersDao;
 import com.example.test.tables.RemoteUsers;
 
 import java.io.ByteArrayOutputStream;
@@ -20,12 +22,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
-
+//TEST IMAGES
+// Erik
 public class ProfileEdit extends AppCompatActivity {
 
 
-
+    public static AppDatabase database;
     public static Bitmap imageBitmap;
     static String userUpdate;
     static String result;
@@ -35,7 +37,7 @@ public class ProfileEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profedit);
         imageBitmap = null;
-
+        this.database = MainActivity.getDB();
 
 
     }
@@ -51,8 +53,7 @@ public class ProfileEdit extends AppCompatActivity {
 
     //saves new profileImage and ProfileText, starts profile acitivity
     public void DoneButton(View view) {
-
-
+        UsersDao userDao = database.getAllUsers();
 
 
 
@@ -81,6 +82,7 @@ public class ProfileEdit extends AppCompatActivity {
             public void onResponse(Call<RemoteUsers> call, Response<RemoteUsers> response) {
 
                 LogSession.setSessionIMG(result);
+                userDao.updateUser(result,LogSession.getSessionID());
                 goToProfile();
 
             }
