@@ -11,16 +11,11 @@ import com.example.test.dao.UsersDao;
 import com.example.test.tables.Comments;
 import com.example.test.tables.Posts;
 import com.example.test.tables.Users;
-//Erik
+//Calls the three local table files and is used in MainActivity to build the DB
 @Database(entities = {Users.class, Posts.class, Comments.class},version=1)
 public abstract class AppDatabase extends RoomDatabase {
-
-
     public abstract UsersDao getAllUsers();
-
     public abstract CommentsDao getAllComments();
-
-
     public abstract PostDao getAllPosts();
 
 }

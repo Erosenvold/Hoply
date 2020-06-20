@@ -8,29 +8,25 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.test.dao.RemoteUserDAO;
 import com.example.test.dao.UsersDao;
 import com.example.test.tables.RemoteUsers;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-//TEST IMAGES
-// Erik
-public class ProfileEdit extends AppCompatActivity {
 
+// Uploads a new image to the current user logged in
+public class ProfileEdit extends AppCompatActivity {
 
     public static AppDatabase database;
     public static Bitmap imageBitmap;
     static String userUpdate;
     static String result;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
 
@@ -39,11 +35,11 @@ public class ProfileEdit extends AppCompatActivity {
         imageBitmap = null;
         this.database = MainActivity.getDB();
 
-
     }
+    //Picks an image URI from phone
     public void UploadNewImageButton(View view){
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
 
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         intent.setType("image/*");
         startActivityForResult(intent,1);
 
@@ -51,26 +47,20 @@ public class ProfileEdit extends AppCompatActivity {
 
 
 
-    //saves new profileImage and ProfileText, starts profile acitivity
+    //Saves new profileImage then sends back to profile acitivity
     public void DoneButton(View view) {
         UsersDao userDao = database.getAllUsers();
-
-
 
         //Save profile Image in local Database
         if(imageBitmap != null) {
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             imageBitmap = imageBitmap.createScaledBitmap(imageBitmap,500,500,false);
-
-
-
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] arr = baos.toByteArray();
             result = Base64.encodeToString(arr, Base64.DEFAULT);
-
+            //New username that gets sent to remote DB
             userUpdate = LogSession.getSessionUsername()+ "@PWD["+LogSession.getSessionPassword()+"]"+ "@IMG["+result+"]";
-
         }
 
         RemoteUserDAO remoteUserDAO = RemoteClient.getRetrofitInstance().create(RemoteUserDAO.class);
@@ -80,8 +70,9 @@ public class ProfileEdit extends AppCompatActivity {
         updateUser.enqueue(new Callback<RemoteUsers>() {
             @Override
             public void onResponse(Call<RemoteUsers> call, Response<RemoteUsers> response) {
-
+                //Sets the image saved in session to new image
                 LogSession.setSessionIMG(result);
+                //Updates user in local database
                 userDao.updateUser(result,LogSession.getSessionID());
                 goToProfile();
 
@@ -89,13 +80,12 @@ public class ProfileEdit extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RemoteUsers> call, Throwable t) {
-                System.out.println("Failure : "+ t.getMessage());
+         //Error message       System.out.println("Failure : "+ t.getMessage());
             }
         });
 
-
-
     }
+    //Saves image from phone as bitmap in variable imageBitmap
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -106,26 +96,16 @@ public class ProfileEdit extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            //Shows image
             ImageView editImage = findViewById(R.id.ProfilePic);
             editImage.setImageURI(imageUri);
-
-
         }
     }
 
-
+    //Sends back to Profile
     public void goToProfile(){
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
 
 }
-
-
-
-
-
-
-
-

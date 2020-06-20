@@ -11,6 +11,7 @@
         android:id="@+id/decreaseOffset"
         android:layout_width="45dp"
         android:layout_height="47dp"
+        android:layout_marginTop="72dp"
         android:layout_marginBottom="8dp"
         android:background="#d8ffcd"
         android:onClick="decreaseOffset"
@@ -20,21 +21,20 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/increaseOffset"
         app:layout_constraintEnd_toEndOf="@+id/increaseOffset"
-        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/increaseOffset"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feedRecyclerView"
-        android:layout_width="412dp"
-        android:layout_height="494dp"
+        android:layout_width="410dp"
+        android:layout_height="473dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/goToProfileButton"
@@ -46,6 +46,7 @@
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/increaseOffset"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/decreaseOffset" />
 
@@ -55,16 +56,14 @@
         android:layout_height="47dp"
         android:layout_marginEnd="52dp"
         android:layout_marginRight="52dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="10dp"
         android:background="#d8ffcd"
         android:onClick="increaseOffset"
         android:text="↓"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/feedRecyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/refreshFeedButton"
