@@ -1,9 +1,6 @@
 package com.example.test;
 
 import android.Manifest;
-
-import android.content.Context;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.content.pm.PackageManager;
@@ -12,7 +9,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.location.Criteria;
-
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
@@ -21,49 +17,35 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-
-
 import com.example.test.dao.RemotePostDAO;
-
 import com.example.test.tables.RemotePosts;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
 import java.io.ByteArrayOutputStream;
-
 import java.io.IOException;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-// FIX TIME TO TIMESTAMP
-// Erik
+
+//
 public class CreatePostActivity extends AppCompatActivity {
+
     public static AppDatabase database;
     private static Bitmap imageBitmap; //Image Bitmap
     private static Geocoder geo;
-
     private static String stamp, content;
     private static FusedLocationProviderClient flpClient;
-
-
     private static AtomicInteger newUniqueId = new AtomicInteger(0);
     public static String currLocation;
 
@@ -71,36 +53,28 @@ public class CreatePostActivity extends AppCompatActivity {
 
         currLocation = "";
         imageBitmap = null;
-
         flpClient = LocationServices.getFusedLocationProviderClient(this);
 
+        //Checks if a user is logged in
         if (LogSession.isLoggedIn()) {
 
             geo = new Geocoder(this, Locale.getDefault());
-
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_createpost);
-
             this.database = MainActivity.getDB();
+
         } else {
+
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
     }
-
-
+//Creates a post in the remote DB
     public void createPostBtn(View view) {
-
-
-
-
+        //Saves input from textboxes
         TextView errMsg = findViewById(R.id.createPostError);
-
-
-
         EditText postTxt = findViewById(R.id.createPost);
         String strPostTxt = postTxt.getText().toString();
-
 
         //Checks if the text contains String regex used to wrap content.
         if(postTxt.getText().toString().contains("@") || postTxt.getText().toString().contains("GPS[") || postTxt.getText().toString().contains("IMG[")) {
@@ -108,22 +82,21 @@ public class CreatePostActivity extends AppCompatActivity {
             errMsg.setTextColor(Color.RED);
 
 
+        }
         //checks if textfield was left null or filled with whitespace. If not, adds Timestamp, userID and content to a new Post.
-        }else if (!strPostTxt.trim().isEmpty()) {
+        else if (!strPostTxt.trim().isEmpty()) {
 
             Date currDate = new Date();
             SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
             stamp = time.format(currDate);
-
             content = strPostTxt;
-
 
             //If user has chosen an image, add image to content.
             if (imageBitmap != null) {
 
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                //Scales down image
                 imageBitmap = imageBitmap.createScaledBitmap(imageBitmap,500,500,false);
-
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
                 byte[] arr = baos.toByteArray();
                 String result = Base64.encodeToString(arr, Base64.DEFAULT);
@@ -131,20 +104,16 @@ public class CreatePostActivity extends AppCompatActivity {
                 if(!result.isEmpty()){
                     content = content+"@IMG["+result +"]";
                 }
-
-
-
             }
 
             //Add location to content
             if(currLocation != null && !currLocation.isEmpty()){
                 content = content+"@GPS["+currLocation+"]";
             }
-
+            //Creates a unique ID by reading from remote DB, then inserts post into remote DB
             setUniqueId(1);
 
-
-            //Needs to insert post
+            //Sends back to profile page
             Intent intent = new Intent(this, ProfileActivity.class);
             startActivity(intent);
 
@@ -162,15 +131,16 @@ public class CreatePostActivity extends AppCompatActivity {
 
     public void UploadNewPostImageButton(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-
         intent.setType("image/*");
         startActivityForResult(intent, 1);
 
     }
-
+    //If an image is found in folder the variable imageBitmap is sit to a bitmap of that image
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == 1 && resultCode == RESULT_OK) {
             Uri imageUri = data.getData();
             try {
@@ -186,43 +156,33 @@ public class CreatePostActivity extends AppCompatActivity {
         }
     }
 
-
+    // Creates a unique post ID and inserts post into remote DB
     public void setUniqueId(int i){
+
         int key = 1051;
-
         RemotePostDAO remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
+        String newPostID = "eq."+i*key%Integer.MAX_VALUE;
 
-        String stirng = "eq."+i*key%Integer.MAX_VALUE;
-
-        Call<List<RemotePosts>> checkIds = remotePostDAO.getPostFromId(stirng);
-
+        Call<List<RemotePosts>> checkIds = remotePostDAO.getPostFromId(newPostID);
         checkIds.enqueue(new Callback<List<RemotePosts>>() {
             @Override
             public void onResponse(Call<List<RemotePosts>> call, Response<List<RemotePosts>> response) {
-                System.out.println(response);
+                //If no posts with given ID is found then insert post ELSE try again with int incremented
                 if(response.body().size() == 0){
                     newUniqueId.set(i*key%Integer.MAX_VALUE);
-                    System.out.println("hej du har lavet en post med id "+ newUniqueId.get());
-
                     insertPost();
 
                 }else{
                     setUniqueId(i+1);
                 }
             }
-
             @Override
             public void onFailure(Call<List<RemotePosts>> call, Throwable t) {
-
                 System.out.println(t.getMessage());
-
             }
-
         });
-
     }
-
-
+    //Inserts post into remote database
     public void insertPost(){
         RemotePostDAO remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
         Call<RemotePosts> insertPost = remotePostDAO.setPost(newUniqueId.get(), LogSession.getSessionID(), content, stamp,
@@ -231,10 +191,7 @@ public class CreatePostActivity extends AppCompatActivity {
         insertPost.enqueue(new Callback<RemotePosts>() {
             @Override
             public void onResponse(Call<RemotePosts> call, Response<RemotePosts> response) {
-                if(response.isSuccessful()){
-                    System.out.println("you Made a Post! wow such post");
-
-                }else{
+                if(!response.isSuccessful()){
                     JSONObject jObjErr = null;
                     try {
                         jObjErr = new JSONObject(response.errorBody().string());
@@ -243,42 +200,42 @@ public class CreatePostActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-
+/*
+                    If failed insertion - print error message
                     System.out.println(jObjErr);
                     System.out.println("unsuccesful : " + response);
+
+ */
                 }
             }
 
             @Override
             public void onFailure(Call<RemotePosts> call, Throwable t) {
-                System.out.println("Failure : " + t.getMessage());
+           //  Error Message   System.out.println("Failure : " + t.getMessage());
             }
         });
     }
 
     // All of this is getting the current location, make sure to allow FINE location in manifest and set a location on the emulator
-
     public void getLocation(View view) {
 
         final CheckBox locationCheck = (CheckBox) view;
 
         //Checks if checkbox is checked
-
         if (locationCheck.isChecked()) {
+            //Check for location permission
             if (ActivityCompat.checkSelfPermission(CreatePostActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
                 AtomicReference<List<Address>> addresses = new AtomicReference<>();
-
-
                 Criteria criteria = new Criteria();
                 criteria.setAccuracy(Criteria.ACCURACY_FINE);
                 criteria.setCostAllowed(false);
-
 
                 flpClient.getLastLocation().addOnSuccessListener(CreatePostActivity.this, l -> {
                     if(l != null){
                         try {
                             addresses.set(geo.getFromLocation(l.getLatitude(), l.getLongitude(), 1));
-
+                            //Saves the locality from phone's GPS in currLocation
                             currLocation = addresses.get().get(addresses.get().size()-1).getLocality();
 
                         } catch (IOException e) {
@@ -287,15 +244,12 @@ public class CreatePostActivity extends AppCompatActivity {
                     }
                 });
 
-
-
             } else {
+                //If no location permission then ask for it
                 ActivityCompat.requestPermissions(CreatePostActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
                 locationCheck.setChecked(false);
 
             }
         }
-
-
     }
 }
