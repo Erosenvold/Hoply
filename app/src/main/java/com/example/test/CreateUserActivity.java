@@ -101,14 +101,14 @@ public class CreateUserActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<RemoteUsers> call, Throwable t) {
                 System.out.println("Failure : "+ t.getMessage());
+
             }
         });
 
-
-        Intent intent = new Intent(CreateUserActivity.this, MainActivity.class);
-        startActivity(intent);
-
     }
 
-
+    public void goToLoginActivity(){
+        Intent intent = new Intent(CreateUserActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
 }
