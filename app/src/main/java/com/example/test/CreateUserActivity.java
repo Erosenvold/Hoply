@@ -99,9 +99,6 @@ public class CreateUserActivity extends AppCompatActivity {
                 usersDao.createNewUser(user);
                 System.out.println("local user name : "+usersDao.getUsernameFromID(strUserID));
 
-                //sends user to LoginActivity
-                Intent intent = new Intent(CreateUserActivity.this, LoginActivity.class);
-                startActivity(intent);
             }
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
@@ -109,6 +106,9 @@ public class CreateUserActivity extends AppCompatActivity {
             }
         });
 
+        //sends user to LoginActivity
+        Intent intent = new Intent(CreateUserActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 
 }
