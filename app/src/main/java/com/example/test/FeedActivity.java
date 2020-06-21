@@ -18,7 +18,6 @@ import com.example.test.tables.Posts;
 import com.example.test.tables.RemotePosts;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,8 +34,6 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     int postIds[], localPostID[];
 
     Bitmap images[];
-    AtomicInteger i = new AtomicInteger(0);
-
 
     public static AppDatabase database;
     @Override
@@ -104,7 +101,6 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                     nameIds = new String[content.length];
                     gps = new String[content.length];
                     stamp = new String[content.length];
-
 
                     for(int i = 0; i< localPostID.length;i++){
 
@@ -223,7 +219,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
     @Override
     public void onPostClick(int position){
         PostSession.setSession(postIds[position], usernames[position], nameIds[position], content[position], stamp[position], gps[position], images[position]);
-        Intent intent = new Intent(this,ReadPostActivity.class);;
+        Intent intent = new Intent(this,ReadPostActivity.class);
         startActivity(intent);
     }
 
