@@ -76,39 +76,39 @@ public class CreateUserActivity extends AppCompatActivity {
         }
     }
     //Inserts user in remote DB then local DB
-    public void insertUser(){
+    public void insertUser() {
 
         String stamp;
         Date currDate = new Date();
         SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         stamp = time.format(currDate);
 
-        UsersDao usersDao = database.getAllUsers();
-        Call<RemoteUsers> insertUser = remoteUsersDAO.insertUser(strUserID, strUsername+"@PWD["+strPassword+"]",
+
+        Call<Void> insertUser = remoteUsersDAO.insertUser(strUserID, strUsername + "@PWD[" + strPassword + "]",
                 stamp, "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAyMCJ9.PZG35xIvP9vuxirBshLunzYADEpn68wPgDUqzGDd7ok");
-        insertUser.enqueue(new Callback<RemoteUsers>() {
+        insertUser.enqueue(new Callback<Void>() {
             //Inserts user in remote DB
             @Override
-            public void onResponse(Call<RemoteUsers> call, Response<RemoteUsers> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 //Inserts user in local DB
+                UsersDao usersDao = database.getAllUsers();
                 Users user = new Users();
                 user.id = strUserID;
-                user.username = strUsername;
+                user.username = strUsername+ "@PWD[" + strPassword + "]";
                 user.timeCreated = stamp;
                 usersDao.createNewUser(user);
+                System.out.println("local user name : "+usersDao.getUsernameFromID(strUserID));
+
+                //sends user to LoginActivity
+                Intent intent = new Intent(CreateUserActivity.this, LoginActivity.class);
+                startActivity(intent);
             }
-
             @Override
-            public void onFailure(Call<RemoteUsers> call, Throwable t) {
-                System.out.println("Failure : "+ t.getMessage());
-
+            public void onFailure(Call<Void> call, Throwable t) {
+            //Error message       System.out.println("Failure : " + t.getMessage());
             }
         });
 
     }
 
-    public void goToLoginActivity(){
-        Intent intent = new Intent(CreateUserActivity.this, LoginActivity.class);
-        startActivity(intent);
-    }
 }

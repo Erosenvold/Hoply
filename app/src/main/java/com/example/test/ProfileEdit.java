@@ -76,6 +76,8 @@ public class ProfileEdit extends AppCompatActivity {
                 userDao.updateUser(result,LogSession.getSessionID());
                 goToProfile();
 
+                System.out.println("SUCCES");
+
             }
 
             @Override

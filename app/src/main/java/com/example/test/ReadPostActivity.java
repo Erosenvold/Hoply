@@ -195,19 +195,17 @@ public class ReadPostActivity extends AppCompatActivity {
             String stamp = time.format(currDate);
 
             //Create an insertion in the Remote Database
-            Call<RemoteComments> insertComment = remoteCommentsDAO.insertComment(LogSession.getSessionID(), Integer.parseInt(PostSession.getSessionPostID()),
+            Call<Void> insertComment = remoteCommentsDAO.insertComment(LogSession.getSessionID(), Integer.parseInt(PostSession.getSessionPostID()),
                     strComment, stamp, "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAyMCJ9.PZG35xIvP9vuxirBshLunzYADEpn68wPgDUqzGDd7ok");
-            insertComment.enqueue(new Callback<RemoteComments>() {
+            insertComment.enqueue(new Callback<Void>() {
                 //if a response is received - call refreshPage().
                 @Override
-                public void onResponse(Call<RemoteComments> call, Response<RemoteComments> response) {
+                public void onResponse(Call<Void> call, Response<Void> response) {
                     refreshPage();
                 }
-                //if it fails also refreshPage();
                 @Override
-                public void onFailure(Call<RemoteComments> call, Throwable t) {
+                public void onFailure(Call<Void> call, Throwable t) {
                     System.out.println("failure : "+ t.getMessage());
-                    refreshPage();
                 }
             });
         }

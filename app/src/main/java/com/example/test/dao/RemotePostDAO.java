@@ -28,7 +28,10 @@ public interface RemotePostDAO {
     //Inserts new post into Remote DB
     @FormUrlEncoded
     @POST("posts")
-    Call<RemotePosts> setPost (@Field("id") int id, @Field("user_id") String user_id, @Field("content") String content, @Field("stamp") String stamp, @Header("Authorization") String bearerToken);
+    Call<Void> setPost (@Field("id") int id,
+                               @Field("user_id") String user_id,
+                               @Field("content") String content,
+                               @Field("stamp") String stamp, @Header("Authorization") String bearerToken);
 
 
 }

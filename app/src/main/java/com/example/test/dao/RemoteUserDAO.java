@@ -30,7 +30,7 @@ public interface RemoteUserDAO {
     //Inserts new user into remote DB
     @FormUrlEncoded
     @POST("users")
-    Call<RemoteUsers> insertUser(@Field("id") String id,
+    Call<Void> insertUser(@Field("id") String id,
                                  @Field("name") String name,
                                  @Field("stamp") String stamp,@Header("Authorization")String token);
 

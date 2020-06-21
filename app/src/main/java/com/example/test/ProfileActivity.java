@@ -80,7 +80,6 @@ public class ProfileActivity extends AppCompatActivity {
      * @param view the Create Post button.
      */
     public void createPostSendBtn(View view){
-        FeedSession.resetSessionOffset();
         Intent intent = new Intent(ProfileActivity.this,CreatePostActivity.class);
         startActivity(intent);
     }

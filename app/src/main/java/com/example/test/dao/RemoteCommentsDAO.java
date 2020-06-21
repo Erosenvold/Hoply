@@ -19,7 +19,7 @@ public interface RemoteCommentsDAO {
     //Inserts comment into remote DB
     @FormUrlEncoded
     @POST("comments")
-    Call<RemoteComments> insertComment(@Field("user_id") String user_id,
+    Call<Void> insertComment(@Field("user_id") String user_id,
                                  @Field("post_id") int post_id,
                                  @Field("content") String content,
                                  @Field("stamp") String stamp, @Header("Authorization")String token);

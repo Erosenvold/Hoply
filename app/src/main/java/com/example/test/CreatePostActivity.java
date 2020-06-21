@@ -109,19 +109,18 @@ public class CreatePostActivity extends AppCompatActivity {
             if(currLocation != null && !currLocation.isEmpty()){
                 content = content+"@GPS["+currLocation+"]";
             }
+
             //Creates a unique ID by reading from remote DB, then inserts post into remote DB
             setUniqueId(1);
 
             //Sends back to profile page
-            Intent intent = new Intent(this, ProfileActivity.class);
+            Intent intent = new Intent(CreatePostActivity.this, ProfileActivity.class);
             startActivity(intent);
 
         }else {
             errMsg.setText("Remember to write something in your post");
             errMsg.setTextColor(Color.RED);
         }
-
-
 
     }
 
@@ -184,32 +183,16 @@ public class CreatePostActivity extends AppCompatActivity {
     //Inserts post into remote database
     public void insertPost(){
         RemotePostDAO remotePostDAO = RemoteClient.getRetrofitInstance().create(RemotePostDAO.class);
-        Call<RemotePosts> insertPost = remotePostDAO.setPost(newUniqueId.get(), LogSession.getSessionID(), content, stamp,
+        Call<Void> insertPost = remotePostDAO.setPost(newUniqueId.get(), LogSession.getSessionID(), content, stamp,
                 "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwMjAyMCJ9.PZG35xIvP9vuxirBshLunzYADEpn68wPgDUqzGDd7ok");
 
-        insertPost.enqueue(new Callback<RemotePosts>() {
+        insertPost.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<RemotePosts> call, Response<RemotePosts> response) {
-                if(!response.isSuccessful()){
-                    JSONObject jObjErr = null;
-                    try {
-                        jObjErr = new JSONObject(response.errorBody().string());
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-/*
-                    If failed insertion - print error message
-                    System.out.println(jObjErr);
-                    System.out.println("unsuccesful : " + response);
-
- */
-                }
+            public void onResponse(Call<Void> call, Response<Void> response) {
             }
 
             @Override
-            public void onFailure(Call<RemotePosts> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
            //  Error Message   System.out.println("Failure : " + t.getMessage());
             }
         });

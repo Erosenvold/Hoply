@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:background="#ebffbd"
         android:ems="10"
-        android:hint="Enter full name"
+        android:hint="Enter Login ID"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/createPassword"
         app:layout_constraintEnd_toEndOf="parent"

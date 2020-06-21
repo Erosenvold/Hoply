@@ -154,14 +154,20 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                         //sets gps array (index i) to location from separation of content above.
                         gps[i] = location;
 
-                        //Creates a bitmap from string of image (from separation of content above), if no image is present create a default bitmap.
-                        if (!image.isEmpty()) {
-                            byte[] encodebyte = Base64.decode(image, Base64.DEFAULT);
-                            Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0, encodebyte.length);
-                            images[i] = bitmapPostImage;
-                        } else {
-                            images[i] = BitmapFactory.decodeResource(getResources(), R.drawable.defaultpic);
-                        }
+                        //Creates a bitmap from string of image (from separation of content above), if no image is present or if the Encode type is not Base.64 compatible create a default bitmap.
+                           if (!image.isEmpty()) {
+                               try {
+                                   byte[] encodebyte = Base64.decode(image, Base64.DEFAULT);
+                                   Bitmap bitmapPostImage = BitmapFactory.decodeByteArray(encodebyte, 0, encodebyte.length);
+                                   images[i] = bitmapPostImage;
+                               }catch (IllegalArgumentException e){
+                                    e.printStackTrace();
+                                    images[i] = BitmapFactory.decodeResource(getResources(), R.drawable.defaultpic);
+                                }
+                           } else {
+                               images[i] = BitmapFactory.decodeResource(getResources(), R.drawable.defaultpic);
+                           }
+
 
                         // sets postIds to postID's from local database
                         postIds[i] = localPostID[i];
