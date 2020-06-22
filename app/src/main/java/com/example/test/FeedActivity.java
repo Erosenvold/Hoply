@@ -82,7 +82,7 @@ public class FeedActivity extends AppCompatActivity implements FeedAdapter.OnPos
                         posts.timeCreated = u.getStamp();
 
                         //Makes sure that the the content is not to large for SQLite to handle.
-                        if(u.getContent().length() < 1800000){
+                        if(u.getContent()!=null && u.getContent().length() < 1800000){
                             posts.postContent = u.getContent();
                         }else{
                             posts.postContent = "";
